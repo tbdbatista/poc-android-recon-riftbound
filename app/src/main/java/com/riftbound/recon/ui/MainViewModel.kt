@@ -205,7 +205,7 @@ class MainViewModel @Inject constructor(
             }
             
             // Check rodapé set code match
-            val codeRegex = Regex("""\b(OGN|SFD|UNL|OGS|OPP|JDG|PR|VEN)\b[^\d]*?\b([0-9]{1,4}[a-z]?)\b""", RegexOption.IGNORE_CASE)
+            val codeRegex = Regex("""\b(OGN|SFD|UNL|OGS|OPP|JDG|PR|VEN)\b[^\d]*?\b([a-z]?[0-9]{1,4}[a-z]?)\b""", RegexOption.IGNORE_CASE)
             var foundSetCode = false
             for (line in ocrLines) {
                 val match = codeRegex.find(line.text)
