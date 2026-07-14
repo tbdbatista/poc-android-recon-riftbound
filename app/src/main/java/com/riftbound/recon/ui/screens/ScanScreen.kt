@@ -1,0 +1,515 @@
+package com.riftbound.recon.ui.screens
+
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.*
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
+import androidx.compose.animation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
+import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.riftbound.recon.data.scanner.OcrLine
+import com.riftbound.recon.domain.model.Card
+import com.riftbound.recon.ui.MainViewModel
+import java.util.concurrent.Executor
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ScanScreen(
+    navController: NavController,
+    viewModel: MainViewModel
+) {
+    val context = LocalContext.current
+    
+    // Scanner State
+    val scannedCards by viewModel.scannedCards.collectAsState()
+    val scannerLogs by viewModel.scannerLogs.collectAsState()
+    
+    // UI dialog states
+    var showSaveDialog by remember { mutableStateOf(false) }
+    var isProcessingPhoto by remember { mutableStateOf(false) }
+
+    // Camera Permission request
+    var hasCameraPermission by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { granted -> hasCameraPermission = granted }
+    )
+    LaunchedEffect(Unit) {
+        if (!hasCameraPermission) {
+            launcher.launch(Manifest.permission.CAMERA)
+        }
+        viewModel.startScanning() // Ensure view model clears old logs and starts session
+    }
+
+    // Set up ImageCapture
+    val imageCapture = remember { ImageCapture.Builder().build() }
+    val cameraExecutor = remember { ContextCompat.getMainExecutor(context) }
+    val recognizer = remember { TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS) }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Capturar Cartas TCG", fontWeight = FontWeight.Bold) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background
+                )
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.background
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            // Viewfinder (PreviewView)
+            if (hasCameraPermission) {
+                CameraViewfinder(
+                    imageCapture = imageCapture
+                )
+            } else {
+                PermissionDeniedView(onRequestPermission = { launcher.launch(Manifest.permission.CAMERA) })
+            }
+
+            // Card alignment guide frame in the center of camera preview
+            CardGuideFrame()
+
+            // Console Logs terminal overlay
+            ConsoleLogsOverlay(scannerLogs = scannerLogs)
+
+            // Bottom Controller Dashboard Overlay
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.92f))
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Shelf of currently scanned card thumbnails
+                if (scannedCards.isNotEmpty()) {
+                    ScannedCardsShelf(
+                        scannedCards = scannedCards,
+                        onRemoveClick = { index -> viewModel.removeScannedCardAt(index) }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                // Shutter and Action row controls
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Left: Discard Scanning Session
+                    IconButton(
+                        onClick = { viewModel.clearScanningSession() },
+                        enabled = scannedCards.isNotEmpty(),
+                        modifier = Modifier
+                            .size(52.dp)
+                            .background(
+                                if (scannedCards.isNotEmpty()) MaterialTheme.colorScheme.error.copy(alpha = 0.2f)
+                                else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                                CircleShape
+                            )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Descartar",
+                            tint = if (scannedCards.isNotEmpty()) Color.Red else Color.Gray
+                        )
+                    }
+
+                    // Center: Large Shutter Capture Button
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.padding(horizontal = 24.dp)
+                    ) {
+                        Button(
+                            onClick = {
+                                if (!isProcessingPhoto && hasCameraPermission) {
+                                    isProcessingPhoto = true
+                                    takePhoto(
+                                        imageCapture = imageCapture,
+                                        executor = cameraExecutor,
+                                        onImageCaptured = { inputImage ->
+                                            recognizer.process(inputImage)
+                                                .addOnSuccessListener { visionText ->
+                                                    val linesList = mutableListOf<OcrLine>()
+                                                    for (block in visionText.textBlocks) {
+                                                        for (line in block.lines) {
+                                                            val rect = line.boundingBox
+                                                            if (rect != null) {
+                                                                linesList.add(
+                                                                    OcrLine(
+                                                                        text = line.text,
+                                                                        left = rect.left,
+                                                                        top = rect.top,
+                                                                        right = rect.right,
+                                                                        bottom = rect.bottom
+                                                                    )
+                                                                )
+                                                            }
+                                                        }
+                                                    }
+                                                    viewModel.processOcrLines(linesList)
+                                                }
+                                                .addOnFailureListener { e ->
+                                                    e.printStackTrace()
+                                                }
+                                                .addOnCompleteListener {
+                                                    isProcessingPhoto = false
+                                                }
+                                        }
+                                    )
+                                }
+                            },
+                            shape = CircleShape,
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (isProcessingPhoto) Color.Gray else MaterialTheme.colorScheme.primary
+                            ),
+                            modifier = Modifier
+                                .size(74.dp)
+                                .border(4.dp, Color.White, CircleShape)
+                                .shadow(8.dp, CircleShape),
+                            contentPadding = PaddingValues(0.dp)
+                        ) {
+                            if (isProcessingPhoto) {
+                                CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                            } else {
+                                Box(
+                                    modifier = Modifier
+                                        .size(28.dp)
+                                        .clip(CircleShape)
+                                        .background(Color.White)
+                                )
+                            }
+                        }
+                    }
+
+                    // Right: Conclude Session & Open Dialog
+                    IconButton(
+                        onClick = { showSaveDialog = true },
+                        enabled = scannedCards.isNotEmpty(),
+                        modifier = Modifier
+                            .size(52.dp)
+                            .background(
+                                if (scannedCards.isNotEmpty()) MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f)
+                                else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                                CircleShape
+                            )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Concluir",
+                            tint = if (scannedCards.isNotEmpty()) MaterialTheme.colorScheme.secondary else Color.Gray
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    // Dialog: Save Collection Name Prompt
+    if (showSaveDialog) {
+        var collectionName by remember { mutableStateOf("") }
+        var collectionDesc by remember { mutableStateOf("") }
+
+        AlertDialog(
+            onDismissRequest = { showSaveDialog = false },
+            title = { Text("Salvar Coleção") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text("Você capturou ${scannedCards.size} cartas. Digite o nome para salvar essa coleção.")
+                    OutlinedTextField(
+                        value = collectionName,
+                        onValueChange = { collectionName = it },
+                        label = { Text("Título da Coleção") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    OutlinedTextField(
+                        value = collectionDesc,
+                        onValueChange = { collectionDesc = it },
+                        label = { Text("Descrição (Opcional)") },
+                        modifier = Modifier.fillMaxWidth(),
+                        maxLines = 3
+                    )
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        if (collectionName.isNotBlank()) {
+                            viewModel.saveScanningSession(collectionName, collectionDesc)
+                            showSaveDialog = false
+                            navController.navigate("collections")
+                        }
+                    }
+                ) {
+                    Text("Salvar")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showSaveDialog = false }) {
+                    Text("Voltar")
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun CameraViewfinder(
+    imageCapture: ImageCapture
+) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
+
+    AndroidView(
+        factory = { ctx ->
+            val previewView = PreviewView(ctx)
+            cameraProviderFuture.addListener({
+                val cameraProvider = cameraProviderFuture.get()
+                val preview = Preview.Builder().build().also {
+                    it.setSurfaceProvider(previewView.surfaceProvider)
+                }
+                val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+                try {
+                    cameraProvider.unbindAll()
+                    cameraProvider.bindToLifecycle(
+                        lifecycleOwner,
+                        cameraSelector,
+                        preview,
+                        imageCapture
+                    )
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }, ContextCompat.getMainExecutor(ctx))
+            previewView
+        },
+        modifier = Modifier.fillMaxSize()
+    )
+}
+
+@Composable
+fun CardGuideFrame() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        // Outer box of viewfinder card shape helper overlay
+        Box(
+            modifier = Modifier
+                .width(260.dp)
+                .height(370.dp)
+                .border(2.dp, Color.White.copy(alpha = 0.4f), RoundedCornerShape(16.dp))
+        )
+    }
+}
+
+@Composable
+fun ConsoleLogsOverlay(scannerLogs: List<String>) {
+    val listState = rememberLazyListState()
+    LaunchedEffect(scannerLogs.size) {
+        if (scannerLogs.isNotEmpty()) {
+            listState.animateScrollToItem(scannerLogs.size - 1)
+        }
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(180.dp)
+            .padding(16.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color.Black.copy(alpha = 0.85f))
+            .border(1.dp, MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
+            .padding(8.dp)
+    ) {
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(scannerLogs) { log ->
+                Text(
+                    text = log,
+                    color = if (log.contains("SUCESSO")) Color.Green
+                    else if (log.contains("FALHA") || log.contains("Erro")) Color.Red
+                    else if (log.contains("Cód. Rodapé") || log.contains("Energia Runa")) Color.Cyan
+                    else if (log.contains("INICIANDO") || log.contains("FIM")) Color.Yellow
+                    else Color.LightGray,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(vertical = 1.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ScannedCardsShelf(
+    scannedCards: List<Card>,
+    onRemoveClick: (Int) -> Unit
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = "Cartas na Sessão (${scannedCards.size})",
+            style = MaterialTheme.typography.bodySmall,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(horizontal = 4.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            itemsIndexed(scannedCards) { index, card ->
+                Box(
+                    modifier = Modifier
+                        .width(60.dp)
+                        .height(85.dp)
+                        .clip(RoundedCornerShape(6.dp))
+                        .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(6.dp))
+                        .clickable { onRemoveClick(index) }
+                ) {
+                    AsyncImage(
+                        model = "file:///android_asset/${card.imageUrl}",
+                        contentDescription = card.name,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    // Visual remove button overlayed on each item inside the LazyRow shelf
+                    Box(
+                        modifier = Modifier
+                            .size(16.dp)
+                            .background(Color.Black.copy(alpha = 0.7f), CircleShape)
+                            .align(Alignment.TopEnd)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Remover",
+                            tint = Color.White,
+                            modifier = Modifier.size(12.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun PermissionDeniedView(onRequestPermission: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(24.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Warning,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.error,
+                modifier = Modifier.size(64.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Permissão de Câmera Negada",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Precisamos de permissão para utilizar a câmera do celular para capturar e ler as cartas físicas.",
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Button(onClick = onRequestPermission) {
+                Text("Permitir Acesso")
+            }
+        }
+    }
+}
+
+private fun takePhoto(
+    imageCapture: ImageCapture,
+    executor: Executor,
+    onImageCaptured: (InputImage) -> Unit
+) {
+    imageCapture.takePicture(
+        executor,
+        object : ImageCapture.OnImageCapturedCallback() {
+            override fun onCaptureSuccess(imageProxy: ImageProxy) {
+                val mediaImage = imageProxy.image
+                if (mediaImage != null) {
+                    val image = InputImage.fromMediaImage(
+                        mediaImage,
+                        imageProxy.imageInfo.rotationDegrees
+                    )
+                    onImageCaptured(image)
+                }
+                imageProxy.close()
+            }
+
+            override fun onError(exception: ImageCaptureException) {
+                exception.printStackTrace()
+            }
+        }
+    )
+}
