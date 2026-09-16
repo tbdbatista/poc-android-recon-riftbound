@@ -99,12 +99,16 @@ All active development must occur in dedicated working branches created from and
 
 ---
 
-## 4. Version Management
+## 4. Version Management & Changelog
 
 * Version numbering follows Semantic Versioning (`MAJOR.MINOR.PATCH`).
-* Version definition is centralized (e.g., `version.properties` or dedicated config).
+* Version definition is centralized in `version.properties`.
+* **Changelog Policy (`CHANGELOG.md`):**
+  * All merges into `develop` must have their changes documented under the `## [Unreleased] (develop)` section of `CHANGELOG.md`.
+  * When preparing a release from `develop` to `main`, the `[Unreleased]` section is tagged with the new release version and date.
 * Before merging `develop` into `main`:
   1. A dedicated `bump/<version>` branch is created from `develop`.
-  2. The version control file is updated (incrementing `versionCode` and `versionName`).
-  3. The `bump/` branch is merged into `develop` via PR.
-  4. `develop` is then merged into `main` via PR.
+  2. `version.properties` is updated (incrementing `versionCode` and `versionName`).
+  3. `CHANGELOG.md` is updated to seal the new release version.
+  4. The `bump/` branch is merged into `develop` via PR.
+  5. `develop` is then merged into `main` via PR.
