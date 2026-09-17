@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project development steering rules in `AGENTS.md`.
 - Centralized version management system in `version.properties`.
 - Project changelog in `CHANGELOG.md`.
+- Comprehensive technical specification and architectural documentation in `README.md` for TCC (PUC-PR).
 
 ### Changed
 - `app/build.gradle.kts` dynamically resolves `versionCode` and `versionName` from `version.properties`.
