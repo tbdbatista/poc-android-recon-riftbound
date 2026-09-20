@@ -10,10 +10,11 @@ ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE
 
-WORKSPACE_ROOT = "/Users/tbdbatista/repositories/poc-android-recon-riftbound"
-ASSETS_DIR = os.path.join(WORKSPACE_ROOT, "app/src/main/assets")
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+WORKSPACE_ROOT = os.path.dirname(SCRIPT_DIR)
+ASSETS_DIR = os.path.join(WORKSPACE_ROOT, "app", "src", "main", "assets")
 IMAGES_DIR = os.path.join(ASSETS_DIR, "images")
-RAW_JSON_PATH = "/Users/tbdbatista/.gemini/antigravity/brain/934152ff-0875-4deb-933d-96b749eb6721/all_cards.json"
+RAW_JSON_PATH = os.path.join(SCRIPT_DIR, "all_cards_raw.json")
 TARGET_JSON_PATH = os.path.join(ASSETS_DIR, "all_cards.json")
 
 os.makedirs(IMAGES_DIR, exist_ok=True)

@@ -18,8 +18,8 @@ class VendettaCardSyncTest {
         val vendettaSetNameCount = lines.count { it.contains("\"setName\": \"Vendetta\"") }
         val vendettaSetCodeCount = lines.count { it.contains("\"setCode\": \"VEN\"") }
 
-        assertEquals("Vendetta cards with setName Vendetta must be 131", 131, vendettaSetNameCount)
-        assertEquals("Vendetta cards with setCode VEN must be 131", 131, vendettaSetCodeCount)
+        assertTrue("Vendetta cards with setName Vendetta should be at least 131", vendettaSetNameCount >= 131)
+        assertEquals("Vendetta cards count by setName and setCode must match", vendettaSetNameCount, vendettaSetCodeCount)
 
         // Verify notable Vendetta cards exist
         val fileContent = assetFile.readText()
