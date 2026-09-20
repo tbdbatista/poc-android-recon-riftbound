@@ -3,7 +3,7 @@
 > **Nota de Apresentação Acadêmica:**  
 > Este projeto é parte integrante a ser entregue como **Trabalho de Conclusão de Curso (TCC)** da **Especialização em Desenvolvimento de Aplicativos Mobile** da **Pontifícia Universidade Católica do Paraná (PUCPR - Curitiba, Paraná)**.  
 > **Autor:** Thiago Batista  
-> **Versão Atual do App:** `0.1.0` (versionCode: `1` — gerenciado centralizadamente em [`version.properties`](./version.properties))
+> **Versão Atual do App:** `0.1.1` (versionCode: `2` — gerenciado centralizadamente em [`version.properties`](./version.properties))
 
 ---
 
@@ -86,6 +86,7 @@ Para compilar e executar o projeto, seu ambiente precisa atender aos seguintes p
 
 * **IDE Recomendada:** Android Studio Iguana (2023.2.1) ou superior (e.g. Ladybug / Jellyfish).
 * **Java Development Kit (JDK):** Versão **21** (configurado em *Settings > Build, Execution, Deployment > Build Tools > Gradle > Gradle JDK*).
+  > **Nota de compatibilidade da Gradle JVM:** O Gradle 8.5 suporta até o Java 21. Caso o Android Studio alerte sobre incompatibilidade com uma versão superior instalada no sistema (ex.: JVM 25), basta selecionar a opção sugerida **Use JVM 21** (ou `jbr-21`).
 * **Android SDK:**
   * **Compile SDK:** `34` (Android 14)
   * **Target SDK:** `34` (Android 14)
