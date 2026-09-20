@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Card collection sharing feature via native Android Share Sheet (`CollectionShareHelper`), formatting collection name, card quantity, collector number, set code (e.g., OGN, SPF), and card name for export to WhatsApp, Google Drive, and other apps.
+- Enabled and synchronized 131 cards from the "Vendetta" (VEN) expansion in Room local database and Compendium screen.
+- Added "Vendetta" filter tab with dedicated visual theme to Compendium screen.
+
+### Fixed
+- Updated Room database seed logic in `CardRepositoryImpl` to incrementally synchronize newly added cards from assets json instead of only executing on an empty database.
 
 ---
 
