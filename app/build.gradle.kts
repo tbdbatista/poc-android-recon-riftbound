@@ -1,9 +1,22 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
+
+val versionPropertiesFile = rootProject.file("version.properties")
+val versionProperties = Properties().apply {
+    if (versionPropertiesFile.exists()) {
+        load(FileInputStream(versionPropertiesFile))
+    }
+}
+
+val appVersionCode = versionProperties.getProperty("versionCode")?.toIntOrNull() ?: 1
+val appVersionName = versionProperties.getProperty("versionName") ?: "0.1.0"
 
 android {
     namespace = "com.riftbound.recon"
@@ -13,8 +26,8 @@ android {
         applicationId = "com.riftbound.recon"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = appVersionCode
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -49,6 +62,10 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+
+kotlin {
+    jvmToolchain(21)
 }
 
 dependencies {
