@@ -11,17 +11,20 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.riftbound.recon.domain.model.CollectionCard
 import com.riftbound.recon.ui.MainViewModel
+import com.riftbound.recon.ui.util.CollectionShareHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,6 +64,21 @@ fun CollectionDetailScreen(
                     }
                 },
                 actions = {
+                    val context = LocalContext.current
+                    IconButton(
+                        onClick = {
+                            if (cards.isNotEmpty()) {
+                                CollectionShareHelper.shareCollection(context, coll, cards)
+                            }
+                        },
+                        enabled = cards.isNotEmpty()
+                    ) {
+                        Icon(
+                            Icons.Default.Share,
+                            contentDescription = "Compartilhar Coleção",
+                            tint = if (cards.isNotEmpty()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+                        )
+                    }
                     IconButton(onClick = { showEditDialog = true }) {
                         Icon(Icons.Default.Edit, contentDescription = "Editar Coleção")
                     }
