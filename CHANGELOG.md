@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - `app/build.gradle.kts` dynamically resolves `versionCode` and `versionName` from `version.properties`.
+- Bumped application version to `0.1.1` (versionCode `2`).
+
+### Fixed
+- Explicitly configured Kotlin JVM toolchain to Java 21 in `app/build.gradle.kts` to guarantee Gradle 8.5 compatibility and resolve Android Studio JVM 25 selection issues.
 
 ---
 
