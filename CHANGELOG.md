@@ -10,6 +10,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] (develop)
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
+---
+
+## [0.2.0] - 2026-09-20
+### Added
+- Card collection sharing feature via native Android Share Sheet (`CollectionShareHelper`), formatting collection name, card quantity, collector number, set code (e.g., OGN, SPF), and card name for export to WhatsApp, Google Drive, and other apps.
+- Synchronized full card database (1.464 cards, including 358 cards from the "Vendetta" (VEN) expansion and promotional sets) from Riftcodex API.
+- Added automated synchronization script `scripts/sync_cards.py` for fetching future sets and downloading artwork.
+- Added "Vendetta" filter tab with dedicated visual theme to Compendium screen.
+
+### Fixed
+- Updated Room database seed logic in `CardRepositoryImpl` to incrementally synchronize newly added cards from assets json instead of only executing on an empty database.
+
+---
+
+## [0.1.1] - 2026-09-20
 ### Added
 - Project development steering rules in `AGENTS.md`.
 - Centralized version management system in `version.properties`.
@@ -18,6 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - `app/build.gradle.kts` dynamically resolves `versionCode` and `versionName` from `version.properties`.
+
+### Fixed
+- Explicitly configured Kotlin JVM toolchain to Java 21 in `app/build.gradle.kts` to guarantee Gradle 8.5 compatibility and resolve Android Studio JVM 25 selection issues.
 
 ---
 
