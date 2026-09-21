@@ -25,8 +25,8 @@ class CardRepositoryImpl @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val currentCards = cardDao.getAllCards().first()
-                if (currentCards.isEmpty()) {
-                    val seed = getSeedCardsFromAssets(context)
+                val seed = getSeedCardsFromAssets(context)
+                if (currentCards.size < seed.size) {
                     if (seed.isNotEmpty()) {
                         cardDao.insertCards(seed)
                     }
