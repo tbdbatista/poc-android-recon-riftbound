@@ -1,0 +1,77 @@
+name: Auto Release & Tag
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  tag-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract Version
+        id: get_version
+        run: |
+          VERSION_NAME=$(grep '^versionName=' version.properties | cut -d '=' -f2 | tr -d '[:space:]')
+          TAG_NAME="v$VERSION_NAME"
+          echo "version=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "tag=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "Target Tag: $TAG_NAME"
+
+      - name: Check if Tag Exists
+        id: check_tag
+        run: |
+          TAG_NAME="${{ steps.get_version.outputs.tag }}"
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Tag $TAG_NAME already exists. Skipping release."
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Tag $TAG_NAME does not exist. Proceeding with creation."
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Tag and GitHub Release
+        if: steps.check_tag.outputs.exists == 'false'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ steps.get_version.outputs.tag }}
+          VERSION_NAME: ${{ steps.get_version.outputs.version }}
+        run: |
+          # Configure Git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Create Annotated Tag
+          git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
+          git push origin "$TAG_NAME"
+
+          # Extract notes from CHANGELOG.md if available
+          NOTES=$(python3 -c '
+          import re, sys
+          version = sys.argv[1]
+          try:
+              with open("CHANGELOG.md", encoding="utf-8") as f:
+                  content = f.read()
+              pattern = rf"## \[{re.escape(version)}\][^\n]*\n(.*?)(?=\n## \[|\Z)"
+              match = re.search(pattern, content, re.DOTALL)
+              if match:
+                  print(match.group(1).strip())
+          except Exception as e:
+              pass
+          ' "$VERSION_NAME")
+
+          if [ -n "$NOTES" ]; then
+            echo "Publishing release with changelog notes..."
+            gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "$NOTES"
+          else
+            echo "Publishing release with generated notes..."
+            gh release create "$TAG_NAME" --title "$TAG_NAME" --generate-notes
+          fi
