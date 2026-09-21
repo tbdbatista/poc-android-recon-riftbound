@@ -12,6 +12,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.0] - 2026-09-20
+### Added
+- Automated GitHub Actions CI workflow (`.github/workflows/auto-release.yml`) to automatically create Git tags and publish GitHub Releases with notes from `CHANGELOG.md` whenever changes merge into `main`.
+- Missing in-game token cards for Spiritforged (SFD) and Unleashed (UNL) sets, bringing total cards to 1.472.
+
+### Fixed
+- Updated OCR collector code regular expression in `CardScannerMatcher` and `MainViewModel` to support alphanumeric prefixes (e.g., `t01`, `r01`, `sp3`), enabling camera recognition for all tokens and runes.
+
+---
+
 ## [0.2.0] - 2026-09-20
 ### Added
 - Card collection sharing feature via native Android Share Sheet (`CollectionShareHelper`), formatting collection name, card quantity, collector number, set code (e.g., OGN, SPF), and card name for export to WhatsApp, Google Drive, and other apps.
