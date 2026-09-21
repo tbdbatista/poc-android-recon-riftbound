@@ -50,7 +50,7 @@ fun CompendiumScreen(
     val occurrences by viewModel.selectedCardOccurrences.collectAsState()
     val totalCount by viewModel.selectedCardTotalCount.collectAsState()
 
-    val sets = listOf("All", "Origins", "Proving Grounds", "Spiritforged", "Unleashed")
+    val sets = listOf("All", "Origins", "Proving Grounds", "Spiritforged", "Unleashed", "Vendetta")
 
     Scaffold(
         topBar = {
@@ -182,7 +182,9 @@ fun CardThumbnail(
                 "Origins" -> Color(0xFF1E3A8A)
                 "Proving Grounds" -> Color(0xFF7F1D1D)
                 "Spiritforged" -> Color(0xFF14532D)
-                else -> Color(0xFF701A75) // Unleashed
+                "Vendetta" -> Color(0xFF831843)
+                "Unleashed" -> Color(0xFF701A75)
+                else -> Color(0xFF334155)
             }
             Brush.verticalGradient(listOf(color1, Color.Black))
         }
