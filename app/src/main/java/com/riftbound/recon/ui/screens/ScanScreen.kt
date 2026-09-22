@@ -8,6 +8,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.animation.*
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -62,6 +63,8 @@ fun ScanScreen(
     // UI dialog states
     var showSaveDialog by remember { mutableStateOf(false) }
     var isProcessingPhoto by remember { mutableStateOf(false) }
+    var previewCardInfo by remember { mutableStateOf<Pair<Int, Card>?>(null) }
+    var showDeleteConfirmationDialog by remember { mutableStateOf(false) }
 
     // Camera Permission request
     var hasCameraPermission by remember {
@@ -135,7 +138,9 @@ fun ScanScreen(
                 if (scannedCards.isNotEmpty()) {
                     ScannedCardsShelf(
                         scannedCards = scannedCards,
-                        onRemoveClick = { index -> viewModel.removeScannedCardAt(index) }
+                        onCardClick = { index, card ->
+                            previewCardInfo = index to card
+                        }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -302,6 +307,91 @@ fun ScanScreen(
             }
         )
     }
+
+    // Dialog: Card Preview with Delete and Close options
+    if (previewCardInfo != null) {
+        val (cardIndex, card) = previewCardInfo!!
+        ScannedCardPreviewDialog(
+            card = card,
+            onDismiss = {
+                previewCardInfo = null
+                showDeleteConfirmationDialog = false
+            },
+            onDeleteClick = {
+                if (viewModel.shouldSkipDeleteConfirmation()) {
+                    viewModel.removeScannedCardAt(cardIndex)
+                    previewCardInfo = null
+                } else {
+                    showDeleteConfirmationDialog = true
+                }
+            }
+        )
+    }
+
+    // Dialog: Confirm Deletion Prompt with "Do not ask again" checkbox
+    if (showDeleteConfirmationDialog && previewCardInfo != null) {
+        val (cardIndex, card) = previewCardInfo!!
+        var doNotAskAgain by remember { mutableStateOf(false) }
+
+        AlertDialog(
+            onDismissRequest = { showDeleteConfirmationDialog = false },
+            title = {
+                Text(
+                    text = "Excluir Carta",
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text(
+                        text = "Tem certeza que deseja excluir \"${card.name}\" da sessão?",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { doNotAskAgain = !doNotAskAgain }
+                            .padding(vertical = 4.dp)
+                    ) {
+                        Checkbox(
+                            checked = doNotAskAgain,
+                            onCheckedChange = { doNotAskAgain = it }
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Não perguntar novamente",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        if (doNotAskAgain) {
+                            viewModel.setSkipDeleteConfirmation(true)
+                        }
+                        viewModel.removeScannedCardAt(cardIndex)
+                        showDeleteConfirmationDialog = false
+                        previewCardInfo = null
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error
+                    )
+                ) {
+                    Text("Excluir")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showDeleteConfirmationDialog = false }
+                ) {
+                    Text("Cancelar")
+                }
+            }
+        )
+    }
 }
 
 @Composable
@@ -397,7 +487,7 @@ fun ConsoleLogsOverlay(scannerLogs: List<String>) {
 @Composable
 fun ScannedCardsShelf(
     scannedCards: List<Card>,
-    onRemoveClick: (Int) -> Unit
+    onCardClick: (Int, Card) -> Unit
 ) {
     val listState = rememberLazyListState()
     val reversedCards = remember(scannedCards) { scannedCards.asReversed() }
@@ -431,7 +521,7 @@ fun ScannedCardsShelf(
                         .height(85.dp)
                         .clip(RoundedCornerShape(6.dp))
                         .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(6.dp))
-                        .clickable { onRemoveClick(originalIndex) }
+                        .clickable { onCardClick(originalIndex, card) }
                 ) {
                     AsyncImage(
                         model = "file:///android_asset/${card.imageUrl}",
@@ -439,19 +529,98 @@ fun ScannedCardsShelf(
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
                     )
-                    // Visual remove button overlayed on each item inside the LazyRow shelf
-                    Box(
-                        modifier = Modifier
-                            .size(16.dp)
-                            .background(Color.Black.copy(alpha = 0.7f), CircleShape)
-                            .align(Alignment.TopEnd)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ScannedCardPreviewDialog(
+    card: Card,
+    onDismiss: () -> Unit,
+    onDeleteClick: () -> Unit
+) {
+    Dialog(onDismissRequest = onDismiss) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+                .shadow(16.dp, RoundedCornerShape(20.dp)),
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Header: Card name and basic info
+                Text(
+                    text = card.name,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "Coleção: ${card.set} • #${card.collectorNumber}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Card Image Preview in larger format
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .aspectRatio(0.71f)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(MaterialTheme.colorScheme.background)
+                        .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(12.dp)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    AsyncImage(
+                        model = "file:///android_asset/${card.imageUrl}",
+                        contentDescription = card.name,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                // Action Buttons: Excluir e Fechar
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    OutlinedButton(
+                        onClick = onDeleteClick,
+                        modifier = Modifier.weight(1f),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            contentColor = MaterialTheme.colorScheme.error
+                        ),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha = 0.6f))
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = "Remover",
-                            tint = Color.White,
-                            modifier = Modifier.size(12.dp)
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "Excluir",
+                            modifier = Modifier.size(18.dp)
                         )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text("Excluir")
+                    }
+
+                    Button(
+                        onClick = onDismiss,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("Fechar")
                     }
                 }
             }
