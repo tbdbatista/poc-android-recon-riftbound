@@ -12,6 +12,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.4.0] - 2026-09-21
+### Added
+- Scanner screen displays newly scanned cards first (left-to-right reverse order: newest card at position 1) in the bottom shelf with automatic scroll to the newest item upon capture.
+- Card preview modal when tapping scanned thumbnails on the scanner screen, offering options to delete the card or close the modal.
+- Deletion confirmation dialog with a "Do not ask again" checkbox for removing cards from the scanning session, backed by persistent preferences (`AppPreferences`).
+- Updated bottom scanner left action button to delete the last captured card with deletion confirmation prompt support ("Não perguntar novamente").
+- Conclude session options dialog on the check button offering choices to save the card list, continue capturing, or discard all captured cards with a confirmation dialog.
+- Confirmation dialog when choosing to discard all captured cards from the scanning session.
+- Added "Desfazer última exclusão" button on the scanner screen to restore recently deleted cards, enabled only after a deletion occurs.
+- Added descriptive text labels beneath all scanner action buttons ("Desfazer exclusão", "Excluir última", "Capturar carta", and "Concluir captura") for improved usability.
+
+---
+
 ## [0.3.0] - 2026-09-20
 ### Added
 - Automated GitHub Actions CI workflow (`.github/workflows/auto-release.yml`) to automatically create Git tags and publish GitHub Releases with notes from `CHANGELOG.md` whenever changes merge into `main`.
