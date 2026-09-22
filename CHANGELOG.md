@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] (develop)
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
+### Added
+- Scanner screen now displays newly scanned cards first (left-to-right reverse order: newest card at position 1) in the bottom shelf with automatic scroll to the newest item upon capture.
+
 ---
 
 ## [0.3.0] - 2026-09-20

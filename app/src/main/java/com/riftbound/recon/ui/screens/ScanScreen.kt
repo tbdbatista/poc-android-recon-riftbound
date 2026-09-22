@@ -399,6 +399,15 @@ fun ScannedCardsShelf(
     scannedCards: List<Card>,
     onRemoveClick: (Int) -> Unit
 ) {
+    val listState = rememberLazyListState()
+    val reversedCards = remember(scannedCards) { scannedCards.asReversed() }
+
+    LaunchedEffect(scannedCards.size) {
+        if (scannedCards.isNotEmpty()) {
+            listState.animateScrollToItem(0)
+        }
+    }
+
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = "Cartas na Sessão (${scannedCards.size})",
@@ -409,18 +418,20 @@ fun ScannedCardsShelf(
         )
         Spacer(modifier = Modifier.height(4.dp))
         LazyRow(
+            state = listState,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(horizontal = 4.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
-            itemsIndexed(scannedCards) { index, card ->
+            itemsIndexed(reversedCards) { visualIndex, card ->
+                val originalIndex = (scannedCards.size - 1) - visualIndex
                 Box(
                     modifier = Modifier
                         .width(60.dp)
                         .height(85.dp)
                         .clip(RoundedCornerShape(6.dp))
                         .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(6.dp))
-                        .clickable { onRemoveClick(index) }
+                        .clickable { onRemoveClick(originalIndex) }
                 ) {
                     AsyncImage(
                         model = "file:///android_asset/${card.imageUrl}",
