@@ -62,9 +62,11 @@ fun ScanScreen(
     
     // UI dialog states
     var showSaveDialog by remember { mutableStateOf(false) }
+    var showConcludeDialog by remember { mutableStateOf(false) }
+    var showDiscardAllConfirmDialog by remember { mutableStateOf(false) }
     var isProcessingPhoto by remember { mutableStateOf(false) }
     var previewCardInfo by remember { mutableStateOf<Pair<Int, Card>?>(null) }
-    var showDeleteConfirmationDialog by remember { mutableStateOf(false) }
+    var cardPendingDeletion by remember { mutableStateOf<Pair<Int, Card>?>(null) }
 
     // Camera Permission request
     var hasCameraPermission by remember {
@@ -151,9 +153,19 @@ fun ScanScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Left: Discard Scanning Session
+                    // Left: Delete Last Captured Card
                     IconButton(
-                        onClick = { viewModel.clearScanningSession() },
+                        onClick = {
+                            if (scannedCards.isNotEmpty()) {
+                                val lastIndex = scannedCards.size - 1
+                                val lastCard = scannedCards[lastIndex]
+                                if (viewModel.shouldSkipDeleteConfirmation()) {
+                                    viewModel.undoLastScan()
+                                } else {
+                                    cardPendingDeletion = lastIndex to lastCard
+                                }
+                            }
+                        },
                         enabled = scannedCards.isNotEmpty(),
                         modifier = Modifier
                             .size(52.dp)
@@ -165,7 +177,7 @@ fun ScanScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Delete,
-                            contentDescription = "Descartar",
+                            contentDescription = "Apagar última captura",
                             tint = if (scannedCards.isNotEmpty()) Color.Red else Color.Gray
                         )
                     }
@@ -237,9 +249,9 @@ fun ScanScreen(
                         }
                     }
 
-                    // Right: Conclude Session & Open Dialog
+                    // Right: Conclude Session & Open Options Dialog
                     IconButton(
-                        onClick = { showSaveDialog = true },
+                        onClick = { showConcludeDialog = true },
                         enabled = scannedCards.isNotEmpty(),
                         modifier = Modifier
                             .size(52.dp)
@@ -308,6 +320,64 @@ fun ScanScreen(
         )
     }
 
+    // Dialog: Conclude Session Options
+    if (showConcludeDialog) {
+        ConcludeSessionDialog(
+            scannedCount = scannedCards.size,
+            onSaveList = {
+                showConcludeDialog = false
+                showSaveDialog = true
+            },
+            onContinueCapturing = {
+                showConcludeDialog = false
+            },
+            onDiscardAll = {
+                showConcludeDialog = false
+                showDiscardAllConfirmDialog = true
+            },
+            onDismiss = {
+                showConcludeDialog = false
+            }
+        )
+    }
+
+    // Dialog: Confirm Discard All Captured Cards
+    if (showDiscardAllConfirmDialog) {
+        AlertDialog(
+            onDismissRequest = { showDiscardAllConfirmDialog = false },
+            title = {
+                Text(
+                    text = "Limpar Sessão",
+                    fontWeight = FontWeight.Bold
+                )
+            },
+            text = {
+                Text(
+                    text = "Tem certeza que deseja limpar todas as ${scannedCards.size} cartas capturadas? Esta ação não pode ser desfeita.",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        viewModel.clearScanningSession()
+                        showDiscardAllConfirmDialog = false
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error
+                    )
+                ) {
+                    Text("Limpar Tudo")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDiscardAllConfirmDialog = false }) {
+                    Text("Cancelar")
+                }
+            }
+        )
+    }
+
     // Dialog: Card Preview with Delete and Close options
     if (previewCardInfo != null) {
         val (cardIndex, card) = previewCardInfo!!
@@ -315,26 +385,25 @@ fun ScanScreen(
             card = card,
             onDismiss = {
                 previewCardInfo = null
-                showDeleteConfirmationDialog = false
             },
             onDeleteClick = {
                 if (viewModel.shouldSkipDeleteConfirmation()) {
                     viewModel.removeScannedCardAt(cardIndex)
                     previewCardInfo = null
                 } else {
-                    showDeleteConfirmationDialog = true
+                    cardPendingDeletion = cardIndex to card
                 }
             }
         )
     }
 
     // Dialog: Confirm Deletion Prompt with "Do not ask again" checkbox
-    if (showDeleteConfirmationDialog && previewCardInfo != null) {
-        val (cardIndex, card) = previewCardInfo!!
+    if (cardPendingDeletion != null) {
+        val (cardIndex, card) = cardPendingDeletion!!
         var doNotAskAgain by remember { mutableStateOf(false) }
 
         AlertDialog(
-            onDismissRequest = { showDeleteConfirmationDialog = false },
+            onDismissRequest = { cardPendingDeletion = null },
             title = {
                 Text(
                     text = "Excluir Carta",
@@ -373,7 +442,7 @@ fun ScanScreen(
                             viewModel.setSkipDeleteConfirmation(true)
                         }
                         viewModel.removeScannedCardAt(cardIndex)
-                        showDeleteConfirmationDialog = false
+                        cardPendingDeletion = null
                         previewCardInfo = null
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -385,7 +454,7 @@ fun ScanScreen(
             },
             dismissButton = {
                 TextButton(
-                    onClick = { showDeleteConfirmationDialog = false }
+                    onClick = { cardPendingDeletion = null }
                 ) {
                     Text("Cancelar")
                 }
@@ -626,6 +695,77 @@ fun ScannedCardPreviewDialog(
             }
         }
     }
+}
+
+@Composable
+fun ConcludeSessionDialog(
+    scannedCount: Int,
+    onSaveList: () -> Unit,
+    onContinueCapturing: () -> Unit,
+    onDiscardAll: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = "Concluir Capturas",
+                fontWeight = FontWeight.Bold
+            )
+        },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    text = "Você capturou $scannedCount cartas nesta sessão. O que deseja fazer?",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+
+                // Option 1: Salvar Lista
+                Button(
+                    onClick = onSaveList,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Salvar Lista de Cartas")
+                }
+
+                // Option 2: Continuar Capturando
+                OutlinedButton(
+                    onClick = onContinueCapturing,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(Icons.Default.PlayArrow, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Continuar Capturando")
+                }
+
+                // Option 3: Descartar Todas as Fotos
+                OutlinedButton(
+                    onClick = onDiscardAll,
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        contentColor = MaterialTheme.colorScheme.error
+                    ),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha = 0.6f))
+                ) {
+                    Icon(Icons.Default.Delete, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Descartar Todas as Cartas")
+                }
+            }
+        },
+        confirmButton = {},
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Voltar")
+            }
+        }
+    )
 }
 
 @Composable
