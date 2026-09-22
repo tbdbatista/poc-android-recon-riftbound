@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Scanner screen now displays newly scanned cards first (left-to-right reverse order: newest card at position 1) in the bottom shelf with automatic scroll to the newest item upon capture.
+- Card preview modal when tapping scanned thumbnails on the scanner screen, offering options to delete the card or close the modal.
+- Deletion confirmation dialog with a "Do not ask again" checkbox for removing cards from the scanning session, backed by persistent preferences (`AppPreferences`).
+- Removed direct delete 'x' icon overlay from scanned card thumbnails in favor of the preview modal.
 
 ---
 

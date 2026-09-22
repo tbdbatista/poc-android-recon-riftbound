@@ -12,11 +12,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import com.riftbound.recon.data.local.AppPreferences
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: CardRepository
+    private val repository: CardRepository,
+    private val appPreferences: AppPreferences
 ) : ViewModel() {
 
     // --- COMPENDIUM STATE ---
@@ -310,6 +312,12 @@ class MainViewModel @Inject constructor(
             val now = java.text.SimpleDateFormat("HH:mm:ss.SSS", java.util.Locale.getDefault()).format(java.util.Date())
             _scannerLogs.value = _scannerLogs.value + "[$now] Removida da lista: \"${removed.name}\""
         }
+    }
+
+    fun shouldSkipDeleteConfirmation(): Boolean = appPreferences.skipDeleteCardConfirmation
+
+    fun setSkipDeleteConfirmation(skip: Boolean) {
+        appPreferences.skipDeleteCardConfirmation = skip
     }
 
     fun clearScanningSession() {
