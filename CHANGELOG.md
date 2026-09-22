@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated bottom scanner left action button to delete the last captured card with deletion confirmation prompt support ("Não perguntar novamente").
 - Conclude session options dialog on the check button offering choices to save the card list, continue capturing, or discard all captured cards with a confirmation dialog.
 - Confirmation dialog when choosing to discard all captured cards from the scanning session.
+- Added "Desfazer última exclusão" button on the scanner screen to restore recently deleted cards, enabled only after a deletion occurs.
+- Added descriptive text labels beneath all scanner action buttons ("Desfazer exclusão", "Excluir última", "Capturar carta", and "Concluir captura") for improved usability.
 
 ---
 

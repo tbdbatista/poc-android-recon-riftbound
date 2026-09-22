@@ -148,6 +148,10 @@ class MainViewModel @Inject constructor(
     private val _scannedCards = MutableStateFlow<List<Card>>(emptyList())
     val scannedCards = _scannedCards.asStateFlow()
 
+    private val _deletedCardsHistory = MutableStateFlow<List<Pair<Int, Card>>>(emptyList())
+    val canUndoDeletion: StateFlow<Boolean> = _deletedCardsHistory.map { it.isNotEmpty() }
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
+
     private val _lastDetectedCard = MutableStateFlow<Card?>(null)
     val lastDetectedCard = _lastDetectedCard.asStateFlow()
 
@@ -294,13 +298,8 @@ class MainViewModel @Inject constructor(
     fun undoLastScan() {
         val currentList = _scannedCards.value
         if (currentList.isNotEmpty()) {
-            _scannedCards.value = currentList.dropLast(1)
+            removeScannedCardAt(currentList.size - 1)
         }
-        _lastDetectedCard.value = null
-        lastScannedCardId = -1
-        
-        val now = java.text.SimpleDateFormat("HH:mm:ss.SSS", java.util.Locale.getDefault()).format(java.util.Date())
-        _scannerLogs.value = _scannerLogs.value + "[$now] Desfazer: Ultima carta escaneada removida."
     }
 
     fun removeScannedCardAt(index: Int) {
@@ -308,9 +307,26 @@ class MainViewModel @Inject constructor(
         if (index in currentList.indices) {
             val removed = currentList.removeAt(index)
             _scannedCards.value = currentList
+            _deletedCardsHistory.value = _deletedCardsHistory.value + (index to removed)
             
             val now = java.text.SimpleDateFormat("HH:mm:ss.SSS", java.util.Locale.getDefault()).format(java.util.Date())
             _scannerLogs.value = _scannerLogs.value + "[$now] Removida da lista: \"${removed.name}\""
+        }
+    }
+
+    fun restoreLastDeletedCard() {
+        val history = _deletedCardsHistory.value
+        if (history.isNotEmpty()) {
+            val (index, card) = history.last()
+            _deletedCardsHistory.value = history.dropLast(1)
+            
+            val currentList = _scannedCards.value.toMutableList()
+            val insertIndex = index.coerceIn(0, currentList.size)
+            currentList.add(insertIndex, card)
+            _scannedCards.value = currentList
+            
+            val now = java.text.SimpleDateFormat("HH:mm:ss.SSS", java.util.Locale.getDefault()).format(java.util.Date())
+            _scannerLogs.value = _scannerLogs.value + "[$now] Desfazer exclusão: \"${card.name}\" restaurada."
         }
     }
 
@@ -322,6 +338,7 @@ class MainViewModel @Inject constructor(
 
     fun clearScanningSession() {
         _scannedCards.value = emptyList()
+        _deletedCardsHistory.value = emptyList()
         _lastDetectedCard.value = null
         _isScanningPaused.value = true
         lastScannedCardId = -1

@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
@@ -59,6 +60,7 @@ fun ScanScreen(
     // Scanner State
     val scannedCards by viewModel.scannedCards.collectAsState()
     val scannerLogs by viewModel.scannerLogs.collectAsState()
+    val canUndoDeletion by viewModel.canUndoDeletion.collectAsState()
     
     // UI dialog states
     var showSaveDialog by remember { mutableStateOf(false) }
@@ -150,121 +152,220 @@ fun ScanScreen(
                 // Shutter and Action row controls
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Top
                 ) {
-                    // Left: Delete Last Captured Card
-                    IconButton(
-                        onClick = {
-                            if (scannedCards.isNotEmpty()) {
-                                val lastIndex = scannedCards.size - 1
-                                val lastCard = scannedCards[lastIndex]
-                                if (viewModel.shouldSkipDeleteConfirmation()) {
-                                    viewModel.undoLastScan()
-                                } else {
-                                    cardPendingDeletion = lastIndex to lastCard
-                                }
-                            }
-                        },
-                        enabled = scannedCards.isNotEmpty(),
-                        modifier = Modifier
-                            .size(52.dp)
-                            .background(
-                                if (scannedCards.isNotEmpty()) MaterialTheme.colorScheme.error.copy(alpha = 0.2f)
-                                else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                                CircleShape
-                            )
+                    // 1. Desfazer última exclusão
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.weight(1f)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Apagar última captura",
-                            tint = if (scannedCards.isNotEmpty()) Color.Red else Color.Gray
-                        )
-                    }
-
-                    // Center: Large Shutter Capture Button
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.padding(horizontal = 24.dp)
-                    ) {
-                        Button(
-                            onClick = {
-                                if (!isProcessingPhoto && hasCameraPermission) {
-                                    isProcessingPhoto = true
-                                    takePhoto(
-                                        imageCapture = imageCapture,
-                                        executor = cameraExecutor,
-                                        onImageCaptured = { inputImage ->
-                                            recognizer.process(inputImage)
-                                                .addOnSuccessListener { visionText ->
-                                                    val linesList = mutableListOf<OcrLine>()
-                                                    for (block in visionText.textBlocks) {
-                                                        for (line in block.lines) {
-                                                            val rect = line.boundingBox
-                                                            if (rect != null) {
-                                                                linesList.add(
-                                                                    OcrLine(
-                                                                        text = line.text,
-                                                                        left = rect.left,
-                                                                        top = rect.top,
-                                                                        right = rect.right,
-                                                                        bottom = rect.bottom
-                                                                    )
-                                                                )
-                                                            }
-                                                        }
-                                                    }
-                                                    viewModel.processOcrLines(linesList)
-                                                }
-                                                .addOnFailureListener { e ->
-                                                    e.printStackTrace()
-                                                }
-                                                .addOnCompleteListener {
-                                                    isProcessingPhoto = false
-                                                }
-                                        }
-                                    )
-                                }
-                            },
-                            shape = CircleShape,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = if (isProcessingPhoto) Color.Gray else MaterialTheme.colorScheme.primary
-                            ),
-                            modifier = Modifier
-                                .size(74.dp)
-                                .border(4.dp, Color.White, CircleShape)
-                                .shadow(8.dp, CircleShape),
-                            contentPadding = PaddingValues(0.dp)
+                        Box(
+                            modifier = Modifier.height(64.dp),
+                            contentAlignment = Alignment.Center
                         ) {
-                            if (isProcessingPhoto) {
-                                CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
-                            } else {
-                                Box(
-                                    modifier = Modifier
-                                        .size(28.dp)
-                                        .clip(CircleShape)
-                                        .background(Color.White)
+                            IconButton(
+                                onClick = { viewModel.restoreLastDeletedCard() },
+                                enabled = canUndoDeletion,
+                                modifier = Modifier
+                                    .size(46.dp)
+                                    .background(
+                                        if (canUndoDeletion) MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+                                        else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+                                        CircleShape
+                                    )
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Refresh,
+                                    contentDescription = "Desfazer última exclusão",
+                                    tint = if (canUndoDeletion) MaterialTheme.colorScheme.primary else Color.Gray
                                 )
                             }
                         }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Desfazer\nexclusão",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontSize = 10.sp,
+                            lineHeight = 12.sp,
+                            textAlign = TextAlign.Center,
+                            minLines = 2,
+                            maxLines = 2,
+                            color = if (canUndoDeletion) MaterialTheme.colorScheme.onSurface else Color.Gray.copy(alpha = 0.6f)
+                        )
                     }
 
-                    // Right: Conclude Session & Open Options Dialog
-                    IconButton(
-                        onClick = { showConcludeDialog = true },
-                        enabled = scannedCards.isNotEmpty(),
-                        modifier = Modifier
-                            .size(52.dp)
-                            .background(
-                                if (scannedCards.isNotEmpty()) MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f)
-                                else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-                                CircleShape
-                            )
+                    // 2. Excluir última captura
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.weight(1f)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = "Concluir",
-                            tint = if (scannedCards.isNotEmpty()) MaterialTheme.colorScheme.secondary else Color.Gray
+                        Box(
+                            modifier = Modifier.height(64.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            IconButton(
+                                onClick = {
+                                    if (scannedCards.isNotEmpty()) {
+                                        val lastIndex = scannedCards.size - 1
+                                        val lastCard = scannedCards[lastIndex]
+                                        if (viewModel.shouldSkipDeleteConfirmation()) {
+                                            viewModel.undoLastScan()
+                                        } else {
+                                            cardPendingDeletion = lastIndex to lastCard
+                                        }
+                                    }
+                                },
+                                enabled = scannedCards.isNotEmpty(),
+                                modifier = Modifier
+                                    .size(46.dp)
+                                    .background(
+                                        if (scannedCards.isNotEmpty()) MaterialTheme.colorScheme.error.copy(alpha = 0.2f)
+                                        else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+                                        CircleShape
+                                    )
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Excluir última captura",
+                                    tint = if (scannedCards.isNotEmpty()) Color.Red else Color.Gray
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Excluir\núltima",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontSize = 10.sp,
+                            lineHeight = 12.sp,
+                            textAlign = TextAlign.Center,
+                            minLines = 2,
+                            maxLines = 2,
+                            color = if (scannedCards.isNotEmpty()) MaterialTheme.colorScheme.onSurface else Color.Gray.copy(alpha = 0.6f)
+                        )
+                    }
+
+                    // 3. Capturar carta (Center Shutter Button)
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.weight(1.1f)
+                    ) {
+                        Box(
+                            modifier = Modifier.height(64.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Button(
+                                onClick = {
+                                    if (!isProcessingPhoto && hasCameraPermission) {
+                                        isProcessingPhoto = true
+                                        takePhoto(
+                                            imageCapture = imageCapture,
+                                            executor = cameraExecutor,
+                                            onImageCaptured = { inputImage ->
+                                                recognizer.process(inputImage)
+                                                    .addOnSuccessListener { visionText ->
+                                                        val linesList = mutableListOf<OcrLine>()
+                                                        for (block in visionText.textBlocks) {
+                                                            for (line in block.lines) {
+                                                                val rect = line.boundingBox
+                                                                if (rect != null) {
+                                                                    linesList.add(
+                                                                        OcrLine(
+                                                                            text = line.text,
+                                                                            left = rect.left,
+                                                                            top = rect.top,
+                                                                            right = rect.right,
+                                                                            bottom = rect.bottom
+                                                                        )
+                                                                    )
+                                                                }
+                                                            }
+                                                        }
+                                                        viewModel.processOcrLines(linesList)
+                                                    }
+                                                    .addOnFailureListener { e ->
+                                                        e.printStackTrace()
+                                                    }
+                                                    .addOnCompleteListener {
+                                                        isProcessingPhoto = false
+                                                    }
+                                            }
+                                        )
+                                    }
+                                },
+                                shape = CircleShape,
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = if (isProcessingPhoto) Color.Gray else MaterialTheme.colorScheme.primary
+                                ),
+                                modifier = Modifier
+                                    .size(64.dp)
+                                    .border(3.dp, Color.White, CircleShape)
+                                    .shadow(6.dp, CircleShape),
+                                contentPadding = PaddingValues(0.dp)
+                            ) {
+                                if (isProcessingPhoto) {
+                                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                                } else {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(24.dp)
+                                            .clip(CircleShape)
+                                            .background(Color.White)
+                                    )
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Capturar\ncarta",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontSize = 10.sp,
+                            lineHeight = 12.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            textAlign = TextAlign.Center,
+                            minLines = 2,
+                            maxLines = 2,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+
+                    // 4. Concluir captura (Right Check Button)
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Box(
+                            modifier = Modifier.height(64.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            IconButton(
+                                onClick = { showConcludeDialog = true },
+                                enabled = scannedCards.isNotEmpty(),
+                                modifier = Modifier
+                                    .size(46.dp)
+                                    .background(
+                                        if (scannedCards.isNotEmpty()) MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f)
+                                        else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+                                        CircleShape
+                                    )
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Check,
+                                    contentDescription = "Concluir captura",
+                                    tint = if (scannedCards.isNotEmpty()) MaterialTheme.colorScheme.secondary else Color.Gray
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Concluir\ncaptura",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontSize = 10.sp,
+                            lineHeight = 12.sp,
+                            textAlign = TextAlign.Center,
+                            minLines = 2,
+                            maxLines = 2,
+                            color = if (scannedCards.isNotEmpty()) MaterialTheme.colorScheme.onSurface else Color.Gray.copy(alpha = 0.6f)
                         )
                     }
                 }
