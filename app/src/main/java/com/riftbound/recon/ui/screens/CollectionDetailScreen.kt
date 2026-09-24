@@ -40,22 +40,52 @@ enum class CollectionSortOption(val label: String) {
     COLLECTOR_NUMBER_ASC("Numeração (Cód.)")
 }
 
+fun formatCardCollectorCode(card: Card): String {
+    val rawCollector = card.collectorNumber.trim()
+    if (rawCollector.contains("/")) {
+        return rawCollector
+    }
+
+    // 1. Crystal / Special Subcollection (e.g. sp1 -> SP1/006 in Vendetta)
+    val spMatch = Regex("""^(?i)sp(\d+)$""").find(rawCollector)
+    if (spMatch != null) {
+        val num = spMatch.groupValues[1]
+        return "SP$num/006"
+    }
+
+    // 2. Runes (e.g. r01 -> R01, r04 -> R04)
+    val rMatch = Regex("""^(?i)r(\d+)$""").find(rawCollector)
+    if (rMatch != null) {
+        return "R${rMatch.groupValues[1]}"
+    }
+
+    // 3. Tokens (e.g. t01 -> T01, t01g -> T01G)
+    val tMatch = Regex("""^(?i)t(.+)$""").find(rawCollector)
+    if (tMatch != null) {
+        return "T${tMatch.groupValues[1].uppercase()}"
+    }
+
+    // 4. Main set numbered cards (pure digits or digits with suffix like 066a, or overnumbered 299*)
+    // Only cards starting with numeric digits belong to the main set numbering sequence.
+    if (rawCollector.firstOrNull()?.isDigit() == true) {
+        val mainTotals = mapOf(
+            "OGN" to "298",
+            "SFD" to "221",
+            "UNL" to "219",
+            "VEN" to "166",
+            "OGS" to "024"
+        )
+        val total = mainTotals[card.setCode.uppercase()]
+        if (total != null) {
+            return "$rawCollector/$total"
+        }
+    }
+
+    return rawCollector
+}
+
 fun formatCardSetAndCode(card: Card): String {
-    val totalInSet = when (card.setCode.uppercase()) {
-        "OGN" -> "298"
-        "SFD" -> "221"
-        "UNL" -> "219"
-        "VEN" -> "166"
-        "OGS" -> "024"
-        else -> null
-    }
-    val codeStr = if (card.collectorNumber.contains("/")) {
-        card.collectorNumber
-    } else if (totalInSet != null) {
-        "${card.collectorNumber}/$totalInSet"
-    } else {
-        card.collectorNumber
-    }
+    val codeStr = formatCardCollectorCode(card)
     val displaySet = when (card.setCode.uppercase()) {
         "OGN" -> "Origins"
         "SFD" -> "Spiritforged"

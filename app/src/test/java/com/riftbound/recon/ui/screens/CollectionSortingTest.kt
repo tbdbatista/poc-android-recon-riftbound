@@ -128,4 +128,64 @@ class CollectionSortingTest {
         assertEquals("Spiritforged • 001/221", formatCardSetAndCode(sfdCard))
         assertEquals("Vendetta • 150/166", formatCardSetAndCode(venCard))
     }
+
+    @Test
+    fun formatCardSetAndCode_crystalSpecialSubset_formatsSPWithTotalAndUppercase() {
+        val kaisaCard = Card(
+            id = 1237,
+            name = "Kai'Sa, Survivor",
+            set = "Vendetta",
+            setCode = "VEN",
+            collectorNumber = "sp1",
+            energyCost = 4,
+            power = 4,
+            tags = listOf("Kai'Sa", "Unit", "Epic", "Fury"),
+            text = "",
+            imageUrl = ""
+        )
+        val ezrealCard = Card(
+            id = 1230,
+            name = "Ezreal, Prodigy",
+            set = "Vendetta",
+            setCode = "VEN",
+            collectorNumber = "sp5",
+            energyCost = 3,
+            power = 3,
+            tags = listOf("Ezreal", "Unit", "Epic", "Chaos"),
+            text = "",
+            imageUrl = ""
+        )
+        assertEquals("Vendetta • SP1/006", formatCardSetAndCode(kaisaCard))
+        assertEquals("Vendetta • SP5/006", formatCardSetAndCode(ezrealCard))
+    }
+
+    @Test
+    fun formatCardSetAndCode_runesAndTokens_formatsUppercaseWithoutTotal() {
+        val runeCard = Card(
+            id = 200,
+            name = "Body Rune",
+            set = "Vendetta",
+            setCode = "VEN",
+            collectorNumber = "r04",
+            energyCost = 0,
+            power = 0,
+            tags = emptyList(),
+            text = "",
+            imageUrl = ""
+        )
+        val tokenCard = Card(
+            id = 201,
+            name = "Mech",
+            set = "Spiritforged",
+            setCode = "SFD",
+            collectorNumber = "t01g",
+            energyCost = 0,
+            power = 0,
+            tags = emptyList(),
+            text = "",
+            imageUrl = ""
+        )
+        assertEquals("Vendetta • R04", formatCardSetAndCode(runeCard))
+        assertEquals("Spiritforged • T01G", formatCardSetAndCode(tokenCard))
+    }
 }
