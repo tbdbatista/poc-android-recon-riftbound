@@ -737,7 +737,7 @@ fun ScannedCardPreviewDialog(
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "Coleção: ${card.set} • #${card.collectorNumber}",
+                    text = "Coleção: ${formatCardSetAndCode(card)}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.secondary
                 )

@@ -10,6 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] (develop)
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
+### Added
+- Table-style header row ("Posição", "Carta", "Nome", "Coleção / Cód.") with minimum 40dp height on the Collection Detail screen.
+- Bold card position text ("#1", "#2", etc.) replacing the old circular badge.
+- Card artwork thumbnails using asynchronous decoding and caching (`AsyncImage`).
+- Exact card code format without `#` prefix (e.g. "Origins • 066a/298", "Vendetta • SP1/006", "Vendetta • R04").
+- Support for special subcollections with distinct counts (e.g. Vendetta Crystal collection reprints `SP1/006` to `SP6/006`) and uppercase prefix normalization (`SP`, `R`, `T`).
+- Multi-criteria sorting dropdown in Collection Detail screen (1ª para última, Última para 1ª, Nome A-Z, Coleção, and Numeração da carta).
+- Enlarged card preview dialog when tapping any card row in the collection details.
+
+### Changed
+- Streamlined collection card rows to display card name, set, and collector code, removing energy/might stats and individual delete icons in preparation for list edit mode and swipe-to-delete.
+- Refined set total assignment so main set totals are applied only to main numerical sequences, preserving reprints and subcollection numbering.
+
 ---
 
 ## [0.4.0] - 2026-09-21
