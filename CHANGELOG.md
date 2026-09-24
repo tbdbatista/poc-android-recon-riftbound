@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for special subcollections with distinct counts (e.g. Vendetta Crystal collection reprints `SP1/006` to `SP6/006`) and uppercase prefix normalization (`SP`, `R`, `T`).
 - Multi-criteria sorting dropdown in Collection Detail screen (1ª para última, Última para 1ª, Nome A-Z, Coleção, and Numeração da carta).
 - Enlarged card preview dialog when tapping any card row in the collection details.
+- Collection list edit mode ("Editar Lista" / "Concluir") allowing cards to be deleted, reordered, and manually inserted.
+- Up and Down reordering controls in edit mode to adjust card positions and update scan order sequence (`#1`, `#2`, etc.).
+- Manual card search and insertion dialog (`+ Inserir Carta`) to add cards to the current collection directly from the full card database.
+- Swipe right to delete (`SwipeToDismissBox`) on collection card rows in normal view mode with confirmation Snackbar.
 
 ### Changed
 - Streamlined collection card rows to display card name, set, and collector code, removing energy/might stats and individual delete icons in preparation for list edit mode and swipe-to-delete.

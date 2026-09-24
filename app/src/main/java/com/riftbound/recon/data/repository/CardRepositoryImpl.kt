@@ -195,6 +195,12 @@ class CardRepositoryImpl @Inject constructor(
         cardDao.deleteCollectionCardById(collectionCardId)
     }
 
+    override suspend fun reorderCardsInCollection(collectionId: Long, orderedCollectionCardIds: List<Long>) {
+        orderedCollectionCardIds.forEachIndexed { index, id ->
+            cardDao.updateCollectionCardOrder(id, index + 1)
+        }
+    }
+
     override fun searchCardInCollections(query: String): Flow<List<SearchCardResult>> {
         return cardDao.searchCardInCollections(query)
     }

@@ -144,6 +144,21 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun moveCardInCollection(fromIndex: Int, toIndex: Int) {
+        val coll = _selectedCollection.value ?: return
+        val currentList = _selectedCollectionCards.value.toMutableList()
+        if (fromIndex !in currentList.indices || toIndex !in currentList.indices) return
+        val item = currentList.removeAt(fromIndex)
+        currentList.add(toIndex, item)
+        val updated = currentList.mapIndexed { idx, card ->
+            card.copy(scanOrder = idx + 1)
+        }
+        _selectedCollectionCards.value = updated
+        viewModelScope.launch {
+            repository.reorderCardsInCollection(coll.id, updated.map { it.id })
+        }
+    }
+
     // --- SCANNER STATE ---
     private val _scannedCards = MutableStateFlow<List<Card>>(emptyList())
     val scannedCards = _scannedCards.asStateFlow()

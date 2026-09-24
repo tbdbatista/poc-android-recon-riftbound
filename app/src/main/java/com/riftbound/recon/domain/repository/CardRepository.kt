@@ -19,6 +19,7 @@ interface CardRepository {
     fun getCardsInCollection(collectionId: Long): Flow<List<CollectionCard>>
     suspend fun addCardToCollection(collectionId: Long, cardId: Int): Long
     suspend fun removeCardFromCollection(collectionCardId: Long)
+    suspend fun reorderCardsInCollection(collectionId: Long, orderedCollectionCardIds: List<Long>)
     
     fun searchCardInCollections(query: String): Flow<List<SearchCardResult>>
     fun getCollectionsWithCard(cardId: Int): Flow<List<CollectionOccurrence>>

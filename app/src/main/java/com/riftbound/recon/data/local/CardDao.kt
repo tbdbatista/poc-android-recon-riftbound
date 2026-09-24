@@ -90,6 +90,9 @@ interface CardDao {
     @Query("DELETE FROM collection_cards WHERE id = :id")
     suspend fun deleteCollectionCardById(id: Long)
 
+    @Query("UPDATE collection_cards SET scanOrder = :newOrder WHERE id = :id")
+    suspend fun updateCollectionCardOrder(id: Long, newOrder: Int)
+
     @Query("DELETE FROM collection_cards WHERE collectionId = :collectionId")
     suspend fun clearCollection(collectionId: Long)
 
