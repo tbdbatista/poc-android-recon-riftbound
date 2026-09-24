@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] (develop)
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
+### Added
+- Table-style header row ("#", "Foto", "Carta / Coleção", "Ação") on the Collection Detail screen.
+- Bold card position text ("#1", "#2", etc.) replacing the old circular badge.
+- Card artwork thumbnails using asynchronous decoding and caching (`AsyncImage`).
+- Multi-criteria sorting dropdown in Collection Detail screen (1ª para última, Última para 1ª, Nome A-Z, Coleção, and Numeração da carta).
+- Enlarged card preview dialog when tapping any card row in the collection details.
+
 ---
 
 ## [0.4.0] - 2026-09-21
