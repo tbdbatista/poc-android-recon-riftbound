@@ -37,7 +37,37 @@ enum class CollectionSortOption(val label: String) {
     SCAN_ORDER_DESC("Última para 1ª"),
     NAME_ASC("Nome (A - Z)"),
     SET_ASC("Coleção (Set)"),
-    COLLECTOR_NUMBER_ASC("Numeração (#)")
+    COLLECTOR_NUMBER_ASC("Numeração (Cód.)")
+}
+
+fun formatCardSetAndCode(card: Card): String {
+    val totalInSet = when (card.setCode.uppercase()) {
+        "OGN" -> "298"
+        "SFD" -> "221"
+        "UNL" -> "219"
+        "VEN" -> "166"
+        "OGS" -> "024"
+        else -> null
+    }
+    val codeStr = if (card.collectorNumber.contains("/")) {
+        card.collectorNumber
+    } else if (totalInSet != null) {
+        "${card.collectorNumber}/$totalInSet"
+    } else {
+        card.collectorNumber
+    }
+    val displaySet = when (card.setCode.uppercase()) {
+        "OGN" -> "Origins"
+        "SFD" -> "Spiritforged"
+        "UNL" -> "Unleashed"
+        "VEN" -> "Vendetta"
+        "OGS" -> "Proving Grounds"
+        "JDG" -> "Judge Promo"
+        "OPP" -> "OP Promo"
+        "PR" -> "Promo"
+        else -> card.set.ifBlank { card.setCode }
+    }
+    return "$displaySet • $codeStr"
 }
 
 fun compareCollectorNumbers(a: String, b: String): Int {
@@ -74,7 +104,9 @@ fun CollectionDetailScreen(
         cards.filter {
             it.card.name.contains(searchQuery, ignoreCase = true) ||
             it.card.set.contains(searchQuery, ignoreCase = true) ||
+            it.card.setCode.contains(searchQuery, ignoreCase = true) ||
             it.card.collectorNumber.contains(searchQuery, ignoreCase = true) ||
+            formatCardSetAndCode(it.card).contains(searchQuery, ignoreCase = true) ||
             it.card.tags.any { tag -> tag.contains(searchQuery, ignoreCase = true) }
         }
     }
@@ -265,46 +297,50 @@ fun CollectionDetailScreen(
             } else {
                 // Table Header (Legenda)
                 Surface(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 40.dp),
                     shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
                     color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.8f)
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 8.dp),
+                            .heightIn(min = 40.dp)
+                            .padding(horizontal = 12.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "#",
+                            text = "Posição",
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.width(36.dp)
+                            modifier = Modifier.width(56.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Foto",
+                            text = "Carta",
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.width(42.dp)
                         )
-                        Spacer(modifier = Modifier.width(12.dp))
+                        Spacer(modifier = Modifier.width(10.dp))
                         Text(
-                            text = "Carta / Coleção",
+                            text = "Nome",
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1.2f)
                         )
+                        Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "Ação",
+                            text = "Coleção / Cód.",
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.End,
-                            modifier = Modifier.width(36.dp)
+                            modifier = Modifier.weight(1.1f)
                         )
                     }
                 }
@@ -318,8 +354,7 @@ fun CollectionDetailScreen(
                     items(sortedCards, key = { it.id }) { item ->
                         CollectionCardRow(
                             item = item,
-                            onCardClick = { previewCard = item.card },
-                            onRemoveClick = { viewModel.removeCardFromCollection(item.id) }
+                            onCardClick = { previewCard = item.card }
                         )
                     }
                     item {
@@ -414,8 +449,7 @@ fun CollectionDetailScreen(
 @Composable
 fun CollectionCardRow(
     item: CollectionCard,
-    onCardClick: () -> Unit,
-    onRemoveClick: () -> Unit
+    onCardClick: () -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -438,7 +472,7 @@ fun CollectionCardRow(
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.width(36.dp)
+                modifier = Modifier.width(56.dp)
             )
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -461,65 +495,30 @@ fun CollectionCardRow(
                 )
             }
 
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(10.dp))
 
-            // Card Information
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = item.card.name,
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                
-                Spacer(modifier = Modifier.height(2.dp))
+            // Card Name
+            Text(
+                text = item.card.name,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1.2f)
+            )
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    Surface(
-                        shape = RoundedCornerShape(4.dp),
-                        color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.15f)
-                    ) {
-                        Text(
-                            text = "${item.card.set} • #${item.card.collectorNumber}",
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.secondary,
-                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
-                        )
-                    }
+            Spacer(modifier = Modifier.width(8.dp))
 
-                    Text(
-                        text = "•",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
-                    )
-
-                    Text(
-                        text = "⚡${item.card.energyCost} | ⚔️${item.card.power}",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-
-            IconButton(
-                onClick = onRemoveClick,
-                modifier = Modifier.size(36.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Remover da Coleção",
-                    tint = MaterialTheme.colorScheme.error.copy(alpha = 0.75f),
-                    modifier = Modifier.size(20.dp)
-                )
-            }
+            // Collection & Collector Code (e.g. Origins • 066a/298)
+            Text(
+                text = formatCardSetAndCode(item.card),
+                style = MaterialTheme.typography.labelSmall,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.secondary,
+                textAlign = TextAlign.End,
+                modifier = Modifier.weight(1.1f)
+            )
         }
     }
 }
@@ -554,7 +553,7 @@ fun CollectionCardPreviewDialog(
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "Coleção: ${card.set} • #${card.collectorNumber}",
+                    text = "Coleção: ${formatCardSetAndCode(card)}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.secondary
                 )

@@ -81,4 +81,51 @@ class CollectionSortingTest {
         assertEquals(-1, compareCollectorNumbers("r01", "r02"))
         assertEquals(-1, compareCollectorNumbers("r02", "t01"))
     }
+
+    @Test
+    fun formatCardSetAndCode_formatsOriginsWithTotal() {
+        val ahriCard = Card(
+            id = 7,
+            name = "Ahri - Alluring (Alternate Art)",
+            set = "Origins",
+            setCode = "OGN",
+            collectorNumber = "066a",
+            energyCost = 5,
+            power = 4,
+            tags = listOf("Ahri", "Ionia", "Unit", "Showcase", "Calm"),
+            text = "",
+            imageUrl = ""
+        )
+        assertEquals("Origins • 066a/298", formatCardSetAndCode(ahriCard))
+    }
+
+    @Test
+    fun formatCardSetAndCode_formatsOtherSetsWithKnownTotals() {
+        val sfdCard = Card(
+            id = 10,
+            name = "Braum",
+            set = "Spiritforged",
+            setCode = "SFD",
+            collectorNumber = "001",
+            energyCost = 2,
+            power = 3,
+            tags = emptyList(),
+            text = "",
+            imageUrl = ""
+        )
+        val venCard = Card(
+            id = 11,
+            name = "Zephyr",
+            set = "Vendetta",
+            setCode = "VEN",
+            collectorNumber = "150",
+            energyCost = 1,
+            power = 1,
+            tags = emptyList(),
+            text = "",
+            imageUrl = ""
+        )
+        assertEquals("Spiritforged • 001/221", formatCardSetAndCode(sfdCard))
+        assertEquals("Vendetta • 150/166", formatCardSetAndCode(venCard))
+    }
 }
