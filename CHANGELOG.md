@@ -24,6 +24,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Streamlined collection card rows to display card name, set, and collector code, removing energy/might stats and individual delete icons in preparation for list edit mode and swipe-to-delete.
 - Refined set total assignment so main set totals are applied only to main numerical sequences, preserving reprints and subcollection numbering.
+- Adjusted `SecondaryTeal` from `#00E5FF` to `#00BFA6` for improved contrast and readability on both dark and light themes.
+- Light theme now uses dedicated color adjustments (darker purple `#7B3BDB`, teal `#009B86`, gold `#E6A800`) instead of sharing the same values as the dark theme.
+- Added custom `RiftboundTypography` with a fully defined Material 3 type scale (`titleLarge` through `labelSmall`) to `Theme.kt`.
+- Extracted all hardcoded colors from UI screens into centralized `Theme.kt` constants: scanner console log colors (`LogSuccess`, `LogError`, `LogMetadata`, `LogBoundary`), set gradient colors (`SetGradientColors`), and energy cost badge (`EnergyCostBadge`).
+- Replaced all hardcoded `Color.Red` references across `CollectionDetailScreen`, `SearchScreen`, and `ScanScreen` with semantic `MaterialTheme.colorScheme.error`.
+- Added explicit `error` and `outlineVariant` tokens to `darkColorScheme`.
 
 ---
 

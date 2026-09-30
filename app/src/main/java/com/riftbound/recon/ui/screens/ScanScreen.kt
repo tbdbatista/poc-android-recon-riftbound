@@ -47,6 +47,12 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.riftbound.recon.data.scanner.OcrLine
 import com.riftbound.recon.domain.model.Card
 import com.riftbound.recon.ui.MainViewModel
+import com.riftbound.recon.ui.theme.ConsoleBackground
+import com.riftbound.recon.ui.theme.LogBoundary
+import com.riftbound.recon.ui.theme.LogDefault
+import com.riftbound.recon.ui.theme.LogError
+import com.riftbound.recon.ui.theme.LogMetadata
+import com.riftbound.recon.ui.theme.LogSuccess
 import java.util.concurrent.Executor
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -630,7 +636,7 @@ fun ConsoleLogsOverlay(scannerLogs: List<String>) {
             .height(180.dp)
             .padding(16.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(Color.Black.copy(alpha = 0.85f))
+            .background(ConsoleBackground)
             .border(1.dp, MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
             .padding(8.dp)
     ) {
@@ -641,11 +647,11 @@ fun ConsoleLogsOverlay(scannerLogs: List<String>) {
             items(scannerLogs) { log ->
                 Text(
                     text = log,
-                    color = if (log.contains("SUCESSO")) Color.Green
-                    else if (log.contains("FALHA") || log.contains("Erro")) Color.Red
-                    else if (log.contains("Cód. Rodapé") || log.contains("Energia Runa")) Color.Cyan
-                    else if (log.contains("INICIANDO") || log.contains("FIM")) Color.Yellow
-                    else Color.LightGray,
+                    color = if (log.contains("SUCESSO")) LogSuccess
+                    else if (log.contains("FALHA") || log.contains("Erro")) LogError
+                    else if (log.contains("Cód. Rodapé") || log.contains("Energia Runa")) LogMetadata
+                    else if (log.contains("INICIANDO") || log.contains("FIM")) LogBoundary
+                    else LogDefault,
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(vertical = 1.dp)
                 )

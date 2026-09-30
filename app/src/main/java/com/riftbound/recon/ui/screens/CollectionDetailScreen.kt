@@ -192,7 +192,7 @@ fun CollectionDetailScreen(
                         Icon(Icons.Default.Edit, contentDescription = "Editar Coleção")
                     }
                     IconButton(onClick = { showDeleteConfirmDialog = true }) {
-                        Icon(Icons.Default.Delete, contentDescription = "Excluir Coleção", tint = Color.Red)
+                        Icon(Icons.Default.Delete, contentDescription = "Excluir Coleção", tint = MaterialTheme.colorScheme.error)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -462,7 +462,7 @@ fun CollectionDetailScreen(
                         showDeleteConfirmDialog = false
                         navController.popBackStack()
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
                     Text("Excluir", color = Color.White)
                 }

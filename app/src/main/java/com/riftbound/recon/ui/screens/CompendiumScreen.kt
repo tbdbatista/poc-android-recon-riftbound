@@ -33,6 +33,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.riftbound.recon.domain.model.Card
 import com.riftbound.recon.ui.MainViewModel
+import com.riftbound.recon.ui.theme.EnergyCostBadge
+import com.riftbound.recon.ui.theme.SetGradientColors
+import com.riftbound.recon.ui.theme.SetGradientDefault
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -178,14 +181,7 @@ fun CardThumbnail(
     ) {
         // Gradient representation of artwork background
         val gradient = remember(card.set) {
-            val color1 = when (card.set) {
-                "Origins" -> Color(0xFF1E3A8A)
-                "Proving Grounds" -> Color(0xFF7F1D1D)
-                "Spiritforged" -> Color(0xFF14532D)
-                "Vendetta" -> Color(0xFF831843)
-                "Unleashed" -> Color(0xFF701A75)
-                else -> Color(0xFF334155)
-            }
+            val color1 = SetGradientColors[card.set] ?: SetGradientDefault
             Brush.verticalGradient(listOf(color1, Color.Black))
         }
 
@@ -214,7 +210,7 @@ fun CardThumbnail(
                 modifier = Modifier
                     .size(20.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFF8C52FF)),
+                    .background(EnergyCostBadge),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -324,7 +320,7 @@ fun CardDetailsDialog(
                     StatChip(
                         label = "ENERGIA",
                         value = card.energyCost.toString(),
-                        color = Color(0xFF8C52FF)
+                        color = EnergyCostBadge
                     )
                     
                     // Power Cost Chip

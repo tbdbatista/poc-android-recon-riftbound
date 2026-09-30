@@ -174,7 +174,7 @@ fun SearchResultRow(
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = "Remover",
-                        tint = Color.Red.copy(alpha = 0.7f)
+                        tint = MaterialTheme.colorScheme.error.copy(alpha = 0.7f)
                     )
                 }
 
