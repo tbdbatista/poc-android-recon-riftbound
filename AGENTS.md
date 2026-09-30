@@ -112,3 +112,90 @@ All active development must occur in dedicated working branches created from and
   3. `CHANGELOG.md` is updated to seal the new release version.
   4. The `bump/` branch is merged into `develop` via PR.
   5. `develop` is then merged into `main` via PR.
+
+---
+
+## 5. Pull Request (PR) Standards & Lifecycle
+
+All integrations into `develop` or `main` MUST occur through Pull Requests on GitHub.
+
+### 5.1 PR Target Rules
+
+* **Working Branch PRs** (`feature/*`, `bugfix/*`, `config/*`, `refactor/*`, `bump/*`):
+  * **Target Base Branch:** `develop` (or active `epic/*` branch).
+  * **STRICT RULE:** Never target `main` directly from a working branch.
+* **Epic PRs** (`epic/*`):
+  * **Target Base Branch:** `develop`.
+* **Release PRs** (`develop`):
+  * **Target Base Branch:** `main`.
+  * Only opened after a `bump/<version>` branch has been merged into `develop` to seal the release.
+
+### 5.2 PR Title Standards
+
+* **Language:** PR titles must **ALWAYS be written in English**.
+* **Pattern for Working / Bump Branches:**
+  ```
+  [<Context>] <Type>: <Description in imperative mood>
+  ```
+  *(Matches the primary commit / context convention)*
+  * Examples:
+    * `[Collections] Feature: improve list UI with table header, bold position, thumbnails and sorting options`
+    * `[Scanner] Feature: add undo last deletion button and descriptive button labels`
+    * `[CI] Config: add automated release tagging workflow for main merges`
+    * `[Version] Bump: release version 0.4.0`
+* **Pattern for Release PRs (`develop` -> `main`):**
+  ```
+  [Release] Version <MAJOR.MINOR.PATCH>
+  ```
+  * Example: `[Release] Version 0.4.0`
+
+### 5.3 PR Description Structure
+
+PR descriptions must be clean, structured, and informative.
+
+#### 5.3.1 Template for Feature / Bugfix / Config / Refactor PRs:
+```markdown
+## Summary
+<Concise high-level overview explaining the purpose, motivation, and user-facing impact of the PR.>
+
+### Key Changes
+1. **<Component/Area>**: <Detailed explanation of what was added, modified, or removed.>
+2. **<Component/Area>**: <Detailed explanation of architectural or logic adjustments.>
+...
+n. **Tests & Documentation**:
+   - Added / updated unit tests in `<TestFile>.kt`.
+   - Updated `CHANGELOG.md` under `## [Unreleased] (develop)`.
+
+### Verification / Testing
+- [x] Compilation: Verified `./gradlew assembleDebug` builds cleanly without errors.
+- [x] Unit Tests: Verified `./gradlew testDebugUnitTest` passes 100%.
+- [x] Manual Verification: Tested on device/emulator (describe specific flows tested).
+```
+
+#### 5.3.2 Template for Bump PRs (`bump/<version>` -> `develop`):
+```markdown
+## Summary
+Bumps version to <version> (versionCode <codeCount>) and seals release notes in `CHANGELOG.md`.
+
+### Release Notes
+- <Bulleted release highlights extracted directly from the sealed version section in CHANGELOG.md>
+```
+
+#### 5.3.3 Template for Release PRs (`develop` -> `main`):
+```markdown
+## Release <MAJOR.MINOR.PATCH>
+Promotes `develop` to `main` with version <version> (versionCode <codeCount>).
+
+### Highlights
+- <Key summary bullet points highlighting new capabilities, improvements, and fixes in this release>
+```
+
+### 5.4 Pre-PR Checklist (Mandatory for Contributors & Agents)
+
+Before creating a Pull Request, verify:
+1. [ ] **Build:** `./gradlew assembleDebug` completes with `BUILD SUCCESSFUL`.
+2. [ ] **Tests:** `./gradlew testDebugUnitTest` runs with all tests passing.
+3. [ ] **Changelog:** All notable changes are documented in `CHANGELOG.md` under `## [Unreleased] (develop)`.
+4. [ ] **Clean Branch:** Working branch is rebased / up-to-date with `develop`.
+5. [ ] **GitHub CLI:** PR created with `gh pr create --base develop --head <branch-name> --title "<title>" --body "<body-content>"`.
+
