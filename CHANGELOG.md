@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multi-criteria sorting dropdown in Collection Detail screen (1ª para última, Última para 1ª, Nome A-Z, Coleção, and Numeração da carta).
 - Enlarged card preview dialog when tapping any card row in the collection details.
 - Comprehensive Design System steering specification in `DESIGN_SYSTEM.md` detailing color palette tokens, typography scales, component specs, and UI rules.
+- Comprehensive Pull Request (PR) standards, naming conventions, templates, and lifecycle rules in `AGENTS.md`.
 
 ### Changed
 - Streamlined collection card rows to display card name, set, and collector code, removing energy/might stats and individual delete icons in preparation for list edit mode and swipe-to-delete.
