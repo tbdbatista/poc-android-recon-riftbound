@@ -129,9 +129,18 @@ fun RiftboundAppScreen() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "collections",
+            startDestination = "splash",
             modifier = Modifier.padding(innerPadding)
         ) {
+            composable("splash") {
+                SplashScreen(
+                    onAnimationComplete = {
+                        navController.navigate("collections") {
+                            popUpTo("splash") { inclusive = true }
+                        }
+                    }
+                )
+            }
             composable("collections") {
                 CollectionsScreen(navController, viewModel)
             }

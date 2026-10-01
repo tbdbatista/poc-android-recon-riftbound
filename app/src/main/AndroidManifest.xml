@@ -7,13 +7,19 @@
     <application
         android:name=".RiftboundApplication"
         android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="Riftbound Recon"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.NoActionBar">
         
+        <!-- Default Dark Icon Activity -->
         <activity
             android:name=".ui.MainActivity"
+            android:enabled="true"
             android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@android:style/Theme.Material.NoActionBar">
             <intent-filter>
@@ -21,6 +27,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Dynamic Light Icon Activity Alias -->
+        <activity-alias
+            android:name=".ui.MainActivityLightIcon"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_light"
+            android:roundIcon="@mipmap/ic_launcher_light_round"
+            android:targetActivity=".ui.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
     </application>
 
 </manifest>

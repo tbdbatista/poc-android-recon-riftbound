@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] (develop)
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
+### Added
+- Animated Splash Screen (`SplashScreen.kt`) featuring the "Arcane Aperture" motif with rotating rune ring, expanding camera shutter blades, and teal optical laser sweep ray, adapting to both Dark and Light system themes.
+- Adaptive vector app launcher icons for both Dark Theme (`ic_launcher` - Obsidian & Arcane Neon) and Light Theme (`ic_launcher_light` - Ice-White & Royal Purple) with Android 13+ monochrome themed icon support.
+- Dynamic app icon selector dialog accessible from the Collections screen header, powered by `AppIconHelper` and `activity-alias` component switching in `AndroidManifest.xml`.
+- App icon style preference persistence in `AppPreferences`.
+
 ---
 
 ## [0.5.0] - 2026-10-01

@@ -1,0 +1,29 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:strokeWidth="2.5"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="#00000000"
+        android:pathData="M54,22 A32,32 0 1,1 53.99,22" />
+
+    <path
+        android:strokeWidth="1.5"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="#00000000"
+        android:pathData="M54,16 L54,20 M54,88 L54,92 M16,54 L20,54 M88,54 L92,54 M27,27 L30,30 M81,81 L78,78 M27,81 L30,78 M81,27 L78,30" />
+
+    <!-- Shutter Blades Outline -->
+    <path
+        android:strokeWidth="1.8"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="#00000000"
+        android:pathData="M54,29 L68,44 L54,41 Z M68,44 L73,63 L59,53 Z M73,63 L60,78 L53,64 Z M60,78 L40,75 L49,63 Z M40,75 L35,55 L49,54 Z M35,55 L48,31 L54,43 Z" />
+
+    <!-- Center Point -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,50 A4,4 0 1,1 53.99,50" />
+</vector>
