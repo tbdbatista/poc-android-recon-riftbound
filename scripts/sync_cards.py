@@ -1,6 +1,8 @@
 import os
 import json
+import shutil
 import ssl
+import subprocess
 import time
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -55,27 +57,54 @@ def download_image(card):
     media = card.get("media", {})
     if not media:
         return card_id, False, "No media"
-    
+
     url = media.get("image_url")
     if not url:
         return card_id, False, "No image url"
-        
-    destination = os.path.join(IMAGES_DIR, f"{card_id}.png")
-    
-    if os.path.exists(destination) and os.path.getsize(destination) > 1000:
+
+    webp_path = os.path.join(IMAGES_DIR, f"{card_id}.webp")
+
+    # Skip download if WebP version already exists
+    if os.path.exists(webp_path) and os.path.getsize(webp_path) > 500:
         return card_id, True, "Already exists"
-        
+
+    # Download as PNG to a temp file first
+    png_tmp_path = os.path.join(IMAGES_DIR, f"{card_id}.tmp.png")
+
     for attempt in range(3):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
             with urllib.request.urlopen(req, context=ctx, timeout=30) as response:
-                with open(destination, "wb") as out_file:
+                with open(png_tmp_path, "wb") as out_file:
                     out_file.write(response.read())
-            return card_id, True, "Downloaded"
+            break
         except Exception as e:
             if attempt == 2:
+                if os.path.exists(png_tmp_path):
+                    os.remove(png_tmp_path)
                 return card_id, False, str(e)
             time.sleep(1)
+
+    # Convert PNG → WebP using cwebp
+    try:
+        result = subprocess.run(
+            ["cwebp", "-q", "80", "-quiet", png_tmp_path, "-o", webp_path],
+            capture_output=True, timeout=30
+        )
+        if result.returncode != 0:
+            if os.path.exists(png_tmp_path):
+                os.remove(png_tmp_path)
+            return card_id, False, f"cwebp failed: {result.stderr.decode().strip()}"
+    except FileNotFoundError:
+        # cwebp not installed — keep PNG as fallback and warn
+        shutil.move(png_tmp_path, os.path.join(IMAGES_DIR, f"{card_id}.png"))
+        return card_id, True, "Downloaded (PNG fallback - cwebp not found)"
+    finally:
+        # Clean up temp PNG
+        if os.path.exists(png_tmp_path):
+            os.remove(png_tmp_path)
+
+    return card_id, True, "Downloaded"
 
 def extract_collector_number(card):
     rb_id = card.get("riftbound_id", "")
@@ -127,7 +156,7 @@ def build_mapped_cards(raw_cards):
             "power": might,
             "tags": tags_string,
             "text": text_plain,
-            "imageUrl": f"images/{card_id}.png"
+            "imageUrl": f"images/{card_id}.webp"
         }
         mapped_cards.append(mapped_card)
         
@@ -178,6 +207,14 @@ def append_custom_tokens_and_runes(mapped_cards):
     print(f"Appended {len(extra_clones)} custom token/rune variations. Total cards: {len(mapped_cards)}")
 
 def main():
+    # Check if cwebp is available
+    cwebp_available = shutil.which("cwebp") is not None
+    if cwebp_available:
+        print("cwebp found — images will be converted to WebP (quality 80).")
+    else:
+        print("WARNING: cwebp not found! Images will be saved as PNG (larger files).")
+        print("Install with: brew install webp (macOS) or apt install webp (Linux)")
+
     raw_cards = download_all_raw_cards()
     
     print(f"\nDownloading missing card images for {len(raw_cards)} cards concurrently...")
