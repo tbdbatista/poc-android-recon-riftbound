@@ -24,6 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Streamlined collection card rows to display card name, set, and collector code, removing energy/might stats and individual delete icons in preparation for list edit mode and swipe-to-delete.
 - Refined set total assignment so main set totals are applied only to main numerical sequences, preserving reprints and subcollection numbering.
+- Converted all 1451 card images from PNG to WebP (quality 80), reducing `assets/images` from 1.3 GB to 130 MB (~90% reduction) and APK size from 1.3 GB to 178 MB.
+- Updated `sync_cards.py` to download images as temporary PNG, convert to WebP via `cwebp`, and skip re-download when WebP already exists locally.
+- Updated `all_cards.json` `imageUrl` references from `.png` to `.webp`.
 
 ---
 
