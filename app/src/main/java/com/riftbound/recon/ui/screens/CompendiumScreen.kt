@@ -277,47 +277,25 @@ fun CardThumbnail(
                 .padding(6.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Top Row: Energy Badge (Left) and Ownership Badge (Right)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Top
-            ) {
-                // Energy Cost Circle at Top-Left
-                Box(
-                    modifier = Modifier
-                        .size(22.dp)
-                        .clip(CircleShape)
-                        .background(EnergyCostBadge)
-                        .border(1.dp, Color.White.copy(alpha = 0.6f), CircleShape),
-                    contentAlignment = Alignment.Center
+            // Top Row: Ownership Badge (Top-Right) if owned
+            if (ownedCount > 0) {
+                Surface(
+                    modifier = Modifier.align(Alignment.End),
+                    shape = RoundedCornerShape(6.dp),
+                    color = MaterialTheme.colorScheme.tertiary,
+                    shadowElevation = 2.dp
                 ) {
                     Text(
-                        text = card.energyCost.toString(),
+                        text = "x$ownedCount",
                         style = MaterialTheme.typography.labelSmall,
-                        fontSize = 11.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight.ExtraBold
+                        fontSize = 10.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.ExtraBold,
+                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp)
                     )
                 }
-
-                // Ownership Badge (Top-Right)
-                if (ownedCount > 0) {
-                    Surface(
-                        shape = RoundedCornerShape(6.dp),
-                        color = MaterialTheme.colorScheme.tertiary,
-                        shadowElevation = 2.dp
-                    ) {
-                        Text(
-                            text = "x$ownedCount",
-                            style = MaterialTheme.typography.labelSmall,
-                            fontSize = 10.sp,
-                            color = Color.Black,
-                            fontWeight = FontWeight.ExtraBold,
-                            modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp)
-                        )
-                    }
-                }
+            } else {
+                Spacer(modifier = Modifier.height(1.dp))
             }
 
             // Bottom: Card Name and Set
