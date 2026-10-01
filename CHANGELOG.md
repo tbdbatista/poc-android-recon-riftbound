@@ -36,6 +36,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Modernized `CollectionDetailScreen` with search clear button, sort indicator chips, and refined table card rows.
 - Updated `ScanScreen` with high-tech viewfinder corner reticles, color-coded console logs, and thumbnails with `#N` position overlays.
 - Redesigned `MainActivity` navigation bar with modern icons (`CenterFocusStrong`, `AutoStories`, `CollectionsBookmark`), active tab indicator, and subtle top border.
+- Converted all 1451 card images from PNG to WebP (quality 80), reducing `assets/images` from 1.3 GB to 130 MB (~90% reduction) and APK size from 1.3 GB to 178 MB.
+- Updated `sync_cards.py` to download images as temporary PNG, convert to WebP via `cwebp`, and skip re-download when WebP already exists locally.
+- Updated `all_cards.json` `imageUrl` references from `.png` to `.webp`.
 
 ---
 
