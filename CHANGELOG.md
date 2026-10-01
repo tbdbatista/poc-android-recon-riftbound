@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] (develop)
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
+---
+
+## [0.5.0] - 2026-10-01
 ### Added
 - Table-style header row ("Posição", "Carta", "Nome", "Coleção / Cód.") with minimum 40dp height on the Collection Detail screen.
 - Bold card position text ("#1", "#2", etc.) replacing the old circular badge.
@@ -30,9 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Extracted all hardcoded colors from UI screens into centralized `Theme.kt` constants: scanner console log colors (`LogSuccess`, `LogError`, `LogMetadata`, `LogBoundary`), set gradient colors (`SetGradientColors`), and energy cost badge (`EnergyCostBadge`).
 - Replaced all hardcoded `Color.Red` references across `CollectionDetailScreen`, `SearchScreen`, and `ScanScreen` with semantic `MaterialTheme.colorScheme.error`.
 - Added explicit `error` and `outlineVariant` tokens to `darkColorScheme`.
-- Redesigned `CollectionsScreen` with an app branding header, offline-first badge, summary statistics card (total collections and cards), icon boxes, metadata chips, and an extended floating action button.
+- Redesigned `CollectionsScreen` with an app branding header, summary statistics card (total collections and cards), icon boxes, metadata chips, and an extended floating action button.
 - Overhauled `SearchScreen` with a dedicated physical reverse-lookup card design displaying box name and glowing `Posição: #N` location badges.
-- Enhanced `CompendiumScreen` with clearable search, glowing active set filter pills, standard TCG aspect ratio cards with bottom scrim gradients, glowing energy gem and gold ownership badges, and rich card details modal.
+- Enhanced `CompendiumScreen` with clearable search, glowing active set filter pills, standard TCG aspect ratio cards with bottom scrim gradients, gold ownership badges (`xN`), and rich card details modal.
 - Modernized `CollectionDetailScreen` with search clear button, sort indicator chips, and refined table card rows.
 - Updated `ScanScreen` with high-tech viewfinder corner reticles, color-coded console logs, and thumbnails with `#N` position overlays.
 - Redesigned `MainActivity` navigation bar with modern icons (`CenterFocusStrong`, `AutoStories`, `CollectionsBookmark`), active tab indicator, and subtle top border.
