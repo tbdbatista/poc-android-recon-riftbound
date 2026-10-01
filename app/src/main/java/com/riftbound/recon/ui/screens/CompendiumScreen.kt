@@ -1,5 +1,6 @@
 package com.riftbound.recon.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,10 +11,10 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Inventory2
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,17 +23,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontStyle
-import coil.compose.AsyncImage
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.riftbound.recon.domain.model.Card
 import com.riftbound.recon.ui.MainViewModel
+import com.riftbound.recon.ui.theme.EnergyCostBadge
+import com.riftbound.recon.ui.theme.SetGradientColors
+import com.riftbound.recon.ui.theme.SetGradientDefault
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,7 +60,22 @@ fun CompendiumScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Compêndio Riftbound", fontWeight = FontWeight.Bold) },
+                title = {
+                    Column {
+                        Text(
+                            text = "Compêndio Riftbound",
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                        Text(
+                            text = "Catálogo completo e contagem de posse",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontSize = 11.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background
                 )
@@ -75,12 +95,31 @@ fun CompendiumScreen(
                 onValueChange = { viewModel.updateCompendiumQuery(it) },
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = { Text("Procurar no compêndio...") },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                shape = RoundedCornerShape(12.dp),
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                },
+                trailingIcon = {
+                    if (compendiumSearchQuery.isNotEmpty()) {
+                        IconButton(onClick = { viewModel.updateCompendiumQuery("") }) {
+                            Icon(
+                                imageVector = Icons.Default.Clear,
+                                contentDescription = "Limpar busca",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                },
+                shape = RoundedCornerShape(14.dp),
                 singleLine = true,
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.surfaceVariant
+                    unfocusedBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface
                 )
             )
 
@@ -93,7 +132,9 @@ fun CompendiumScreen(
                 containerColor = Color.Transparent,
                 divider = {},
                 indicator = {},
-                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp)
             ) {
                 sets.forEach { set ->
                     val isSelected = selectedSetFilter == set
@@ -104,25 +145,49 @@ fun CompendiumScreen(
                             .padding(end = 8.dp)
                             .clip(RoundedCornerShape(20.dp))
                             .background(
-                                if (isSelected) MaterialTheme.colorScheme.primary 
+                                if (isSelected) MaterialTheme.colorScheme.primary
                                 else MaterialTheme.colorScheme.surfaceVariant
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
+                                shape = RoundedCornerShape(20.dp)
                             )
                             .padding(horizontal = 16.dp, vertical = 6.dp)
                     ) {
                         Text(
                             text = set,
                             color = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontWeight = FontWeight.Bold,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 }
             }
 
+            // Results summary
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp, vertical = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "${cards.size} cartas encontradas",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            Spacer(modifier = Modifier.height(6.dp))
+
             // Thumbnail Grid (3 Columns)
             if (cards.isEmpty()) {
                 Box(
-                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -170,24 +235,15 @@ fun CardThumbnail(
 ) {
     Box(
         modifier = Modifier
-            .aspectRatio(0.7f)
+            .aspectRatio(0.70f)
             .clip(RoundedCornerShape(12.dp))
-            .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(12.dp))
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f), RoundedCornerShape(12.dp))
             .background(MaterialTheme.colorScheme.surface)
             .clickable(onClick = onClick)
     ) {
-        // Gradient representation of artwork background
-        val gradient = remember(card.set) {
-            val color1 = when (card.set) {
-                "Origins" -> Color(0xFF1E3A8A)
-                "Proving Grounds" -> Color(0xFF7F1D1D)
-                "Spiritforged" -> Color(0xFF14532D)
-                "Vendetta" -> Color(0xFF831843)
-                "Unleashed" -> Color(0xFF701A75)
-                else -> Color(0xFF334155)
-            }
-            Brush.verticalGradient(listOf(color1, Color.Black))
-        }
+        // Gradient fallback
+        val baseColor = SetGradientColors[card.set] ?: SetGradientDefault
+        val gradient = Brush.verticalGradient(listOf(baseColor, Color.Black))
 
         Box(
             modifier = Modifier
@@ -202,63 +258,64 @@ fun CardThumbnail(
             )
         }
 
-        // Card info text
+        // Bottom Scrim for Readability
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.85f)),
+                        startY = 120f
+                    )
+                )
+        )
+
+        // Card info overlay
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp),
+                .padding(6.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Energy Cost Circle at Top-Left
-            Box(
-                modifier = Modifier
-                    .size(20.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFF8C52FF)),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = card.energyCost.toString(),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
+            // Top Row: Ownership Badge (Top-Right) if owned
+            if (ownedCount > 0) {
+                Surface(
+                    modifier = Modifier.align(Alignment.End),
+                    shape = RoundedCornerShape(6.dp),
+                    color = MaterialTheme.colorScheme.tertiary,
+                    shadowElevation = 2.dp
+                ) {
+                    Text(
+                        text = "x$ownedCount",
+                        style = MaterialTheme.typography.labelSmall,
+                        fontSize = 10.sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.ExtraBold,
+                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp)
+                    )
+                }
+            } else {
+                Spacer(modifier = Modifier.height(1.dp))
             }
 
+            // Bottom: Card Name and Set
             Column {
                 Text(
                     text = card.name,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.labelSmall,
+                    fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    lineHeight = 13.sp
                 )
                 Text(
                     text = card.set,
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.8f),
+                    fontSize = 9.sp,
+                    color = MaterialTheme.colorScheme.secondary,
                     maxLines = 1
-                )
-            }
-        }
-
-        // Ownership Badge (Top-Right)
-        if (ownedCount > 0) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(6.dp)
-                    .size(22.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.tertiary),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = ownedCount.toString(),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = Color.Black,
-                    fontWeight = FontWeight.Bold
                 )
             }
         }
@@ -276,9 +333,9 @@ fun CardDetailsDialog(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .shadow(16.dp, RoundedCornerShape(20.dp))
-                .border(2.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.5f), RoundedCornerShape(20.dp)),
-            shape = RoundedCornerShape(20.dp),
+                .shadow(20.dp, RoundedCornerShape(22.dp))
+                .border(1.5.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.4f), RoundedCornerShape(22.dp)),
+            shape = RoundedCornerShape(22.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface
             )
@@ -304,53 +361,62 @@ fun CardDetailsDialog(
                         Text(
                             text = "Coleção: ${card.set}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.secondary
+                            color = MaterialTheme.colorScheme.secondary,
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
-                    
-                    IconButton(onClick = onDismiss) {
-                        Icon(Icons.Default.Close, contentDescription = "Fechar")
+
+                    IconButton(
+                        onClick = onDismiss,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.surfaceVariant)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Fechar",
+                            modifier = Modifier.size(18.dp)
+                        )
                     }
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Frame stats / Details representation
+                // Stats Chips Row
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    // Energy Cost Chip
                     StatChip(
                         label = "ENERGIA",
                         value = card.energyCost.toString(),
-                        color = Color(0xFF8C52FF)
+                        color = EnergyCostBadge
                     )
-                    
-                    // Power Cost Chip
+
                     StatChip(
                         label = "MIGHT",
                         value = card.power.toString(),
                         color = Color(0xFFFF5722)
                     )
 
-                    // Total Count owned
                     StatChip(
-                        label = "COPIAS",
+                        label = "POSSUÍDAS",
                         value = totalCount.toString(),
                         color = MaterialTheme.colorScheme.tertiary
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(14.dp))
 
-                // Card Art Representation
+                // Card Art Image
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(0.71f)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colorScheme.background),
+                        .background(MaterialTheme.colorScheme.background)
+                        .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f), RoundedCornerShape(12.dp)),
                     contentAlignment = Alignment.Center
                 ) {
                     AsyncImage(
@@ -361,92 +427,78 @@ fun CardDetailsDialog(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(14.dp))
 
-                // Text Description
-                Text(
-                    text = "Texto da Carta:",
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 6.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
-                ) {
-                    Text(
-                        text = card.text,
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontStyle = FontStyle.Italic,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.padding(12.dp)
-                    )
-                }
-
-                // Tags
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp)
-                ) {
-                    card.tags.forEach { tag ->
-                        Box(
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(4.dp))
-                                .background(MaterialTheme.colorScheme.surfaceVariant)
-                                .padding(horizontal = 8.dp, vertical = 2.dp)
-                        ) {
-                            Text(
-                                text = tag,
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
+                // Rules Text Box
+                if (card.text.isNotEmpty()) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+                        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                    ) {
+                        Text(
+                            text = card.text,
+                            style = MaterialTheme.typography.bodySmall,
+                            fontStyle = FontStyle.Italic,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.padding(10.dp),
+                            lineHeight = 16.sp
+                        )
                     }
+                    Spacer(modifier = Modifier.height(10.dp))
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Owned in collections list
+                // Presence in Collections
                 Text(
-                    text = "Presença nas Coleções:",
-                    style = MaterialTheme.typography.titleSmall,
+                    text = "Presença Física nas Coleções:",
+                    style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 if (occurrences.isEmpty()) {
                     Text(
-                        text = "Não registrado em nenhuma coleção.",
-                        style = MaterialTheme.typography.bodyMedium,
+                        text = "Não registrada em nenhuma coleção ainda.",
+                        style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 } else {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         occurrences.forEach { occ ->
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text(
-                                    text = "• ${occ.collectionName}",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Text(
-                                    text = "${occ.quantity} cópias",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.secondary
-                                )
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Icon(
+                                        imageVector = Icons.Default.Inventory2,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.size(14.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text(
+                                        text = occ.collectionName,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
+                                }
+                                Surface(
+                                    shape = RoundedCornerShape(6.dp),
+                                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.15f)
+                                ) {
+                                    Text(
+                                        text = "${occ.quantity} cópias",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.secondary,
+                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                    )
+                                }
                             }
                         }
                     }
@@ -463,19 +515,21 @@ fun StatChip(
     color: Color
 ) {
     Card(
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
-            containerColor = color.copy(alpha = 0.15f)
+            containerColor = color.copy(alpha = 0.12f)
         ),
-        modifier = Modifier.border(1.dp, color.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
+        border = BorderStroke(1.dp, color.copy(alpha = 0.35f)),
+        modifier = Modifier
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+            modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelSmall,
+                fontSize = 10.sp,
                 color = color,
                 fontWeight = FontWeight.Bold
             )
