@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -101,10 +102,20 @@ fun ScanScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Capturar Cartas TCG", fontWeight = FontWeight.Bold) },
+                title = {
+                    Column {
+                        Text("Capturar Cartas", fontWeight = FontWeight.Bold)
+                        Text(
+                            text = "Reconhecimento Óptico On-Device",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontSize = 11.sp,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -616,8 +627,44 @@ fun CardGuideFrame() {
             modifier = Modifier
                 .width(260.dp)
                 .height(370.dp)
-                .border(2.dp, Color.White.copy(alpha = 0.4f), RoundedCornerShape(16.dp))
-        )
+                .border(2.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.5f), RoundedCornerShape(16.dp))
+        ) {
+            // Corner Reticles for High-Tech Gaming Aesthetic
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp)
+            ) {
+                // Top-Left corner
+                Box(
+                    modifier = Modifier
+                        .size(16.dp)
+                        .align(Alignment.TopStart)
+                        .border(2.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(topStart = 4.dp))
+                )
+                // Top-Right corner
+                Box(
+                    modifier = Modifier
+                        .size(16.dp)
+                        .align(Alignment.TopEnd)
+                        .border(2.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(topEnd = 4.dp))
+                )
+                // Bottom-Left corner
+                Box(
+                    modifier = Modifier
+                        .size(16.dp)
+                        .align(Alignment.BottomStart)
+                        .border(2.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(bottomStart = 4.dp))
+                )
+                // Bottom-Right corner
+                Box(
+                    modifier = Modifier
+                        .size(16.dp)
+                        .align(Alignment.BottomEnd)
+                        .border(2.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(bottomEnd = 4.dp))
+                )
+            }
+        }
     }
 }
 
@@ -635,10 +682,10 @@ fun ConsoleLogsOverlay(scannerLogs: List<String>) {
             .fillMaxWidth()
             .height(180.dp)
             .padding(16.dp)
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(10.dp))
             .background(ConsoleBackground)
-            .border(1.dp, MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
-            .padding(8.dp)
+            .border(1.dp, MaterialTheme.colorScheme.secondary.copy(alpha = 0.35f), RoundedCornerShape(10.dp))
+            .padding(10.dp)
     ) {
         LazyColumn(
             state = listState,
@@ -653,6 +700,7 @@ fun ConsoleLogsOverlay(scannerLogs: List<String>) {
                     else if (log.contains("INICIANDO") || log.contains("FIM")) LogBoundary
                     else LogDefault,
                     style = MaterialTheme.typography.bodySmall,
+                    fontSize = 11.sp,
                     modifier = Modifier.padding(vertical = 1.dp)
                 )
             }
@@ -675,13 +723,33 @@ fun ScannedCardsShelf(
     }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = "Cartas na Sessão (${scannedCards.size})",
-            style = MaterialTheme.typography.bodySmall,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp, vertical = 2.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Cartas na Sessão",
+                style = MaterialTheme.typography.labelSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Surface(
+                shape = RoundedCornerShape(6.dp),
+                color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.15f)
+            ) {
+                Text(
+                    text = "${scannedCards.size} capturadas",
+                    style = MaterialTheme.typography.labelSmall,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.secondary,
+                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                )
+            }
+        }
         Spacer(modifier = Modifier.height(4.dp))
         LazyRow(
             state = listState,
@@ -695,8 +763,8 @@ fun ScannedCardsShelf(
                     modifier = Modifier
                         .width(60.dp)
                         .height(85.dp)
-                        .clip(RoundedCornerShape(6.dp))
-                        .border(1.dp, MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(6.dp))
+                        .clip(RoundedCornerShape(8.dp))
+                        .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(8.dp))
                         .clickable { onCardClick(originalIndex, card) }
                 ) {
                     AsyncImage(
@@ -705,6 +773,24 @@ fun ScannedCardsShelf(
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
                     )
+
+                    // Position badge on thumbnail (#N)
+                    Surface(
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .padding(3.dp),
+                        shape = RoundedCornerShape(4.dp),
+                        color = Color.Black.copy(alpha = 0.75f)
+                    ) {
+                        Text(
+                            text = "#${originalIndex + 1}",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontSize = 9.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(horizontal = 3.dp, vertical = 1.dp)
+                        )
+                    }
                 }
             }
         }

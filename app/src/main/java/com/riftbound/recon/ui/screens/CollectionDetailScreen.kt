@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -46,27 +48,22 @@ fun formatCardCollectorCode(card: Card): String {
         return rawCollector
     }
 
-    // 1. Crystal / Special Subcollection (e.g. sp1 -> SP1/006 in Vendetta)
     val spMatch = Regex("""^(?i)sp(\d+)$""").find(rawCollector)
     if (spMatch != null) {
         val num = spMatch.groupValues[1]
         return "SP$num/006"
     }
 
-    // 2. Runes (e.g. r01 -> R01, r04 -> R04)
     val rMatch = Regex("""^(?i)r(\d+)$""").find(rawCollector)
     if (rMatch != null) {
         return "R${rMatch.groupValues[1]}"
     }
 
-    // 3. Tokens (e.g. t01 -> T01, t01g -> T01G)
     val tMatch = Regex("""^(?i)t(.+)$""").find(rawCollector)
     if (tMatch != null) {
         return "T${tMatch.groupValues[1].uppercase()}"
     }
 
-    // 4. Main set numbered cards (pure digits or digits with suffix like 066a, or overnumbered 299*)
-    // Only cards starting with numeric digits belong to the main set numbering sequence.
     if (rawCollector.firstOrNull()?.isDigit() == true) {
         val mainTotals = mapOf(
             "OGN" to "298",
@@ -120,7 +117,7 @@ fun CollectionDetailScreen(
 ) {
     val collection by viewModel.selectedCollection.collectAsState()
     val cards by viewModel.selectedCollectionCards.collectAsState()
-    
+
     var searchQuery by remember { mutableStateOf("") }
     var selectedSortOption by remember { mutableStateOf(CollectionSortOption.SCAN_ORDER_ASC) }
     var sortMenuExpanded by remember { mutableStateOf(false) }
@@ -166,7 +163,22 @@ fun CollectionDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(coll.name, fontWeight = FontWeight.Bold) },
+                title = {
+                    Column {
+                        Text(
+                            text = coll.name,
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Text(
+                            text = "${cards.size} cartas indexadas",
+                            style = MaterialTheme.typography.labelSmall,
+                            fontSize = 11.sp,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
@@ -209,12 +221,21 @@ fun CollectionDetailScreen(
                 .padding(horizontal = 16.dp)
         ) {
             if (coll.description.isNotEmpty()) {
-                Text(
-                    text = coll.description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(bottom = 12.dp)
-                )
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)),
+                    border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                ) {
+                    Text(
+                        text = coll.description,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(12.dp)
+                    )
+                }
             }
 
             // Local Search Bar
@@ -225,12 +246,31 @@ fun CollectionDetailScreen(
                     .fillMaxWidth()
                     .padding(bottom = 12.dp),
                 placeholder = { Text("Procurar cartas nesta coleção...") },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                shape = RoundedCornerShape(12.dp),
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                },
+                trailingIcon = {
+                    if (searchQuery.isNotEmpty()) {
+                        IconButton(onClick = { searchQuery = "" }) {
+                            Icon(
+                                imageVector = Icons.Default.Clear,
+                                contentDescription = "Limpar busca",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                },
+                shape = RoundedCornerShape(14.dp),
                 singleLine = true,
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.surfaceVariant
+                    unfocusedBorderColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface
                 )
             )
 
@@ -242,18 +282,24 @@ fun CollectionDetailScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "${filteredCards.size} cartas",
-                    style = MaterialTheme.typography.titleSmall,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Surface(
+                    shape = RoundedCornerShape(8.dp),
+                    color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.12f)
+                ) {
+                    Text(
+                        text = "${filteredCards.size} cartas",
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.secondary,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                    )
+                }
 
                 // Sort Dropdown Button
                 Box {
                     Surface(
                         onClick = { sortMenuExpanded = true },
-                        shape = RoundedCornerShape(8.dp),
+                        shape = RoundedCornerShape(10.dp),
                         color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f),
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
                     ) {
@@ -262,16 +308,23 @@ fun CollectionDetailScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.Sort,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(16.dp)
+                            )
                             Text(
                                 text = "Ordenar: ${selectedSortOption.label}",
-                                style = MaterialTheme.typography.labelMedium,
-                                fontWeight = FontWeight.Medium,
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.SemiBold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Icon(
                                 imageVector = Icons.Default.ArrowDropDown,
                                 contentDescription = "Selecionar Ordenação",
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(18.dp)
                             )
                         }
                     }
@@ -316,7 +369,9 @@ fun CollectionDetailScreen(
 
             if (sortedCards.isEmpty()) {
                 Box(
-                    modifier = Modifier.weight(1f).fillMaxWidth(),
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -330,8 +385,9 @@ fun CollectionDetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 40.dp),
-                    shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
-                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.8f)
+                    shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
+                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.8f),
+                    border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f))
                 ) {
                     Row(
                         modifier = Modifier
@@ -342,7 +398,7 @@ fun CollectionDetailScreen(
                     ) {
                         Text(
                             text = "Posição",
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.width(56.dp)
@@ -350,7 +406,7 @@ fun CollectionDetailScreen(
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = "Carta",
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.width(42.dp)
@@ -358,7 +414,7 @@ fun CollectionDetailScreen(
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
                             text = "Nome",
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1.2f)
@@ -366,7 +422,7 @@ fun CollectionDetailScreen(
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = "Coleção / Cód.",
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.End,
@@ -410,7 +466,7 @@ fun CollectionDetailScreen(
 
         AlertDialog(
             onDismissRequest = { showEditDialog = false },
-            title = { Text("Editar Informações") },
+            title = { Text("Editar Informações", fontWeight = FontWeight.Bold) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     OutlinedTextField(
@@ -418,6 +474,7 @@ fun CollectionDetailScreen(
                         onValueChange = { editName = it },
                         label = { Text("Título da Coleção") },
                         singleLine = true,
+                        shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.fillMaxWidth()
                     )
                     OutlinedTextField(
@@ -425,6 +482,7 @@ fun CollectionDetailScreen(
                         onValueChange = { editDesc = it },
                         label = { Text("Descrição (Opcional)") },
                         modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp),
                         maxLines = 3
                     )
                 }
@@ -436,7 +494,8 @@ fun CollectionDetailScreen(
                             viewModel.updateCollectionDetails(coll.id, editName, editDesc)
                             showEditDialog = false
                         }
-                    }
+                    },
+                    shape = RoundedCornerShape(10.dp)
                 ) {
                     Text("Salvar")
                 }
@@ -453,7 +512,7 @@ fun CollectionDetailScreen(
     if (showDeleteConfirmDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteConfirmDialog = false },
-            title = { Text("Excluir Coleção") },
+            title = { Text("Excluir Coleção", fontWeight = FontWeight.Bold) },
             text = { Text("Tem certeza que deseja excluir esta coleção? Esta ação não pode ser desfeita.") },
             confirmButton = {
                 Button(
@@ -462,6 +521,7 @@ fun CollectionDetailScreen(
                         showDeleteConfirmDialog = false
                         navController.popBackStack()
                     },
+                    shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                 ) {
                     Text("Excluir", color = Color.White)
@@ -483,7 +543,7 @@ fun CollectionCardRow(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.45f)
         ),
@@ -496,11 +556,11 @@ fun CollectionCardRow(
                 .padding(horizontal = 12.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Position number as "#1" in bold
+            // Position number as "#1" in bold purple
             Text(
                 text = "#${item.scanOrder}",
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.ExtraBold,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.width(56.dp)
             )
@@ -562,9 +622,10 @@ fun CollectionCardPreviewDialog(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp)
-                .shadow(16.dp, RoundedCornerShape(20.dp)),
-            shape = RoundedCornerShape(20.dp),
+                .padding(horizontal = 4.dp)
+                .shadow(20.dp, RoundedCornerShape(22.dp))
+                .border(1.5.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.4f), RoundedCornerShape(22.dp)),
+            shape = RoundedCornerShape(22.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface
             )
@@ -582,21 +643,23 @@ fun CollectionCardPreviewDialog(
                     color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center
                 )
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = "Coleção: ${formatCardSetAndCode(card)}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.secondary
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontWeight = FontWeight.SemiBold
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(0.9f)
+                        .fillMaxWidth(0.92f)
                         .aspectRatio(0.71f)
                         .clip(RoundedCornerShape(12.dp))
                         .background(MaterialTheme.colorScheme.background)
-                        .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(12.dp)),
+                        .border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f), RoundedCornerShape(12.dp)),
                     contentAlignment = Alignment.Center
                 ) {
                     AsyncImage(
@@ -611,9 +674,10 @@ fun CollectionCardPreviewDialog(
 
                 Button(
                     onClick = onDismiss,
+                    shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Fechar")
+                    Text("Fechar", fontWeight = FontWeight.Bold)
                 }
             }
         }
