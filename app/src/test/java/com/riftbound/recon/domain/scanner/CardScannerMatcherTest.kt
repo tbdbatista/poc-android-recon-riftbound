@@ -104,4 +104,13 @@ class CardScannerMatcherTest {
         assertNotNull("Should match Ahri via Chinese base name", matchedAhri)
         assertEquals("Ahri, Inquisitive", matchedAhri?.name)
     }
+
+    @Test
+    fun `getBaseName and getBaseNameZh handle compound titles and parentheses safely`() {
+        assertEquals("提莫", CardScannerMatcher.getBaseNameZh("提莫 - 迅捷斥候 (GG EZ)"))
+        assertEquals("德莱厄斯", CardScannerMatcher.getBaseNameZh("德莱厄斯 - 崔法利之首 (异画)"))
+        assertEquals("阿莱", CardScannerMatcher.getBaseNameZh("阿莱 · 热心仰慕者"))
+        assertEquals("Teemo", CardScannerMatcher.getBaseName("Teemo - Scout (GG EZ)"))
+        assertEquals("Darius", CardScannerMatcher.getBaseName("Darius - Trifarian (Alternate Art)"))
+    }
 }

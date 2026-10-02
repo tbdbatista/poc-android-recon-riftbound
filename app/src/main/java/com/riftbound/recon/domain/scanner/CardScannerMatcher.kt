@@ -56,28 +56,29 @@ object CardScannerMatcher {
     }
 
     fun getBaseName(name: String): String {
-        val commaIndex = name.indexOf(",")
-        val parenIndex = name.indexOf("(")
-        var base = name
-        if (commaIndex != -1 && (parenIndex == -1 || commaIndex < parenIndex)) {
-            base = name.substring(0, commaIndex)
-        } else if (parenIndex != -1) {
-            base = name.substring(0, parenIndex)
+        val delimiters = listOf(",", " - ", "(")
+        val minIndex = delimiters.map { name.indexOf(it) }
+            .filter { it >= 0 }
+            .minOrNull()
+
+        return if (minIndex != null && minIndex >= 0 && minIndex <= name.length) {
+            name.substring(0, minIndex).trim()
+        } else {
+            name.trim()
         }
-        return base.trim()
     }
 
     fun getBaseNameZh(nameZh: String): String {
-        val dashIndex = nameZh.indexOf(" - ")
-        val dotIndex = nameZh.indexOf(" · ")
-        val parenIndex = nameZh.indexOf("(")
-        val zhParenIndex = nameZh.indexOf("（")
-        var base = nameZh
-        if (dashIndex != -1) base = base.substring(0, dashIndex)
-        if (dotIndex != -1) base = base.substring(0, dotIndex)
-        if (parenIndex != -1) base = base.substring(0, parenIndex)
-        if (zhParenIndex != -1) base = base.substring(0, zhParenIndex)
-        return base.trim()
+        val delimiters = listOf(" - ", " · ", "(", "（")
+        val minIndex = delimiters.map { nameZh.indexOf(it) }
+            .filter { it >= 0 }
+            .minOrNull()
+
+        return if (minIndex != null && minIndex >= 0 && minIndex <= nameZh.length) {
+            nameZh.substring(0, minIndex).trim()
+        } else {
+            nameZh.trim()
+        }
     }
 
     fun matchCard(ocrLines: List<OcrLine>, cards: List<Card>): Card? {
