@@ -13,6 +13,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import com.riftbound.recon.data.local.AppPreferences
+import com.riftbound.recon.data.local.ThemeMode
+import com.riftbound.recon.ui.util.AppIconHelper
 import javax.inject.Inject
 
 @HiltViewModel
@@ -339,6 +341,31 @@ class MainViewModel @Inject constructor(
 
     fun setSkipDeleteConfirmation(skip: Boolean) {
         appPreferences.skipDeleteCardConfirmation = skip
+    }
+
+    // --- THEME & PREFERENCES STATE ---
+    private val _themeMode = MutableStateFlow(
+        try {
+            ThemeMode.valueOf(appPreferences.themeMode)
+        } catch (e: Exception) {
+            ThemeMode.DARK
+        }
+    )
+    val themeMode: StateFlow<ThemeMode> = _themeMode.asStateFlow()
+
+    fun setThemeMode(mode: ThemeMode, context: android.content.Context) {
+        _themeMode.value = mode
+        appPreferences.themeMode = mode.name
+
+        val isDark = when (mode) {
+            ThemeMode.DARK -> true
+            ThemeMode.LIGHT -> false
+            ThemeMode.SYSTEM -> {
+                val uiMode = context.resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+                uiMode == android.content.res.Configuration.UI_MODE_NIGHT_YES
+            }
+        }
+        AppIconHelper.syncIconWithTheme(context, isDark)
     }
 
     fun clearScanningSession() {
