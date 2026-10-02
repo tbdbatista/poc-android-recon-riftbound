@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
 ### Added
+- Dedicated Settings Screen (`SettingsScreen.kt`) featuring:
+  - Theme mode selection (Dark Mode, Light Mode, and System Default) with real-time application theme updates.
+  - Automatic synchronization of the device home screen launcher icon (`AppIconHelper.syncIconWithTheme`) based on active theme mode (Dark icon for Dark theme, Light icon for Light theme).
+  - Preference toggle for skipping deletion confirmation dialogs during card scanning and collection management.
+  - Application and TCC research metadata section.
+- Settings gear button in `CollectionsScreen.kt` header replacing legacy palette button.
+- `ThemeMode` enum and preference persistence in `AppPreferences.kt` and `MainViewModel.kt`.
 - Real-time visual and tactile feedback for optical scanning in `ScanScreen.kt`:
   - Floating status feedback banner (`ScanFeedbackBanner`) powered by `AnimatedContent`, sliding down with a fresh transition on every card scan (including rapid consecutive scans).
   - High-contrast visual cards displaying card thumbnail, name, set, and code on successful match, or helpful alignment guidance on failure.
@@ -18,10 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `ScanFeedback` sealed class state flow in `MainViewModel`.
 - Animated Splash Screen (`SplashScreen.kt`) featuring the "Arcane Aperture" motif with rotating rune ring, expanding camera shutter blades, and teal optical laser sweep ray, adapting to both Dark and Light system themes.
 - Adaptive vector app launcher icons for both Dark Theme (`ic_launcher` - Obsidian & Arcane Neon) and Light Theme (`ic_launcher_light` - Ice-White & Royal Purple) with Android 13+ monochrome themed icon support.
-- Dynamic app icon selector dialog accessible from the Collections screen header, powered by `AppIconHelper` and `activity-alias` component switching in `AndroidManifest.xml`.
-- App icon style preference persistence in `AppPreferences`.
 
 ### Removed
+- Removed manual app icon customization dialog and palette button from `CollectionsScreen.kt`, now fully replaced by automated theme-based icon synchronization in Settings.
 - Removed the rigid card alignment guide frame (`CardGuideFrame`) from the camera viewfinder, enabling a 100% clean, unobstructed full-screen viewfinder experience.
 - Removed the debug console / text logs terminal overlay from the camera viewfinder in `ScanScreen.kt`.
 - Removed unused cooldown / delay timestamps (`lastScannedTime` and `lastScannedCardId`) from `MainViewModel`.

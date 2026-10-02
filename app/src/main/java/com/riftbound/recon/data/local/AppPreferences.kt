@@ -6,6 +6,12 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
+enum class ThemeMode(val title: String, val description: String) {
+    DARK("Modo Escuro", "Aparência Obsidian & Glow Arcane"),
+    LIGHT("Modo Claro", "Aparência Ice-White & Royal Purple"),
+    SYSTEM("Padrão do Sistema", "Acompanha o tema configurado no dispositivo")
+}
+
 @Singleton
 class AppPreferences(
     private val prefsProvider: () -> SharedPreferences
@@ -19,6 +25,10 @@ class AppPreferences(
         get() = prefsProvider().getBoolean(KEY_SKIP_DELETE_CARD_CONFIRMATION, false)
         set(value) = prefsProvider().edit().putBoolean(KEY_SKIP_DELETE_CARD_CONFIRMATION, value).apply()
 
+    var themeMode: String
+        get() = prefsProvider().getString(KEY_THEME_MODE, ThemeMode.DARK.name) ?: ThemeMode.DARK.name
+        set(value) = prefsProvider().edit().putString(KEY_THEME_MODE, value).apply()
+
     var appIconStyle: String
         get() = prefsProvider().getString(KEY_APP_ICON_STYLE, "DARK") ?: "DARK"
         set(value) = prefsProvider().edit().putString(KEY_APP_ICON_STYLE, value).apply()
@@ -26,6 +36,8 @@ class AppPreferences(
     companion object {
         private const val PREFS_NAME = "recon_preferences"
         const val KEY_SKIP_DELETE_CARD_CONFIRMATION = "skip_delete_card_confirmation"
+        const val KEY_THEME_MODE = "theme_mode"
         const val KEY_APP_ICON_STYLE = "app_icon_style"
     }
 }
+

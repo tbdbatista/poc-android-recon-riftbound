@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,8 +13,10 @@ import androidx.compose.material.icons.filled.AutoStories
 import androidx.compose.material.icons.filled.CenterFocusStrong
 import androidx.compose.material.icons.filled.CollectionsBookmark
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +33,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.riftbound.recon.data.local.ThemeMode
 import com.riftbound.recon.ui.screens.*
 import com.riftbound.recon.ui.theme.DarkOutlineVariant
 import com.riftbound.recon.ui.theme.RiftboundTheme
@@ -40,12 +44,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            RiftboundTheme {
+            val viewModel: MainViewModel = hiltViewModel()
+            val themeMode by viewModel.themeMode.collectAsState()
+            val systemDark = isSystemInDarkTheme()
+            val isDark = when (themeMode) {
+                ThemeMode.DARK -> true
+                ThemeMode.LIGHT -> false
+                ThemeMode.SYSTEM -> systemDark
+            }
+
+            RiftboundTheme(darkTheme = isDark) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RiftboundAppScreen()
+                    RiftboundAppScreen(viewModel = viewModel)
                 }
             }
         }
@@ -57,12 +70,14 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
     object Scan : Screen("scan", "Capturar", Icons.Default.CenterFocusStrong)
     object Search : Screen("search", "Buscar", Icons.Default.Search)
     object Compendium : Screen("compendium", "Compêndio", Icons.Default.AutoStories)
+    object Settings : Screen("settings", "Configurações", Icons.Default.Settings)
 }
 
 @Composable
-fun RiftboundAppScreen() {
+fun RiftboundAppScreen(
+    viewModel: MainViewModel = hiltViewModel()
+) {
     val navController = rememberNavController()
-    val viewModel: MainViewModel = hiltViewModel()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -160,6 +175,10 @@ fun RiftboundAppScreen() {
                 val collectionId = backStackEntry.arguments?.getLong("collectionId") ?: 0L
                 CollectionDetailScreen(collectionId, navController, viewModel)
             }
+            composable("settings") {
+                SettingsScreen(navController, viewModel)
+            }
         }
     }
 }
+
