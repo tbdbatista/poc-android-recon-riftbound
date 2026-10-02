@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.5.2] - 2026-10-01
+### Fixed
+- Fixed duplicated Vendetta (`VEN`) cards in Compendium and `all_cards.json` by removing 131 duplicate legacy entries and ensuring all 227 unique collector numbers are correctly represented, resolving Issue #32.
+
+---
+
 ## [0.5.1] - 2026-10-01
 ### Fixed
 - Fixed missing card artwork/mockups on clean app installs by updating `all_cards.json` `imageUrl` references from `.png` to `.webp` format, resolving Issue #28.
