@@ -91,7 +91,34 @@ object CardScannerMatcher {
             if (match != null) {
                 val setCode = match.groupValues[1].uppercase()
                 val collectorNumStr = match.groupValues[2].lowercase()
-                val card = cards.find { it.setCode.equals(setCode, ignoreCase = true) && it.collectorNumber.lowercase() == collectorNumStr }
+                val card = cards.find {
+                    it.setCode.equals(setCode, ignoreCase = true) &&
+                    (it.collectorNumber.lowercase() == collectorNumStr || it.collectorNumber.lowercase().trimStart('0') == collectorNumStr.trimStart('0'))
+                }
+                if (card != null) {
+                    return card
+                }
+            }
+        }
+
+        // 1.1 Collector Number Fraction Matching (e.g. 204/298, 021/227 even if set code is covered)
+        val fractionRegex = Regex("""\b([a-zA-Z]{0,2}\d{1,4})/(\d{2,3})\b""")
+        val setDenominators = mapOf(
+            "298" to "OGN",
+            "227" to "VEN",
+            "250" to "SFD",
+            "220" to "UNL"
+        )
+        for (line in ocrLines) {
+            val match = fractionRegex.find(line.text)
+            if (match != null) {
+                val numStr = match.groupValues[1].lowercase()
+                val denomStr = match.groupValues[2]
+                val inferredSet = setDenominators[denomStr]
+                val card = cards.find {
+                    (inferredSet == null || it.setCode.equals(inferredSet, ignoreCase = true)) &&
+                    (it.collectorNumber.lowercase() == numStr || it.collectorNumber.lowercase().trimStart('0') == numStr.trimStart('0'))
+                }
                 if (card != null) {
                     return card
                 }
