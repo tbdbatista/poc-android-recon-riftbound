@@ -98,8 +98,7 @@ object CardScannerMatcher {
             }
         }
 
-        // 2. Identify Energy Cost Candidate from Top-Left Quadrant
-        // Find coordinate bounds of the detected text frame
+        // 2. Identify Energy Cost Candidate from Top-Left Quadrant (for disambiguating variants)
         val minTop = ocrLines.minOf { it.top }
         val maxBottom = ocrLines.maxOf { it.bottom }
         val minLeft = ocrLines.minOf { it.left }
@@ -108,93 +107,98 @@ object CardScannerMatcher {
         val totalHeight = maxBottom - minTop
         val totalWidth = maxRight - minLeft
         
-        // Energy cost is located at the top-left of the card:
-        // Top 35% vertically, Left 40% horizontally
         val topLimit = minTop + (totalHeight * 0.35).toInt()
         val leftLimit = minLeft + (totalWidth * 0.40).toInt()
         
         var detectedEnergyCost: Int? = null
-        val numberRegex = Regex("""\b([1-9]|10)\b""")
+        val numberRegex = Regex("""\b([0-9]|10)\b""")
         
         for (line in ocrLines) {
             if (line.top <= topLimit && line.left <= leftLimit) {
                 val match = numberRegex.find(line.text.trim())
                 if (match != null) {
                     detectedEnergyCost = match.groupValues[1].toIntOrNull()
-                    break // Capture first match in quadrant
+                    break
                 }
             }
         }
 
+        // Sort OCR lines by vertical position (top-to-bottom) so titles near the top are prioritized
+        val sortedLines = ocrLines.sortedBy { it.top }
+
         // 3. Chinese Name Matching (if OCR line contains CJK characters)
-        for (line in ocrLines) {
+        for (line in sortedLines) {
             if (cjkRegex.containsMatchIn(line.text)) {
                 val normalizedLineZh = normalizeZh(line.text)
                 if (normalizedLineZh.length < 2) continue
 
+                // 3.1 Exact Full Chinese Name Match (instant match)
                 for (card in cards) {
                     val cardZh = card.nameZh ?: continue
                     val normalizedFullZh = normalizeZh(cardZh)
-                    val normalizedBaseZh = normalizeZh(getBaseNameZh(cardZh))
-
-                    var isMatched = false
-                    if (normalizedFullZh.isNotEmpty() && (normalizedLineZh == normalizedFullZh || normalizedLineZh.contains(normalizedFullZh))) {
-                        isMatched = true
-                    } else if (normalizedBaseZh.length >= 2 && (normalizedLineZh == normalizedBaseZh || normalizedLineZh.contains(normalizedBaseZh))) {
-                        isMatched = true
-                    } else if (normalizedLineZh.length >= 2 && normalizedBaseZh.contains(normalizedLineZh)) {
-                        isMatched = true
-                    }
-
-                    if (isMatched) {
-                        if (detectedEnergyCost != null && card.energyCost != detectedEnergyCost) {
-                            continue
-                        }
+                    if (normalizedFullZh.isNotEmpty() && (normalizedLineZh == normalizedFullZh || (normalizedFullZh.length >= 2 && normalizedLineZh.contains(normalizedFullZh)))) {
                         return card
                     }
+                }
+
+                // 3.2 Base Chinese Name Match (with energy cost disambiguation if multiple candidates)
+                val candidatesZh = mutableListOf<Card>()
+                for (card in cards) {
+                    val cardZh = card.nameZh ?: continue
+                    val normalizedBaseZh = normalizeZh(getBaseNameZh(cardZh))
+                    if (normalizedBaseZh.length >= 2 && (normalizedLineZh == normalizedBaseZh || normalizedLineZh.contains(normalizedBaseZh) || normalizedBaseZh.contains(normalizedLineZh))) {
+                        candidatesZh.add(card)
+                    }
+                }
+
+                if (candidatesZh.isNotEmpty()) {
+                    if (candidatesZh.size == 1) {
+                        return candidatesZh.first()
+                    }
+                    if (detectedEnergyCost != null) {
+                        val energyMatched = candidatesZh.find { it.energyCost == detectedEnergyCost }
+                        if (energyMatched != null) return energyMatched
+                    }
+                    return candidatesZh.first()
                 }
             }
         }
 
-        // 4. Token-Based English Name Matching (Fuzzy and Substring with Base-Name extraction)
-        for (card in cards) {
-            val baseName = getBaseName(card.name)
-            val normalizedBaseName = normalize(baseName)
-            if (normalizedBaseName.length < 3) continue
+        // 4. Token-Based English Name Matching
+        for (line in sortedLines) {
+            val normalizedLine = normalize(line.text)
+            if (normalizedLine.length < 3 || isBlacklisted(normalizedLine)) continue
 
-            for (line in ocrLines) {
-                val normalizedLine = normalize(line.text)
-                
-                // Exclude common card rules vocabulary
-                if (isBlacklisted(normalizedLine)) continue
-                
-                var isNameMatched = false
-                
-                // Exact normalized match
-                if (normalizedLine == normalizedBaseName) {
-                    isNameMatched = true
-                }
-                
-                // Substring match with word protection (avoid matching short words like "Lux" inside larger words)
-                if (!isNameMatched && normalizedBaseName.length >= 4) {
-                    // Only match if the OCR line contains the full card title (not vice versa to avoid false positive rules matches)
-                    if (normalizedLine.contains(normalizedBaseName)) {
-                        isNameMatched = true
-                    }
-                }
-                
-                // Fuzzy edit-distance similarity match
-                if (!isNameMatched && getSimilarity(normalizedLine, normalizedBaseName) > 0.88) {
-                    isNameMatched = true
-                }
-                
-                if (isNameMatched) {
-                    // Validation Stage: If energy cost was found in the top-left quadrant, it must match!
-                    if (detectedEnergyCost != null && card.energyCost != detectedEnergyCost) {
-                        continue // Reject this card match
-                    }
+            // 4.1 Exact Full English Name Match (instant match)
+            for (card in cards) {
+                val normalizedFullName = normalize(card.name)
+                if (normalizedFullName.length >= 3 && (normalizedLine == normalizedFullName || (normalizedFullName.length >= 4 && normalizedLine.contains(normalizedFullName)))) {
                     return card
                 }
+            }
+
+            // 4.2 Base English Name Match (with energy cost disambiguation if multiple candidates)
+            val candidatesEn = mutableListOf<Card>()
+            for (card in cards) {
+                val normalizedBase = normalize(getBaseName(card.name))
+                if (normalizedBase.length >= 3) {
+                    if (normalizedLine == normalizedBase || (normalizedBase.length >= 4 && normalizedLine.contains(normalizedBase))) {
+                        candidatesEn.add(card)
+                    } else if (getSimilarity(normalizedLine, normalizedBase) > 0.88) {
+                        candidatesEn.add(card)
+                    }
+                }
+            }
+
+            if (candidatesEn.isNotEmpty()) {
+                if (candidatesEn.size == 1) {
+                    return candidatesEn.first()
+                }
+                if (detectedEnergyCost != null) {
+                    val energyMatched = candidatesEn.find { it.energyCost == detectedEnergyCost }
+                    if (energyMatched != null) return energyMatched
+                }
+                return candidatesEn.first()
             }
         }
         return null

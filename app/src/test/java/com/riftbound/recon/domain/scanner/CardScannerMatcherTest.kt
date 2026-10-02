@@ -58,6 +58,32 @@ class CardScannerMatcherTest {
             tags = listOf("Landmark"),
             text = "",
             imageUrl = ""
+        ),
+        Card(
+            id = 5,
+            name = "Seal of Discord",
+            nameZh = "不和封印",
+            set = "OGN",
+            setCode = "OGN",
+            collectorNumber = "204",
+            energyCost = 0,
+            power = 0,
+            tags = listOf("Rune"),
+            text = "",
+            imageUrl = ""
+        ),
+        Card(
+            id = 6,
+            name = "Flash",
+            nameZh = "闪现",
+            set = "OGS",
+            setCode = "OGS",
+            collectorNumber = "011",
+            energyCost = 2,
+            power = 0,
+            tags = listOf("Spell"),
+            text = "",
+            imageUrl = ""
         )
     )
 
@@ -112,5 +138,41 @@ class CardScannerMatcherTest {
         assertEquals("阿莱", CardScannerMatcher.getBaseNameZh("阿莱 · 热心仰慕者"))
         assertEquals("Teemo", CardScannerMatcher.getBaseName("Teemo - Scout (GG EZ)"))
         assertEquals("Darius", CardScannerMatcher.getBaseName("Darius - Trifarian (Alternate Art)"))
+    }
+
+    @Test
+    fun `matchCard recognizes Seal of Discord and Flash when footer is covered and stray digits present`() {
+        // Seal of Discord (EN) with footer covered and top-left quadrant digit '1' from card artwork
+        val ocrSealEn = listOf(
+            OcrLine("1", 20, 20, 40, 40),
+            OcrLine("Seal of Discord", 50, 50, 200, 70)
+        )
+        val matchedSealEn = CardScannerMatcher.matchCard(ocrSealEn, sampleCards)
+        assertNotNull("Should match Seal of Discord even with stray top-left number", matchedSealEn)
+        assertEquals("Seal of Discord", matchedSealEn?.name)
+
+        // Seal of Discord (ZH: 不和封印) with footer covered
+        val ocrSealZh = listOf(
+            OcrLine("不和封印", 50, 50, 200, 70)
+        )
+        val matchedSealZh = CardScannerMatcher.matchCard(ocrSealZh, sampleCards)
+        assertNotNull("Should match 不和封印 (Seal of Discord)", matchedSealZh)
+        assertEquals("Seal of Discord", matchedSealZh?.name)
+
+        // Flash (EN) with footer covered
+        val ocrFlashEn = listOf(
+            OcrLine("Flash", 50, 50, 150, 70)
+        )
+        val matchedFlashEn = CardScannerMatcher.matchCard(ocrFlashEn, sampleCards)
+        assertNotNull("Should match Flash", matchedFlashEn)
+        assertEquals("Flash", matchedFlashEn?.name)
+
+        // Flash (ZH: 闪现) with footer covered
+        val ocrFlashZh = listOf(
+            OcrLine("闪现", 50, 50, 150, 70)
+        )
+        val matchedFlashZh = CardScannerMatcher.matchCard(ocrFlashZh, sampleCards)
+        assertNotNull("Should match 闪现 (Flash)", matchedFlashZh)
+        assertEquals("Flash", matchedFlashZh?.name)
     }
 }
