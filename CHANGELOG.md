@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adaptive vector app launcher icons for both Dark Theme (`ic_launcher` - Obsidian & Arcane Neon) and Light Theme (`ic_launcher_light` - Ice-White & Royal Purple) with Android 13+ monochrome themed icon support.
 - Dynamic app icon selector dialog accessible from the Collections screen header, powered by `AppIconHelper` and `activity-alias` component switching in `AndroidManifest.xml`.
 - App icon style preference persistence in `AppPreferences`.
+- Documented Production Bugfix (Hotfix) workflow, branching rules from `main`, PATCH bump standards, and merge-back synchronization in `AGENTS.md`.
 
 ---
 
