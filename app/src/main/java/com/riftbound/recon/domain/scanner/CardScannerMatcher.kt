@@ -5,10 +5,16 @@ import com.riftbound.recon.domain.model.Card
 
 object CardScannerMatcher {
 
+    private val cjkRegex = Regex("""[\u4e00-\u9fff]""")
+
     fun normalize(s: String): String {
         return s.lowercase()
             .replace(Regex("[^a-z0-9 ]"), "")
             .trim()
+    }
+
+    fun normalizeZh(s: String): String {
+        return s.replace(Regex("""[^\u4e00-\u9fffa-zA-Z0-9]"""), "").trim()
     }
 
     fun getSimilarity(s1: String, s2: String): Double {
@@ -61,10 +67,23 @@ object CardScannerMatcher {
         return base.trim()
     }
 
+    fun getBaseNameZh(nameZh: String): String {
+        val dashIndex = nameZh.indexOf(" - ")
+        val dotIndex = nameZh.indexOf(" · ")
+        val parenIndex = nameZh.indexOf("(")
+        val zhParenIndex = nameZh.indexOf("（")
+        var base = nameZh
+        if (dashIndex != -1) base = base.substring(0, dashIndex)
+        if (dotIndex != -1) base = base.substring(0, dotIndex)
+        if (parenIndex != -1) base = base.substring(0, parenIndex)
+        if (zhParenIndex != -1) base = base.substring(0, zhParenIndex)
+        return base.trim()
+    }
+
     fun matchCard(ocrLines: List<OcrLine>, cards: List<Card>): Card? {
         if (ocrLines.isEmpty()) return null
 
-        // 1. Precise Set Code + Collector Number Regex Match (100% accurate)
+        // 1. Precise Set Code + Collector Number Regex Match (100% accurate across EN & ZH prints)
         val codeRegex = Regex("""\b(OGN|SFD|UNL|OGS|OPP|JDG|PR|VEN)\b[^\d]*?\b([a-z]{0,2}[0-9]{1,4}[a-z]?)\b""", RegexOption.IGNORE_CASE)
         for (line in ocrLines) {
             val match = codeRegex.find(line.text)
@@ -106,7 +125,37 @@ object CardScannerMatcher {
             }
         }
 
-        // 3. Token-Based Name Matching (Fuzzy and Substring with Base-Name extraction)
+        // 3. Chinese Name Matching (if OCR line contains CJK characters)
+        for (line in ocrLines) {
+            if (cjkRegex.containsMatchIn(line.text)) {
+                val normalizedLineZh = normalizeZh(line.text)
+                if (normalizedLineZh.length < 2) continue
+
+                for (card in cards) {
+                    val cardZh = card.nameZh ?: continue
+                    val normalizedFullZh = normalizeZh(cardZh)
+                    val normalizedBaseZh = normalizeZh(getBaseNameZh(cardZh))
+
+                    var isMatched = false
+                    if (normalizedFullZh.isNotEmpty() && (normalizedLineZh == normalizedFullZh || normalizedLineZh.contains(normalizedFullZh))) {
+                        isMatched = true
+                    } else if (normalizedBaseZh.length >= 2 && (normalizedLineZh == normalizedBaseZh || normalizedLineZh.contains(normalizedBaseZh))) {
+                        isMatched = true
+                    } else if (normalizedLineZh.length >= 2 && normalizedBaseZh.contains(normalizedLineZh)) {
+                        isMatched = true
+                    }
+
+                    if (isMatched) {
+                        if (detectedEnergyCost != null && card.energyCost != detectedEnergyCost) {
+                            continue
+                        }
+                        return card
+                    }
+                }
+            }
+        }
+
+        // 4. Token-Based English Name Matching (Fuzzy and Substring with Base-Name extraction)
         for (card in cards) {
             val baseName = getBaseName(card.name)
             val normalizedBaseName = normalize(baseName)

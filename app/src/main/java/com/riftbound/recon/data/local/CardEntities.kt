@@ -9,7 +9,8 @@ import androidx.room.Index
 data class CardEntity(
     @PrimaryKey val id: Int,
     val name: String,
-    val cardSet: String, // Origins, Proving Grounds, Spiritforged, Unleashed
+    val nameZh: String = "",
+    val cardSet: String, // Origins, Proving Grounds, Spiritforged, Unleashed, Vendetta
     val setCode: String,
     val collectorNumber: String,
     val energyCost: Int,

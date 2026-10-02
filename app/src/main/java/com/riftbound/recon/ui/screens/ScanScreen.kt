@@ -45,7 +45,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.google.mlkit.vision.text.chinese.ChineseTextRecognizerOptions
 import com.riftbound.recon.data.scanner.OcrLine
 import com.riftbound.recon.domain.model.Card
 import com.riftbound.recon.ui.MainViewModel
@@ -108,7 +108,7 @@ fun ScanScreen(
     // Set up ImageCapture
     val imageCapture = remember { ImageCapture.Builder().build() }
     val cameraExecutor = remember { ContextCompat.getMainExecutor(context) }
-    val recognizer = remember { TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS) }
+    val recognizer = remember { TextRecognition.getClient(ChineseTextRecognizerOptions.Builder().build()) }
 
     Scaffold(
         topBar = {

@@ -36,12 +36,26 @@ class CardScannerMatcherTest {
         Card(
             id = 3,
             name = "Ahri, Inquisitive",
+            nameZh = "阿狸 - 好奇探求者",
             set = "VEN",
             setCode = "VEN",
             collectorNumber = "sp3",
             energyCost = 3,
             power = 3,
             tags = listOf("Unit"),
+            text = "",
+            imageUrl = ""
+        ),
+        Card(
+            id = 4,
+            name = "Trifarian War Camp",
+            nameZh = "崔法利军营",
+            set = "OGN",
+            setCode = "OGN",
+            collectorNumber = "045",
+            energyCost = 2,
+            power = 0,
+            tags = listOf("Landmark"),
             text = "",
             imageUrl = ""
         )
@@ -69,5 +83,25 @@ class CardScannerMatcherTest {
         val matchedSpecial = CardScannerMatcher.matchCard(ocrSpecial, sampleCards)
         assertNotNull("Should match Ahri special", matchedSpecial)
         assertEquals("Ahri, Inquisitive", matchedSpecial?.name)
+    }
+
+    @Test
+    fun `matchCard recognizes Chinese card names by Chinese text`() {
+        // Test matching full Chinese card title
+        val ocrFullZh = listOf(
+            OcrLine("崔法利军营", 50, 50, 200, 70)
+        )
+        val matchedWarCamp = CardScannerMatcher.matchCard(ocrFullZh, sampleCards)
+        assertNotNull("Should match Trifarian War Camp via Chinese title", matchedWarCamp)
+        assertEquals("Trifarian War Camp", matchedWarCamp?.name)
+        assertEquals("崔法利军营", matchedWarCamp?.nameZh)
+
+        // Test matching Champion base Chinese name
+        val ocrChampionZh = listOf(
+            OcrLine("阿狸", 50, 50, 150, 70)
+        )
+        val matchedAhri = CardScannerMatcher.matchCard(ocrChampionZh, sampleCards)
+        assertNotNull("Should match Ahri via Chinese base name", matchedAhri)
+        assertEquals("Ahri, Inquisitive", matchedAhri?.name)
     }
 }
