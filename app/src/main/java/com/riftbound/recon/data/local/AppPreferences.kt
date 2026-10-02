@@ -19,8 +19,13 @@ class AppPreferences(
         get() = prefsProvider().getBoolean(KEY_SKIP_DELETE_CARD_CONFIRMATION, false)
         set(value) = prefsProvider().edit().putBoolean(KEY_SKIP_DELETE_CARD_CONFIRMATION, value).apply()
 
+    var appIconStyle: String
+        get() = prefsProvider().getString(KEY_APP_ICON_STYLE, "DARK") ?: "DARK"
+        set(value) = prefsProvider().edit().putString(KEY_APP_ICON_STYLE, value).apply()
+
     companion object {
         private const val PREFS_NAME = "recon_preferences"
         const val KEY_SKIP_DELETE_CARD_CONFIRMATION = "skip_delete_card_confirmation"
+        const val KEY_APP_ICON_STYLE = "app_icon_style"
     }
 }
