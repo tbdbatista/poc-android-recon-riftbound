@@ -7,6 +7,7 @@ data class CardWithScanOrder(
     val collectionCardId: Long,
     val cardId: Int,
     val name: String,
+    val nameZh: String = "",
     val cardSet: String,
     val setCode: String,
     val collectorNumber: String,
@@ -75,7 +76,7 @@ interface CardDao {
 
     // --- COLLECTION CARDS (Scanning Records) ---
     @Query("""
-        SELECT cc.id as collectionCardId, c.id as cardId, c.name, c.cardSet, c.setCode, c.collectorNumber, 
+        SELECT cc.id as collectionCardId, c.id as cardId, c.name, c.nameZh, c.cardSet, c.setCode, c.collectorNumber, 
                c.energyCost, c.power, c.tags, c.text, c.imageUrl, cc.scanOrder
         FROM collection_cards cc
         INNER JOIN cards c ON cc.cardId = c.id
@@ -115,7 +116,7 @@ interface CardDao {
         FROM collection_cards cc
         INNER JOIN collections col ON cc.collectionId = col.id
         INNER JOIN cards c ON cc.cardId = c.id
-        WHERE c.name LIKE '%' || :query || '%'
+        WHERE c.name LIKE '%' || :query || '%' OR c.nameZh LIKE '%' || :query || '%'
         ORDER BY col.name ASC, cc.scanOrder ASC
     """)
     fun searchCardInCollections(query: String): Flow<List<SearchCardResult>>

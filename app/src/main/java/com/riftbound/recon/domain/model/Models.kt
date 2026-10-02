@@ -3,6 +3,7 @@ package com.riftbound.recon.domain.model
 data class Card(
     val id: Int,
     val name: String,
+    val nameZh: String? = null,
     val set: String,
     val setCode: String,
     val collectorNumber: String,

@@ -41,4 +41,18 @@ class VendettaCardSyncTest {
         val duplicates = collectorNumbers.groupBy { it }.filter { it.value.size > 1 }.keys
         assertTrue("VEN should have 0 duplicate collector numbers, found: $duplicates", duplicates.isEmpty())
     }
+
+    @Test
+    fun `verify all cards have Chinese localization name_zh populated`() {
+        val assetFile = File("src/main/assets/all_cards.json")
+        val jsonText = assetFile.readText()
+
+        val nameZhMatches = Regex(""""name_zh":\s*"([^"]+)"""").findAll(jsonText).toList()
+        assertEquals("All 1341 cards must have a name_zh field", 1341, nameZhMatches.size)
+
+        val cjkRegex = Regex("""[\u4e00-\u9fff]""")
+        val cardsWithoutCjk = nameZhMatches.filterNot { cjkRegex.containsMatchIn(it.groupValues[1]) }
+        assertTrue("All cards must contain valid Chinese characters in name_zh, found invalid: ${cardsWithoutCjk.map { it.groupValues[1] }}", cardsWithoutCjk.isEmpty())
+    }
 }
+

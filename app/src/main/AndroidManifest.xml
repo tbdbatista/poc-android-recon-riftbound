@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Material.NoActionBar">
         
+        <!-- Tell Google Play Services to automatically download Chinese OCR model -->
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr,ocr_chinese" />
+
         <!-- Default Dark Icon Activity -->
         <activity
             android:name=".ui.MainActivity"

@@ -46,11 +46,13 @@ class CardRepositoryImpl @Inject constructor(
                 val obj = jsonArray.getJSONObject(i)
                 val setCode = obj.optString("setCode", "Unknown")
                 val collectorNumber = obj.optString("collectorNumber", "0")
+                val nameZh = obj.optString("name_zh", "")
 
                 list.add(
                     CardEntity(
                         id = obj.getInt("id"),
                         name = obj.getString("name"),
+                        nameZh = nameZh,
                         cardSet = obj.getString("setName"),
                         setCode = setCode,
                         collectorNumber = collectorNumber,
@@ -72,6 +74,7 @@ class CardRepositoryImpl @Inject constructor(
         return Card(
             id = id,
             name = name,
+            nameZh = nameZh.ifEmpty { null },
             set = cardSet,
             setCode = setCode,
             collectorNumber = collectorNumber,
@@ -164,6 +167,7 @@ class CardRepositoryImpl @Inject constructor(
                     card = Card(
                         id = item.cardId,
                         name = item.name,
+                        nameZh = item.nameZh.ifEmpty { null },
                         set = item.cardSet,
                         setCode = item.setCode,
                         collectorNumber = item.collectorNumber,
