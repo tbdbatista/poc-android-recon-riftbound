@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
 ### Added
+- Official Chinese localized card names (`name_zh`) populated across all 1,341 cards in `all_cards.json` aligned with official Tencent/Riot 《符文战场》 localization and canonical League of Legends / Legends of Runeterra naming conventions.
+- Unit test assertion in `VendettaCardSyncTest.kt` ensuring 100% CJK localization coverage across the entire card database.
 - Real-time visual and tactile feedback for optical scanning in `ScanScreen.kt`:
   - Floating status feedback banner (`ScanFeedbackBanner`) powered by `AnimatedContent`, sliding down with a fresh transition on every card scan (including rapid consecutive scans).
   - High-contrast visual cards displaying card thumbnail, name, set, and code on successful match, or helpful alignment guidance on failure.
