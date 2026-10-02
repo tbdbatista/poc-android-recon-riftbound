@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.5.1] - 2026-10-01
+### Fixed
+- Fixed missing card artwork/mockups on clean app installs by updating `all_cards.json` `imageUrl` references from `.png` to `.webp` format, resolving Issue #28.
+
+---
+
 ## [0.5.0] - 2026-10-01
 ### Added
 - Table-style header row ("Posição", "Carta", "Nome", "Coleção / Cód.") with minimum 40dp height on the Collection Detail screen.
