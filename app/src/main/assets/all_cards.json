@@ -3492,7 +3492,7 @@
     "tags": "Gear, Epic, Chaos",
     "text": ":rb_exhaust:: [Reaction] — [Add] :rb_rune_chaos:. (Abilities that add resources can't be reacted to.)",
     "imageUrl": "images/69bc5bd2d308c64675ca8797.webp",
-    "name_zh": "不和封印"
+    "name_zh": "不和之印"
   },
   {
     "id": 234,
@@ -3507,7 +3507,7 @@
     "tags": "Gear, Epic, Calm",
     "text": ":rb_exhaust:: [Reaction] — [Add] :rb_rune_calm:. (Abilities that add resources can't be reacted to.)",
     "imageUrl": "images/69bc5bcbd308c64675ca8710.webp",
-    "name_zh": "专注封印"
+    "name_zh": "专注之印"
   },
   {
     "id": 235,
@@ -3522,7 +3522,7 @@
     "tags": "Gear, Epic, Mind",
     "text": ":rb_exhaust:: [Reaction] — [Add] :rb_rune_mind:. (Abilities that add resources can't be reacted to.)",
     "imageUrl": "images/69bc5bcdd308c64675ca8739.webp",
-    "name_zh": "洞察封印"
+    "name_zh": "洞察之印"
   },
   {
     "id": 236,
@@ -3537,7 +3537,7 @@
     "tags": "Gear, Epic, Fury",
     "text": ":rb_exhaust:: [Reaction] — [Add] :rb_rune_fury:. (Abilities that add resources can't be reacted to.)",
     "imageUrl": "images/69bc5bc8d308c64675ca86e1.webp",
-    "name_zh": "暴怒封印"
+    "name_zh": "暴怒之印"
   },
   {
     "id": 237,
@@ -3552,7 +3552,7 @@
     "tags": "Gear, Epic, Body",
     "text": ":rb_exhaust:: [Reaction] — [Add] :rb_rune_body:. (Abilities that add resources can't be reacted to.)",
     "imageUrl": "images/69bc5bcfd308c64675ca8769.webp",
-    "name_zh": "力量封印"
+    "name_zh": "力量之印"
   },
   {
     "id": 238,
@@ -3567,7 +3567,7 @@
     "tags": "Gear, Epic, Order",
     "text": ":rb_exhaust:: [Reaction] — [Add] :rb_rune_order:. (Abilities that add resources can't be reacted to.)",
     "imageUrl": "images/69bc5bd4d308c64675ca87c5.webp",
-    "name_zh": "统一封印"
+    "name_zh": "统一之印"
   },
   {
     "id": 239,
@@ -11172,7 +11172,7 @@
     "tags": "Gear, Showcase, Chaos",
     "text": ":rb_exhaust:: [Reaction] — [Add] :rb_rune_chaos:. (Abilities that add resources can't be reacted to.)",
     "imageUrl": "images/69bc5bdcd308c64675ca8859.webp",
-    "name_zh": "不和封印 (超编)"
+    "name_zh": "不和之印 (超编)"
   },
   {
     "id": 746,
@@ -11187,7 +11187,7 @@
     "tags": "Gear, Showcase, Calm",
     "text": ":rb_exhaust:: [Reaction] — [Add] :rb_rune_calm:. (Abilities that add resources can't be reacted to.)",
     "imageUrl": "images/69bc5bdcd308c64675ca8861.webp",
-    "name_zh": "专注封印 (超编)"
+    "name_zh": "专注之印 (超编)"
   },
   {
     "id": 747,
@@ -11202,7 +11202,7 @@
     "tags": "Gear, Showcase, Mind",
     "text": ":rb_exhaust:: [Reaction] — [Add] :rb_rune_mind:. (Abilities that add resources can't be reacted to.)",
     "imageUrl": "images/69bc5be4d308c64675ca88ea.webp",
-    "name_zh": "洞察封印 (超编)"
+    "name_zh": "洞察之印 (超编)"
   },
   {
     "id": 748,
@@ -11217,7 +11217,7 @@
     "tags": "Gear, Showcase, Fury",
     "text": ":rb_exhaust:: [Reaction] — [Add] :rb_rune_fury:. (Abilities that add resources can't be reacted to.)",
     "imageUrl": "images/69bc5be4d308c64675ca88ed.webp",
-    "name_zh": "暴怒封印 (超编)"
+    "name_zh": "暴怒之印 (超编)"
   },
   {
     "id": 749,
@@ -11232,7 +11232,7 @@
     "tags": "Gear, Showcase, Body",
     "text": ":rb_exhaust:: [Reaction] — [Add] :rb_rune_body:. (Abilities that add resources can't be reacted to.)",
     "imageUrl": "images/69bc5bdcd308c64675ca8862.webp",
-    "name_zh": "力量封印 (超编)"
+    "name_zh": "力量之印 (超编)"
   },
   {
     "id": 750,
@@ -11247,7 +11247,7 @@
     "tags": "Gear, Showcase, Order",
     "text": ":rb_exhaust:: [Reaction] — [Add] :rb_rune_order:. (Abilities that add resources can't be reacted to.)",
     "imageUrl": "images/69bc5be3d308c64675ca88e9.webp",
-    "name_zh": "统一封印 (超编)"
+    "name_zh": "统一之印 (超编)"
   },
   {
     "id": 751,

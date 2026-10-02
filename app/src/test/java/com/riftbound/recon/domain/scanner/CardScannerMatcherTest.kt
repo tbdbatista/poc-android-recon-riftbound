@@ -62,7 +62,7 @@ class CardScannerMatcherTest {
         Card(
             id = 5,
             name = "Seal of Discord",
-            nameZh = "不和封印",
+            nameZh = "不和之印",
             set = "OGN",
             setCode = "OGN",
             collectorNumber = "204",
@@ -151,12 +151,12 @@ class CardScannerMatcherTest {
         assertNotNull("Should match Seal of Discord even with stray top-left number", matchedSealEn)
         assertEquals("Seal of Discord", matchedSealEn?.name)
 
-        // Seal of Discord (ZH: 不和封印) with footer covered
+        // Seal of Discord (ZH: 不和之印) with footer covered
         val ocrSealZh = listOf(
-            OcrLine("不和封印", 50, 50, 200, 70)
+            OcrLine("不和之印", 50, 50, 200, 70)
         )
         val matchedSealZh = CardScannerMatcher.matchCard(ocrSealZh, sampleCards)
-        assertNotNull("Should match 不和封印 (Seal of Discord)", matchedSealZh)
+        assertNotNull("Should match 不和之印 (Seal of Discord)", matchedSealZh)
         assertEquals("Seal of Discord", matchedSealZh?.name)
 
         // Flash (EN) with footer covered
