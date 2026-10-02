@@ -11,10 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
 ### Added
+- Real-time visual and tactile feedback for optical scanning in `ScanScreen.kt`:
+  - Glowing animated viewfinder reticle and guide frame (`CardGuideFrame`) flashing vibrant green on success and red on error.
+  - Floating status feedback banner (`ScanFeedbackBanner`) showing card thumbnail, name, and set code on successful match, or helpful guidance on failure.
+  - Haptic feedback confirmation on card recognition and error events via `LocalHapticFeedback`.
+  - `ScanFeedback` sealed class state flow in `MainViewModel`.
 - Animated Splash Screen (`SplashScreen.kt`) featuring the "Arcane Aperture" motif with rotating rune ring, expanding camera shutter blades, and teal optical laser sweep ray, adapting to both Dark and Light system themes.
 - Adaptive vector app launcher icons for both Dark Theme (`ic_launcher` - Obsidian & Arcane Neon) and Light Theme (`ic_launcher_light` - Ice-White & Royal Purple) with Android 13+ monochrome themed icon support.
 - Dynamic app icon selector dialog accessible from the Collections screen header, powered by `AppIconHelper` and `activity-alias` component switching in `AndroidManifest.xml`.
 - App icon style preference persistence in `AppPreferences`.
+
+### Removed
+- Removed the debug console / text logs terminal overlay from the camera viewfinder in `ScanScreen.kt` for a clean, distraction-free scanning interface.
+- Removed unused cooldown / delay timestamps (`lastScannedTime` and `lastScannedCardId`) from `MainViewModel`.
 
 ---
 

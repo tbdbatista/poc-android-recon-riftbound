@@ -8,14 +8,14 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.animation.*
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
@@ -30,8 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -48,12 +50,8 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.riftbound.recon.data.scanner.OcrLine
 import com.riftbound.recon.domain.model.Card
 import com.riftbound.recon.ui.MainViewModel
-import com.riftbound.recon.ui.theme.ConsoleBackground
-import com.riftbound.recon.ui.theme.LogBoundary
-import com.riftbound.recon.ui.theme.LogDefault
-import com.riftbound.recon.ui.theme.LogError
-import com.riftbound.recon.ui.theme.LogMetadata
-import com.riftbound.recon.ui.theme.LogSuccess
+import com.riftbound.recon.ui.ScanFeedback
+import kotlinx.coroutines.delay
 import java.util.concurrent.Executor
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,11 +61,25 @@ fun ScanScreen(
     viewModel: MainViewModel
 ) {
     val context = LocalContext.current
+    val haptic = LocalHapticFeedback.current
     
     // Scanner State
     val scannedCards by viewModel.scannedCards.collectAsState()
-    val scannerLogs by viewModel.scannerLogs.collectAsState()
+    val scanFeedback by viewModel.scanFeedback.collectAsState()
     val canUndoDeletion by viewModel.canUndoDeletion.collectAsState()
+    
+    // Auto-clear feedback and trigger haptics
+    LaunchedEffect(scanFeedback) {
+        if (scanFeedback != null) {
+            when (scanFeedback) {
+                is ScanFeedback.Success -> haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                is ScanFeedback.Error -> haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                null -> {}
+            }
+            delay(3500)
+            viewModel.clearScanFeedback()
+        }
+    }
     
     // UI dialog states
     var showSaveDialog by remember { mutableStateOf(false) }
@@ -139,11 +151,20 @@ fun ScanScreen(
                 PermissionDeniedView(onRequestPermission = { launcher.launch(Manifest.permission.CAMERA) })
             }
 
-            // Card alignment guide frame in the center of camera preview
-            CardGuideFrame()
+            // Card alignment guide frame in the center of camera preview with live feedback response
+            CardGuideFrame(
+                feedback = scanFeedback,
+                isProcessing = isProcessingPhoto
+            )
 
-            // Console Logs terminal overlay
-            ConsoleLogsOverlay(scannerLogs = scannerLogs)
+            // Dynamic Top Feedback Floating Banner on Success / Error
+            ScanFeedbackBanner(
+                feedback = scanFeedback,
+                onDismiss = { viewModel.clearScanFeedback() },
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+            )
 
             // Bottom Controller Dashboard Overlay
             Column(
@@ -617,7 +638,42 @@ fun CameraViewfinder(
 }
 
 @Composable
-fun CardGuideFrame() {
+fun CardGuideFrame(
+    feedback: ScanFeedback?,
+    isProcessing: Boolean
+) {
+    val borderColor by animateColorAsState(
+        targetValue = when {
+            feedback is ScanFeedback.Success -> Color(0xFF00E676)
+            feedback is ScanFeedback.Error -> MaterialTheme.colorScheme.error
+            isProcessing -> MaterialTheme.colorScheme.secondary
+            else -> MaterialTheme.colorScheme.primary.copy(alpha = 0.55f)
+        },
+        animationSpec = tween(durationMillis = 300),
+        label = "guideFrameBorderColor"
+    )
+
+    val reticleColor by animateColorAsState(
+        targetValue = when {
+            feedback is ScanFeedback.Success -> Color(0xFF00E676)
+            feedback is ScanFeedback.Error -> MaterialTheme.colorScheme.error
+            isProcessing -> MaterialTheme.colorScheme.secondary
+            else -> MaterialTheme.colorScheme.secondary
+        },
+        animationSpec = tween(durationMillis = 300),
+        label = "reticleColor"
+    )
+
+    val borderWidth by animateDpAsState(
+        targetValue = when {
+            feedback != null -> 3.5.dp
+            isProcessing -> 2.5.dp
+            else -> 2.dp
+        },
+        animationSpec = tween(durationMillis = 300),
+        label = "borderWidth"
+    )
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -627,7 +683,7 @@ fun CardGuideFrame() {
             modifier = Modifier
                 .width(260.dp)
                 .height(370.dp)
-                .border(2.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.5f), RoundedCornerShape(16.dp))
+                .border(borderWidth, borderColor, RoundedCornerShape(16.dp))
         ) {
             // Corner Reticles for High-Tech Gaming Aesthetic
             Box(
@@ -638,30 +694,30 @@ fun CardGuideFrame() {
                 // Top-Left corner
                 Box(
                     modifier = Modifier
-                        .size(16.dp)
+                        .size(18.dp)
                         .align(Alignment.TopStart)
-                        .border(2.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(topStart = 4.dp))
+                        .border(2.5.dp, reticleColor, RoundedCornerShape(topStart = 4.dp))
                 )
                 // Top-Right corner
                 Box(
                     modifier = Modifier
-                        .size(16.dp)
+                        .size(18.dp)
                         .align(Alignment.TopEnd)
-                        .border(2.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(topEnd = 4.dp))
+                        .border(2.5.dp, reticleColor, RoundedCornerShape(topEnd = 4.dp))
                 )
                 // Bottom-Left corner
                 Box(
                     modifier = Modifier
-                        .size(16.dp)
+                        .size(18.dp)
                         .align(Alignment.BottomStart)
-                        .border(2.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(bottomStart = 4.dp))
+                        .border(2.5.dp, reticleColor, RoundedCornerShape(bottomStart = 4.dp))
                 )
                 // Bottom-Right corner
                 Box(
                     modifier = Modifier
-                        .size(16.dp)
+                        .size(18.dp)
                         .align(Alignment.BottomEnd)
-                        .border(2.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(bottomEnd = 4.dp))
+                        .border(2.5.dp, reticleColor, RoundedCornerShape(bottomEnd = 4.dp))
                 )
             }
         }
@@ -669,40 +725,169 @@ fun CardGuideFrame() {
 }
 
 @Composable
-fun ConsoleLogsOverlay(scannerLogs: List<String>) {
-    val listState = rememberLazyListState()
-    LaunchedEffect(scannerLogs.size) {
-        if (scannerLogs.isNotEmpty()) {
-            listState.animateScrollToItem(scannerLogs.size - 1)
-        }
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(180.dp)
-            .padding(16.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .background(ConsoleBackground)
-            .border(1.dp, MaterialTheme.colorScheme.secondary.copy(alpha = 0.35f), RoundedCornerShape(10.dp))
-            .padding(10.dp)
+fun ScanFeedbackBanner(
+    feedback: ScanFeedback?,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    AnimatedVisibility(
+        visible = feedback != null,
+        enter = slideInVertically(initialOffsetY = { -it }) + fadeIn(),
+        exit = slideOutVertically(targetOffsetY = { -it }) + fadeOut(),
+        modifier = modifier
     ) {
-        LazyColumn(
-            state = listState,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(scannerLogs) { log ->
-                Text(
-                    text = log,
-                    color = if (log.contains("SUCESSO")) LogSuccess
-                    else if (log.contains("FALHA") || log.contains("Erro")) LogError
-                    else if (log.contains("Cód. Rodapé") || log.contains("Energia Runa")) LogMetadata
-                    else if (log.contains("INICIANDO") || log.contains("FIM")) LogBoundary
-                    else LogDefault,
-                    style = MaterialTheme.typography.bodySmall,
-                    fontSize = 11.sp,
-                    modifier = Modifier.padding(vertical = 1.dp)
-                )
+        if (feedback != null) {
+            when (feedback) {
+                is ScanFeedback.Success -> {
+                    Surface(
+                        shape = RoundedCornerShape(16.dp),
+                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+                        tonalElevation = 8.dp,
+                        shadowElevation = 8.dp,
+                        border = BorderStroke(1.5.dp, Color(0xFF00E676)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onDismiss() }
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            // Thumbnail / Badge
+                            Box(
+                                modifier = Modifier
+                                    .width(42.dp)
+                                    .height(60.dp)
+                                    .clip(RoundedCornerShape(6.dp))
+                                    .background(MaterialTheme.colorScheme.background)
+                                    .border(1.dp, Color(0xFF00E676).copy(alpha = 0.5f), RoundedCornerShape(6.dp)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                AsyncImage(
+                                    model = "file:///android_asset/${feedback.card.imageUrl}",
+                                    contentDescription = feedback.card.name,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            }
+
+                            // Card Information
+                            Column(modifier = Modifier.weight(1f)) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.CheckCircle,
+                                        contentDescription = null,
+                                        tint = Color(0xFF00E676),
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                    Text(
+                                        text = "Carta Reconhecida!",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color(0xFF00E676),
+                                        fontSize = 11.sp
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(2.dp))
+                                Text(
+                                    text = feedback.card.name,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    maxLines = 1
+                                )
+                                Text(
+                                    text = formatCardSetAndCode(feedback.card),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.secondary,
+                                    fontSize = 11.sp
+                                )
+                            }
+
+                            IconButton(
+                                onClick = onDismiss,
+                                modifier = Modifier.size(28.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Close,
+                                    contentDescription = "Fechar",
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+
+                is ScanFeedback.Error -> {
+                    Surface(
+                        shape = RoundedCornerShape(16.dp),
+                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+                        tonalElevation = 8.dp,
+                        shadowElevation = 8.dp,
+                        border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.error),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onDismiss() }
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(14.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.error.copy(alpha = 0.15f)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Warning,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.error,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = "Não Reconhecida",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                                Spacer(modifier = Modifier.height(2.dp))
+                                Text(
+                                    text = feedback.message,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    fontSize = 11.sp
+                                )
+                            }
+
+                            IconButton(
+                                onClick = onDismiss,
+                                modifier = Modifier.size(28.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Close,
+                                    contentDescription = "Fechar",
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }
