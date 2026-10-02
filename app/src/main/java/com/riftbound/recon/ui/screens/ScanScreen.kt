@@ -8,7 +8,6 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.animation.*
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -151,13 +150,7 @@ fun ScanScreen(
                 PermissionDeniedView(onRequestPermission = { launcher.launch(Manifest.permission.CAMERA) })
             }
 
-            // Card alignment guide frame in the center of camera preview with live feedback response
-            CardGuideFrame(
-                feedback = scanFeedback,
-                isProcessing = isProcessingPhoto
-            )
-
-            // Dynamic Top Feedback Floating Banner on Success / Error
+            // Dynamic Top Feedback Floating Banner on Success / Error (Drops down freshly on every scan)
             ScanFeedbackBanner(
                 feedback = scanFeedback,
                 onDismiss = { viewModel.clearScanFeedback() },
@@ -638,106 +631,30 @@ fun CameraViewfinder(
 }
 
 @Composable
-fun CardGuideFrame(
-    feedback: ScanFeedback?,
-    isProcessing: Boolean
-) {
-    val borderColor by animateColorAsState(
-        targetValue = when {
-            feedback is ScanFeedback.Success -> Color(0xFF00E676)
-            feedback is ScanFeedback.Error -> MaterialTheme.colorScheme.error
-            isProcessing -> MaterialTheme.colorScheme.secondary
-            else -> MaterialTheme.colorScheme.primary.copy(alpha = 0.55f)
-        },
-        animationSpec = tween(durationMillis = 300),
-        label = "guideFrameBorderColor"
-    )
-
-    val reticleColor by animateColorAsState(
-        targetValue = when {
-            feedback is ScanFeedback.Success -> Color(0xFF00E676)
-            feedback is ScanFeedback.Error -> MaterialTheme.colorScheme.error
-            isProcessing -> MaterialTheme.colorScheme.secondary
-            else -> MaterialTheme.colorScheme.secondary
-        },
-        animationSpec = tween(durationMillis = 300),
-        label = "reticleColor"
-    )
-
-    val borderWidth by animateDpAsState(
-        targetValue = when {
-            feedback != null -> 3.5.dp
-            isProcessing -> 2.5.dp
-            else -> 2.dp
-        },
-        animationSpec = tween(durationMillis = 300),
-        label = "borderWidth"
-    )
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        // Outer box of viewfinder card shape helper overlay
-        Box(
-            modifier = Modifier
-                .width(260.dp)
-                .height(370.dp)
-                .border(borderWidth, borderColor, RoundedCornerShape(16.dp))
-        ) {
-            // Corner Reticles for High-Tech Gaming Aesthetic
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp)
-            ) {
-                // Top-Left corner
-                Box(
-                    modifier = Modifier
-                        .size(18.dp)
-                        .align(Alignment.TopStart)
-                        .border(2.5.dp, reticleColor, RoundedCornerShape(topStart = 4.dp))
-                )
-                // Top-Right corner
-                Box(
-                    modifier = Modifier
-                        .size(18.dp)
-                        .align(Alignment.TopEnd)
-                        .border(2.5.dp, reticleColor, RoundedCornerShape(topEnd = 4.dp))
-                )
-                // Bottom-Left corner
-                Box(
-                    modifier = Modifier
-                        .size(18.dp)
-                        .align(Alignment.BottomStart)
-                        .border(2.5.dp, reticleColor, RoundedCornerShape(bottomStart = 4.dp))
-                )
-                // Bottom-Right corner
-                Box(
-                    modifier = Modifier
-                        .size(18.dp)
-                        .align(Alignment.BottomEnd)
-                        .border(2.5.dp, reticleColor, RoundedCornerShape(bottomEnd = 4.dp))
-                )
-            }
-        }
-    }
-}
-
-@Composable
 fun ScanFeedbackBanner(
     feedback: ScanFeedback?,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    AnimatedVisibility(
-        visible = feedback != null,
-        enter = slideInVertically(initialOffsetY = { -it }) + fadeIn(),
-        exit = slideOutVertically(targetOffsetY = { -it }) + fadeOut(),
+    AnimatedContent(
+        targetState = feedback,
+        transitionSpec = {
+            (slideInVertically(
+                animationSpec = tween(durationMillis = 350),
+                initialOffsetY = { -it }
+            ) + fadeIn(animationSpec = tween(durationMillis = 350)))
+                .togetherWith(
+                    slideOutVertically(
+                        animationSpec = tween(durationMillis = 250),
+                        targetOffsetY = { -it }
+                    ) + fadeOut(animationSpec = tween(durationMillis = 250))
+                )
+        },
+        label = "scanFeedbackBannerTransition",
         modifier = modifier
-    ) {
-        if (feedback != null) {
-            when (feedback) {
+    ) { currentFeedback ->
+        if (currentFeedback != null) {
+            when (currentFeedback) {
                 is ScanFeedback.Success -> {
                     Surface(
                         shape = RoundedCornerShape(16.dp),
@@ -767,8 +684,8 @@ fun ScanFeedbackBanner(
                                 contentAlignment = Alignment.Center
                             ) {
                                 AsyncImage(
-                                    model = "file:///android_asset/${feedback.card.imageUrl}",
-                                    contentDescription = feedback.card.name,
+                                    model = "file:///android_asset/${currentFeedback.card.imageUrl}",
+                                    contentDescription = currentFeedback.card.name,
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier.fillMaxSize()
                                 )
@@ -796,14 +713,14 @@ fun ScanFeedbackBanner(
                                 }
                                 Spacer(modifier = Modifier.height(2.dp))
                                 Text(
-                                    text = feedback.card.name,
+                                    text = currentFeedback.card.name,
                                     style = MaterialTheme.typography.bodyMedium,
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onSurface,
                                     maxLines = 1
                                 )
                                 Text(
-                                    text = formatCardSetAndCode(feedback.card),
+                                    text = formatCardSetAndCode(currentFeedback.card),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.secondary,
                                     fontSize = 11.sp
@@ -867,7 +784,7 @@ fun ScanFeedbackBanner(
                                 )
                                 Spacer(modifier = Modifier.height(2.dp))
                                 Text(
-                                    text = feedback.message,
+                                    text = currentFeedback.message,
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                     fontSize = 11.sp

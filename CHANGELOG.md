@@ -12,8 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Real-time visual and tactile feedback for optical scanning in `ScanScreen.kt`:
-  - Glowing animated viewfinder reticle and guide frame (`CardGuideFrame`) flashing vibrant green on success and red on error.
-  - Floating status feedback banner (`ScanFeedbackBanner`) showing card thumbnail, name, and set code on successful match, or helpful guidance on failure.
+  - Floating status feedback banner (`ScanFeedbackBanner`) powered by `AnimatedContent`, sliding down with a fresh transition on every card scan (including rapid consecutive scans).
+  - High-contrast visual cards displaying card thumbnail, name, set, and code on successful match, or helpful alignment guidance on failure.
   - Haptic feedback confirmation on card recognition and error events via `LocalHapticFeedback`.
   - `ScanFeedback` sealed class state flow in `MainViewModel`.
 - Animated Splash Screen (`SplashScreen.kt`) featuring the "Arcane Aperture" motif with rotating rune ring, expanding camera shutter blades, and teal optical laser sweep ray, adapting to both Dark and Light system themes.
@@ -22,7 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App icon style preference persistence in `AppPreferences`.
 
 ### Removed
-- Removed the debug console / text logs terminal overlay from the camera viewfinder in `ScanScreen.kt` for a clean, distraction-free scanning interface.
+- Removed the rigid card alignment guide frame (`CardGuideFrame`) from the camera viewfinder, enabling a 100% clean, unobstructed full-screen viewfinder experience.
+- Removed the debug console / text logs terminal overlay from the camera viewfinder in `ScanScreen.kt`.
 - Removed unused cooldown / delay timestamps (`lastScannedTime` and `lastScannedCardId`) from `MainViewModel`.
 
 ---
