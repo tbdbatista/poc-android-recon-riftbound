@@ -18,7 +18,7 @@ class VendettaCardSyncTest {
         val vendettaSetNameCount = lines.count { it.contains("\"setName\": \"Vendetta\"") }
         val vendettaSetCodeCount = lines.count { it.contains("\"setCode\": \"VEN\"") }
 
-        assertTrue("Vendetta cards with setName Vendetta should be at least 131", vendettaSetNameCount >= 131)
+        assertTrue("Vendetta cards with setName Vendetta should be exactly 227", vendettaSetNameCount == 227)
         assertEquals("Vendetta cards count by setName and setCode must match", vendettaSetNameCount, vendettaSetCodeCount)
 
         // Verify notable Vendetta cards exist
@@ -26,5 +26,19 @@ class VendettaCardSyncTest {
         assertTrue("Contains Ahri, Inquisitive", fileContent.contains("\"name\": \"Ahri, Inquisitive\""))
         assertTrue("Contains Akali, Deadly Weapon", fileContent.contains("\"name\": \"Akali, Deadly Weapon\""))
         assertTrue("Contains Zed, From the Shadows", fileContent.contains("\"name\": \"Zed, From the Shadows\""))
+    }
+
+    @Test
+    fun `verify Vendetta expansion has no duplicate collector numbers`() {
+        val assetFile = File("src/main/assets/all_cards.json")
+        val jsonText = assetFile.readText()
+
+        // Extract collector numbers for VEN cards
+        val regex = Regex("""\{[^}]*?"setCode":\s*"VEN"[^}]*?"collectorNumber":\s*"([^"]+)"[^}]*?\}""")
+        val collectorNumbers = regex.findAll(jsonText).map { it.groupValues[1] }.toList()
+
+        assertEquals("Should extract exactly 227 collector numbers for VEN", 227, collectorNumbers.size)
+        val duplicates = collectorNumbers.groupBy { it }.filter { it.value.size > 1 }.keys
+        assertTrue("VEN should have 0 duplicate collector numbers, found: $duplicates", duplicates.isEmpty())
     }
 }

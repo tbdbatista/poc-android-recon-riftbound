@@ -15331,20 +15331,6 @@
   },
   {
     "id": 1096,
-    "string_id": "6a517603ad64d2d80a4f0373",
-    "name": "Ahri, Inquisitive",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "sp3",
-    "energyCost": 3,
-    "power": 3,
-    "tags": "Ahri, Ionia, Unit, Epic, Mind",
-    "text": "When I attack or defend, give an enemy unit here -2 :rb_might: this turn, to a minimum of 1 :rb_might:.",
-    "imageUrl": "images/6a517603ad64d2d80a4f0373.webp"
-  },
-  {
-    "id": 1097,
     "string_id": "6a56ab94ff602fd324f475f8",
     "name": "Ahri, Inquisitive",
     "set": "VEN",
@@ -15358,7 +15344,7 @@
     "imageUrl": "images/6a56ab94ff602fd324f475f8.webp"
   },
   {
-    "id": 1098,
+    "id": 1097,
     "string_id": "6a56ab99ff602fd324f4765a",
     "name": "Akali - Rogue Assassin",
     "set": "VEN",
@@ -15372,7 +15358,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f4765a.webp"
   },
   {
-    "id": 1099,
+    "id": 1098,
     "string_id": "6a56ab99ff602fd324f4765b",
     "name": "Akali - Rogue Assassin (Overnumbered)",
     "set": "VEN",
@@ -15386,35 +15372,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f4765b.webp"
   },
   {
-    "id": 1100,
-    "string_id": "6a517603ad64d2d80a4f0375",
-    "name": "Akali, Deadly Weapon",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "021a",
-    "energyCost": 3,
-    "power": 3,
-    "tags": "Akali, Unit, Epic, Fury",
-    "text": "[Empower] :rb_energy_2::rb_rune_fury:When I move, you may deal 1 to a unit at a battlefield I moved to or from. If I'm [Empowered], deal 2 instead.[Empowered][&gt;] I have +1 :rb_might:..",
-    "imageUrl": "images/6a517603ad64d2d80a4f0375.webp"
-  },
-  {
-    "id": 1101,
-    "string_id": "6a517603ad64d2d80a4f0374",
-    "name": "Akali, Deadly Weapon",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "021",
-    "energyCost": 3,
-    "power": 3,
-    "tags": "Ionia, Akali, Unit, Epic, Fury",
-    "text": "[Empower] :rb_energy_2::rb_rune_fury: (:rb_energy_2::rb_rune_fury:: Empower me. Use only if not Empowered.)When I move, you may deal 1 to a unit at a battlefield I moved to or from. If I'm [Empowered], deal 2 instead.[Empowered][&gt;] I have +1 :rb_might:.",
-    "imageUrl": "images/6a517603ad64d2d80a4f0374.webp"
-  },
-  {
-    "id": 1102,
+    "id": 1099,
     "string_id": "6a56ab94ff602fd324f475fa",
     "name": "Akali, Deadly Weapon",
     "set": "VEN",
@@ -15428,7 +15386,7 @@
     "imageUrl": "images/6a56ab94ff602fd324f475fa.webp"
   },
   {
-    "id": 1103,
+    "id": 1100,
     "string_id": "6a56ab94ff602fd324f475f9",
     "name": "Akali, Deadly Weapon (Alternate Art)",
     "set": "VEN",
@@ -15442,7 +15400,7 @@
     "imageUrl": "images/6a56ab94ff602fd324f475f9.webp"
   },
   {
-    "id": 1104,
+    "id": 1101,
     "string_id": "6a56ab94ff602fd324f475fc",
     "name": "Akali, Silent",
     "set": "VEN",
@@ -15456,35 +15414,7 @@
     "imageUrl": "images/6a56ab94ff602fd324f475fc.webp"
   },
   {
-    "id": 1105,
-    "string_id": "6a518b2437f518eaadf8bafc",
-    "name": "Akali, Silent",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "038",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Ionia, Akali, Unit, Rare, Calm",
-    "text": "I can't be chosen by enemy spells and abilities unless I'm in combat.When I move to a battlefield, give me +2 :rb_might: this turn.",
-    "imageUrl": "images/6a518b2437f518eaadf8bafc.webp"
-  },
-  {
-    "id": 1106,
-    "string_id": "6a518b2437f518eaadf8bafb",
-    "name": "Akali, Silent",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "038a",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Akali, Unit, Rare, Calm",
-    "text": "I can't be chosen by enemy spells and abilities unless I'm in combat.When I move to a battlefield, give me +2 :rb_might: this turn.",
-    "imageUrl": "images/6a518b2437f518eaadf8bafb.webp"
-  },
-  {
-    "id": 1107,
+    "id": 1102,
     "string_id": "6a56ab94ff602fd324f475fb",
     "name": "Akali, Silent (Alternate Art)",
     "set": "VEN",
@@ -15498,7 +15428,7 @@
     "imageUrl": "images/6a56ab94ff602fd324f475fb.webp"
   },
   {
-    "id": 1108,
+    "id": 1103,
     "string_id": "6a56ab97ff602fd324f47638",
     "name": "Ambessa - Matriarch of War",
     "set": "VEN",
@@ -15512,7 +15442,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f47638.webp"
   },
   {
-    "id": 1109,
+    "id": 1104,
     "string_id": "6a56ab98ff602fd324f47639",
     "name": "Ambessa - Matriarch of War (Overnumbered)",
     "set": "VEN",
@@ -15526,7 +15456,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f47639.webp"
   },
   {
-    "id": 1110,
+    "id": 1105,
     "string_id": "6a56ab9fff602fd324f4767b",
     "name": "Ambessa, Respected and Feared",
     "set": "VEN",
@@ -15540,35 +15470,7 @@
     "imageUrl": "images/6a56ab9fff602fd324f4767b.webp"
   },
   {
-    "id": 1111,
-    "string_id": "6a517603ad64d2d80a4f0377",
-    "name": "Ambessa, Respected and Feared",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "136",
-    "energyCost": 5,
-    "power": 5,
-    "tags": "Noxus, Ambessa, Unit, Epic, Order",
-    "text": "[Empower] :rb_energy_1::rb_rune_order::rb_rune_order: (:rb_energy_1::rb_rune_order::rb_rune_order:: Empower me. Use only if not Empowered.)[Empowered][&gt;] I have [Assault 2]. (+2 :rb_might: while I'm an attacker.)[Empowered][&gt;] When I attack, kill an enemy unit here with less Might than me.",
-    "imageUrl": "images/6a517603ad64d2d80a4f0377.webp"
-  },
-  {
-    "id": 1112,
-    "string_id": "6a517603ad64d2d80a4f0376",
-    "name": "Ambessa, Respected and Feared",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "136a",
-    "energyCost": 5,
-    "power": 5,
-    "tags": "Ambessa, Unit, Epic, Order",
-    "text": "[Empower] :rb_energy_1::rb_rune_order::rb_rune_order:[Empowered][&gt;] I have [Assault 2].[Empowered][&gt;] When I attack, kill an enemy unit here with less Might than me.",
-    "imageUrl": "images/6a517603ad64d2d80a4f0376.webp"
-  },
-  {
-    "id": 1113,
+    "id": 1106,
     "string_id": "6a56ab94ff602fd324f475fd",
     "name": "Ambessa, Respected and Feared",
     "set": "VEN",
@@ -15582,7 +15484,7 @@
     "imageUrl": "images/6a56ab94ff602fd324f475fd.webp"
   },
   {
-    "id": 1114,
+    "id": 1107,
     "string_id": "6a56ab94ff602fd324f475fe",
     "name": "Ambessa, Respected and Feared (Alternate Art)",
     "set": "VEN",
@@ -15596,7 +15498,7 @@
     "imageUrl": "images/6a56ab94ff602fd324f475fe.webp"
   },
   {
-    "id": 1115,
+    "id": 1108,
     "string_id": "6a590eef0e5d4c92d5d1efe0",
     "name": "Ambessa, The Wolf",
     "set": "VEN",
@@ -15610,7 +15512,7 @@
     "imageUrl": "images/6a590eef0e5d4c92d5d1efe0.webp"
   },
   {
-    "id": 1116,
+    "id": 1109,
     "string_id": "6a590eef0e5d4c92d5d1efe1",
     "name": "Ambessa, The Wolf",
     "set": "VEN",
@@ -15624,7 +15526,7 @@
     "imageUrl": "images/6a590eef0e5d4c92d5d1efe1.webp"
   },
   {
-    "id": 1117,
+    "id": 1110,
     "string_id": "6a590eef0e5d4c92d5d1efe2",
     "name": "Applied Researchers",
     "set": "VEN",
@@ -15638,21 +15540,7 @@
     "imageUrl": "images/6a590eef0e5d4c92d5d1efe2.webp"
   },
   {
-    "id": 1118,
-    "string_id": "6a517604ad64d2d80a4f0378",
-    "name": "Apprentice Mage",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "047",
-    "energyCost": 3,
-    "power": 3,
-    "tags": "Bilgewater, Unit, Common, Mind",
-    "text": "[Empower] :rb_energy_2: (:rb_energy_2:: Empower me. Use only if not Empowered.)When I become [Empowered], [Predict 2]. (Look at the top 2 cards of your Main Deck. Recycle any of them and put the rest back in any order.)[Empowered][&gt;] I have +1 :rb_might:.",
-    "imageUrl": "images/6a517604ad64d2d80a4f0378.webp"
-  },
-  {
-    "id": 1119,
+    "id": 1111,
     "string_id": "6a56ab94ff602fd324f475ff",
     "name": "Apprentice Mage",
     "set": "VEN",
@@ -15666,7 +15554,7 @@
     "imageUrl": "images/6a56ab94ff602fd324f475ff.webp"
   },
   {
-    "id": 1120,
+    "id": 1112,
     "string_id": "6a56ab9fff602fd324f4767c",
     "name": "Astral Heron",
     "set": "VEN",
@@ -15680,7 +15568,7 @@
     "imageUrl": "images/6a56ab9fff602fd324f4767c.webp"
   },
   {
-    "id": 1121,
+    "id": 1113,
     "string_id": "6a5a92b3fe2355878c40cc83",
     "name": "Aurok General",
     "set": "VEN",
@@ -15694,21 +15582,7 @@
     "imageUrl": "images/6a5a92b3fe2355878c40cc83.webp"
   },
   {
-    "id": 1122,
-    "string_id": "6a517604ad64d2d80a4f0379",
-    "name": "Baccai Reaper",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "009",
-    "energyCost": 3,
-    "power": 4,
-    "tags": "Shurima, Unit, Uncommon, Fury",
-    "text": "When I attack, you may pay :rb_rune_fury: to give me [Assault 2] this turn. (+2 :rb_might: while I'm an attacker.)",
-    "imageUrl": "images/6a517604ad64d2d80a4f0379.webp"
-  },
-  {
-    "id": 1123,
+    "id": 1114,
     "string_id": "6a56ab94ff602fd324f47600",
     "name": "Baccai Reaper",
     "set": "VEN",
@@ -15722,7 +15596,7 @@
     "imageUrl": "images/6a56ab94ff602fd324f47600.webp"
   },
   {
-    "id": 1124,
+    "id": 1115,
     "string_id": "6a5a92b3fe2355878c40cc84",
     "name": "Baccai Sandspinner",
     "set": "VEN",
@@ -15736,7 +15610,7 @@
     "imageUrl": "images/6a5a92b3fe2355878c40cc84.webp"
   },
   {
-    "id": 1125,
+    "id": 1116,
     "string_id": "6a5a92b3fe2355878c40cc85",
     "name": "Baccai Witherclaw",
     "set": "VEN",
@@ -15750,21 +15624,7 @@
     "imageUrl": "images/6a5a92b3fe2355878c40cc85.webp"
   },
   {
-    "id": 1126,
-    "string_id": "6a517604ad64d2d80a4f037a",
-    "name": "Blade Twirler",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "002",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Yordle, Ionia, Unit, Common, Fury",
-    "text": "The first time I move each turn, choose a player. They [Burn 1]. (They put the top card of their Main Deck into their trash.)",
-    "imageUrl": "images/6a517604ad64d2d80a4f037a.webp"
-  },
-  {
-    "id": 1127,
+    "id": 1117,
     "string_id": "6a56ab94ff602fd324f47601",
     "name": "Blade Twirler",
     "set": "VEN",
@@ -15778,21 +15638,7 @@
     "imageUrl": "images/6a56ab94ff602fd324f47601.webp"
   },
   {
-    "id": 1128,
-    "string_id": "6a517604ad64d2d80a4f037b",
-    "name": "Body Rune",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "r04",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Rune, Common, Body",
-    "text": "[NO TEXT]",
-    "imageUrl": "images/6a517604ad64d2d80a4f037b.webp"
-  },
-  {
-    "id": 1129,
+    "id": 1118,
     "string_id": "6a56ab94ff602fd324f47602",
     "name": "Body Rune",
     "set": "VEN",
@@ -15806,7 +15652,7 @@
     "imageUrl": "images/6a56ab94ff602fd324f47602.webp"
   },
   {
-    "id": 1130,
+    "id": 1119,
     "string_id": "6a56ab94ff602fd324f47603",
     "name": "Bottled Constellation",
     "set": "VEN",
@@ -15820,21 +15666,7 @@
     "imageUrl": "images/6a56ab94ff602fd324f47603.webp"
   },
   {
-    "id": 1131,
-    "string_id": "6a518b2437f518eaadf8bafd",
-    "name": "Bottled Constellation",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "067",
-    "energyCost": 10,
-    "power": 2,
-    "tags": "Gear, Epic, Mind",
-    "text": "At the start of your Main Phase, you may kill 3 other friendly units and/or gear to score 1 point.",
-    "imageUrl": "images/6a518b2437f518eaadf8bafd.webp"
-  },
-  {
-    "id": 1132,
+    "id": 1120,
     "string_id": "6a590eef0e5d4c92d5d1efe3",
     "name": "Brittle Steel",
     "set": "VEN",
@@ -15848,7 +15680,7 @@
     "imageUrl": "images/6a590eef0e5d4c92d5d1efe3.webp"
   },
   {
-    "id": 1133,
+    "id": 1121,
     "string_id": "6a56ab9fff602fd324f4767d",
     "name": "Brutal Hunter",
     "set": "VEN",
@@ -15862,49 +15694,7 @@
     "imageUrl": "images/6a56ab9fff602fd324f4767d.webp"
   },
   {
-    "id": 1134,
-    "string_id": "6a517604ad64d2d80a4f037d",
-    "name": "Butcher of the Sands",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "190",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Renekton, Legend, Rare, Fury, Body",
-    "text": "[Reaction][&gt;] :rb_rune_rainbow::rb_rune_rainbow:, :rb_exhaust:: [Add] :rb_energy_2:. Spend this Energy only to play units or activated abilities of units.",
-    "imageUrl": "images/6a517604ad64d2d80a4f037d.webp"
-  },
-  {
-    "id": 1135,
-    "string_id": "6a517604ad64d2d80a4f037c",
-    "name": "Butcher of the Sands",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "141",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Renekton, Legend, Rare, Fury, Body",
-    "text": "[Reaction][&gt;] :rb_rune_rainbow::rb_rune_rainbow:, :rb_exhaust:: [Add] :rb_energy_2:. Spend this Energy only to play units or activated abilities of units.",
-    "imageUrl": "images/6a517604ad64d2d80a4f037c.webp"
-  },
-  {
-    "id": 1136,
-    "string_id": "6a517604ad64d2d80a4f037e",
-    "name": "Calm Rune",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "r02",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Rune, Common, Calm",
-    "text": "[NO TEXT]",
-    "imageUrl": "images/6a517604ad64d2d80a4f037e.webp"
-  },
-  {
-    "id": 1137,
+    "id": 1122,
     "string_id": "6a56ab95ff602fd324f47606",
     "name": "Calm Rune",
     "set": "VEN",
@@ -15918,7 +15708,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f47606.webp"
   },
   {
-    "id": 1138,
+    "id": 1123,
     "string_id": "6a590eef0e5d4c92d5d1efe4",
     "name": "Cataclysmic Duel",
     "set": "VEN",
@@ -15932,21 +15722,7 @@
     "imageUrl": "images/6a590eef0e5d4c92d5d1efe4.webp"
   },
   {
-    "id": 1139,
-    "string_id": "6a517604ad64d2d80a4f037f",
-    "name": "Chaos Rune",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "r05",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Rune, Common, Chaos",
-    "text": "[NO TEXT]",
-    "imageUrl": "images/6a517604ad64d2d80a4f037f.webp"
-  },
-  {
-    "id": 1140,
+    "id": 1124,
     "string_id": "6a56ab95ff602fd324f47607",
     "name": "Chaos Rune",
     "set": "VEN",
@@ -15960,7 +15736,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f47607.webp"
   },
   {
-    "id": 1141,
+    "id": 1125,
     "string_id": "6a56aba0ff602fd324f4767e",
     "name": "Clairvoyance",
     "set": "VEN",
@@ -15974,21 +15750,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f4767e.webp"
   },
   {
-    "id": 1142,
-    "string_id": "6a517604ad64d2d80a4f0380",
-    "name": "Cloud Drake",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "048",
-    "energyCost": 6,
-    "power": 5,
-    "tags": "Dragon, Demacia, Unit, Common, Mind",
-    "text": "When you play me, draw 1.",
-    "imageUrl": "images/6a517604ad64d2d80a4f0380.webp"
-  },
-  {
-    "id": 1143,
+    "id": 1126,
     "string_id": "6a56ab95ff602fd324f47608",
     "name": "Cloud Drake",
     "set": "VEN",
@@ -16002,7 +15764,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f47608.webp"
   },
   {
-    "id": 1144,
+    "id": 1127,
     "string_id": "6a590eef0e5d4c92d5d1efe5",
     "name": "Consuming Curse",
     "set": "VEN",
@@ -16016,21 +15778,7 @@
     "imageUrl": "images/6a590eef0e5d4c92d5d1efe5.webp"
   },
   {
-    "id": 1145,
-    "string_id": "6a517604ad64d2d80a4f0381",
-    "name": "Corrupted Dragon",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "091",
-    "energyCost": 10,
-    "power": 10,
-    "tags": "Dragon, Shadow Isles, Unit, Epic, Body",
-    "text": "If your score is not within 3 points of the Victory Score, I enter ready.When I attack, you may move any number of enemy units here each with 5 :rb_might: or less to their base.",
-    "imageUrl": "images/6a517604ad64d2d80a4f0381.webp"
-  },
-  {
-    "id": 1146,
+    "id": 1128,
     "string_id": "6a56ab95ff602fd324f47609",
     "name": "Corrupted Dragon",
     "set": "VEN",
@@ -16044,7 +15792,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f47609.webp"
   },
   {
-    "id": 1147,
+    "id": 1129,
     "string_id": "6a5a92b3fe2355878c40cc86",
     "name": "Covert Informant",
     "set": "VEN",
@@ -16058,7 +15806,7 @@
     "imageUrl": "images/6a5a92b3fe2355878c40cc86.webp"
   },
   {
-    "id": 1148,
+    "id": 1130,
     "string_id": "6a56aba0ff602fd324f4767f",
     "name": "Crumbling Sands",
     "set": "VEN",
@@ -16072,49 +15820,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f4767f.webp"
   },
   {
-    "id": 1149,
-    "string_id": "6a517604ad64d2d80a4f0383",
-    "name": "Curator of the Sands",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "145",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Nasus, Legend, Rare, Calm, Mind",
-    "text": "When you play a unit, gear, or activated ability with Energy cost :rb_energy_7: or more, you may exhaust me to ready up to 2 runes.",
-    "imageUrl": "images/6a517604ad64d2d80a4f0383.webp"
-  },
-  {
-    "id": 1150,
-    "string_id": "6a517604ad64d2d80a4f0382",
-    "name": "Curator of the Sands",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "192",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Nasus, Legend, Rare, Calm, Mind",
-    "text": "When you play a unit, gear, or activated ability with Energy cost :rb_energy_7: or more, you may exhaust me to ready up to 2 runes.",
-    "imageUrl": "images/6a517604ad64d2d80a4f0382.webp"
-  },
-  {
-    "id": 1151,
-    "string_id": "6a517604ad64d2d80a4f0384",
-    "name": "Dame the Despoiler",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "079",
-    "energyCost": 5,
-    "power": 5,
-    "tags": "Noxus, Unit, Uncommon, Body",
-    "text": "[Empower] :rb_energy_5::rb_rune_body: (:rb_energy_5::rb_rune_body:: Empower me. Use only if not Empowered.)[Empowered][&gt;] When I attack or defend, choose a unit here. Increase my Might to its Might this turn, then give me +1 :rb_might: this turn.",
-    "imageUrl": "images/6a517604ad64d2d80a4f0384.webp"
-  },
-  {
-    "id": 1152,
+    "id": 1131,
     "string_id": "6a56ab95ff602fd324f4760c",
     "name": "Dame the Despoiler",
     "set": "VEN",
@@ -16128,21 +15834,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f4760c.webp"
   },
   {
-    "id": 1153,
-    "string_id": "6a517604ad64d2d80a4f0385",
-    "name": "Death Mark",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "144",
-    "energyCost": 2,
-    "power": 1,
-    "tags": "Zed, Spell, Epic, Fury, Chaos",
-    "text": "[Burn 3]. (Put the top 3 cards of your Main Deck into your trash.)Play a 0 :rb_might: Shadow Clone unit token. (It has &quot;When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn.&quot;)[Flow] :rb_energy_1::rb_rune_rainbow::rb_rune_rainbow: (You may play this from your trash for its Flow cost. Then banish it.)",
-    "imageUrl": "images/6a517604ad64d2d80a4f0385.webp"
-  },
-  {
-    "id": 1154,
+    "id": 1132,
     "string_id": "6a56ab95ff602fd324f4760d",
     "name": "Death Mark",
     "set": "VEN",
@@ -16156,7 +15848,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f4760d.webp"
   },
   {
-    "id": 1155,
+    "id": 1133,
     "string_id": "6a56ab95ff602fd324f4760e",
     "name": "Decree of Discord",
     "set": "VEN",
@@ -16170,21 +15862,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f4760e.webp"
   },
   {
-    "id": 1156,
-    "string_id": "6a518b2537f518eaadf8bafe",
-    "name": "Decree of Discord",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "107",
-    "energyCost": 1,
-    "power": 1,
-    "tags": "Spell, Rare, Chaos",
-    "text": "Return any number of enemy Order (:rb_rune_order:) units with total Might 5 or less to their owners' hands.",
-    "imageUrl": "images/6a518b2537f518eaadf8bafe.webp"
-  },
-  {
-    "id": 1157,
+    "id": 1134,
     "string_id": "6a56aba0ff602fd324f47680",
     "name": "Decree of Focus",
     "set": "VEN",
@@ -16198,21 +15876,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f47680.webp"
   },
   {
-    "id": 1158,
-    "string_id": "6a517604ad64d2d80a4f0386",
-    "name": "Decree of Insight",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "061",
-    "energyCost": 1,
-    "power": 0,
-    "tags": "Spell, Rare, Mind",
-    "text": "[Reaction] (Play any time, even before spells and abilities resolve.)Ignore [Deflect] while paying this spell's cost.Give an enemy Body (:rb_rune_body:) unit -5 :rb_might: this turn.",
-    "imageUrl": "images/6a517604ad64d2d80a4f0386.webp"
-  },
-  {
-    "id": 1159,
+    "id": 1135,
     "string_id": "6a56ab95ff602fd324f4760f",
     "name": "Decree of Insight",
     "set": "VEN",
@@ -16226,7 +15890,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f4760f.webp"
   },
   {
-    "id": 1160,
+    "id": 1136,
     "string_id": "6a590eef0e5d4c92d5d1efe6",
     "name": "Decree of Rage",
     "set": "VEN",
@@ -16240,7 +15904,7 @@
     "imageUrl": "images/6a590eef0e5d4c92d5d1efe6.webp"
   },
   {
-    "id": 1161,
+    "id": 1137,
     "string_id": "6a5a92b3fe2355878c40cc87",
     "name": "Decree of Strength",
     "set": "VEN",
@@ -16254,7 +15918,7 @@
     "imageUrl": "images/6a5a92b3fe2355878c40cc87.webp"
   },
   {
-    "id": 1162,
+    "id": 1138,
     "string_id": "6a5a92b3fe2355878c40cc88",
     "name": "Decree of Unity",
     "set": "VEN",
@@ -16268,7 +15932,7 @@
     "imageUrl": "images/6a5a92b3fe2355878c40cc88.webp"
   },
   {
-    "id": 1163,
+    "id": 1139,
     "string_id": "6a56aba0ff602fd324f47681",
     "name": "Defender of Tomorrow",
     "set": "VEN",
@@ -16282,21 +15946,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f47681.webp"
   },
   {
-    "id": 1164,
-    "string_id": "6a518b2537f518eaadf8baff",
-    "name": "Defender of Tomorrow",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "149",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Jayce, Legend, Rare, Mind, Body",
-    "text": "[Empower] :rb_energy_2::rb_rune_rainbow::rb_rune_rainbow: (:rb_energy_2::rb_rune_rainbow::rb_rune_rainbow:: Empower me. Use only if not Empowered.):rb_energy_1:, :rb_exhaust:: Ready a gear.[Empowered][&gt;] :rb_energy_1:, :rb_exhaust:: Ready 2 gear.",
-    "imageUrl": "images/6a518b2537f518eaadf8baff.webp"
-  },
-  {
-    "id": 1165,
+    "id": 1140,
     "string_id": "6a56aba0ff602fd324f47682",
     "name": "Diana, No Longer Human",
     "set": "VEN",
@@ -16310,7 +15960,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f47682.webp"
   },
   {
-    "id": 1166,
+    "id": 1141,
     "string_id": "6a590eef0e5d4c92d5d1efe7",
     "name": "Disciple of Shen",
     "set": "VEN",
@@ -16324,21 +15974,7 @@
     "imageUrl": "images/6a590eef0e5d4c92d5d1efe7.webp"
   },
   {
-    "id": 1167,
-    "string_id": "6a517604ad64d2d80a4f0387",
-    "name": "Dominus",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "142",
-    "energyCost": 4,
-    "power": 0,
-    "tags": "Renekton, Spell, Epic, Fury, Body",
-    "text": "[Action] (Play on your turn or in showdowns.)This turn, double a unit's Might and give it &quot;:rb_rune_rainbow::rb_rune_rainbow:: Ready me.&quot;",
-    "imageUrl": "images/6a517604ad64d2d80a4f0387.webp"
-  },
-  {
-    "id": 1168,
+    "id": 1142,
     "string_id": "6a56ab95ff602fd324f47611",
     "name": "Dominus",
     "set": "VEN",
@@ -16352,7 +15988,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f47611.webp"
   },
   {
-    "id": 1169,
+    "id": 1143,
     "string_id": "6a590eef0e5d4c92d5d1efe8",
     "name": "Dragon Form",
     "set": "VEN",
@@ -16366,7 +16002,7 @@
     "imageUrl": "images/6a590eef0e5d4c92d5d1efe8.webp"
   },
   {
-    "id": 1170,
+    "id": 1144,
     "string_id": "6a56aba0ff602fd324f47683",
     "name": "Dragon Roost",
     "set": "VEN",
@@ -16380,7 +16016,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f47683.webp"
   },
   {
-    "id": 1171,
+    "id": 1145,
     "string_id": "6a5a92b3fe2355878c40cc89",
     "name": "Draven, Showboat",
     "set": "VEN",
@@ -16394,7 +16030,7 @@
     "imageUrl": "images/6a5a92b3fe2355878c40cc89.webp"
   },
   {
-    "id": 1172,
+    "id": 1146,
     "string_id": "6a590ef00e5d4c92d5d1efe9",
     "name": "Dredge Up",
     "set": "VEN",
@@ -16408,7 +16044,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1efe9.webp"
   },
   {
-    "id": 1173,
+    "id": 1147,
     "string_id": "6a56aba0ff602fd324f47684",
     "name": "Dune Surfer",
     "set": "VEN",
@@ -16422,21 +16058,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f47684.webp"
   },
   {
-    "id": 1174,
-    "string_id": "6a517604ad64d2d80a4f0388",
-    "name": "Eclipse Dragon",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "016",
-    "energyCost": 8,
-    "power": 8,
-    "tags": "Dragon, Mount Targon, Unit, Rare, Fury",
-    "text": "[Accelerate] (You may pay :rb_energy_1::rb_rune_fury: as an additional cost to have me enter ready.)When I move, if you control 4 or fewer runes, draw 1.",
-    "imageUrl": "images/6a517604ad64d2d80a4f0388.webp"
-  },
-  {
-    "id": 1175,
+    "id": 1148,
     "string_id": "6a56ab95ff602fd324f47612",
     "name": "Eclipse Dragon",
     "set": "VEN",
@@ -16450,7 +16072,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f47612.webp"
   },
   {
-    "id": 1176,
+    "id": 1149,
     "string_id": "6a56aba0ff602fd324f47685",
     "name": "Endless Riches",
     "set": "VEN",
@@ -16464,7 +16086,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f47685.webp"
   },
   {
-    "id": 1177,
+    "id": 1150,
     "string_id": "6a590ef00e5d4c92d5d1efea",
     "name": "Escaped Grayback",
     "set": "VEN",
@@ -16478,21 +16100,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1efea.webp"
   },
   {
-    "id": 1178,
-    "string_id": "6a517604ad64d2d80a4f0389",
-    "name": "Esteemed Hierophant",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "025",
-    "energyCost": 5,
-    "power": 5,
-    "tags": "Shurima, Unit, Common, Calm",
-    "text": "While you control 7 or more runes, prevent all damage that enemy spells and abilities would deal to me.",
-    "imageUrl": "images/6a517604ad64d2d80a4f0389.webp"
-  },
-  {
-    "id": 1179,
+    "id": 1151,
     "string_id": "6a56ab95ff602fd324f47613",
     "name": "Esteemed Hierophant",
     "set": "VEN",
@@ -16506,35 +16114,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f47613.webp"
   },
   {
-    "id": 1180,
-    "string_id": "6a517605ad64d2d80a4f038b",
-    "name": "Eye of Twilight",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "193",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Shen, Legend, Rare, Calm, Order",
-    "text": "[Action][&gt;] :rb_exhaust:: Give a friendly unit [Tank] this turn.",
-    "imageUrl": "images/6a517605ad64d2d80a4f038b.webp"
-  },
-  {
-    "id": 1181,
-    "string_id": "6a517605ad64d2d80a4f038a",
-    "name": "Eye of Twilight",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "147",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Shen, Legend, Rare, Calm, Order",
-    "text": "[Action][&gt;] :rb_exhaust:: Give a friendly unit [Tank] this turn. (It must be assigned combat damage first.)",
-    "imageUrl": "images/6a517605ad64d2d80a4f038a.webp"
-  },
-  {
-    "id": 1182,
+    "id": 1152,
     "string_id": "6a56ab96ff602fd324f47616",
     "name": "Ezreal, Prodigy",
     "set": "VEN",
@@ -16548,21 +16128,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f47616.webp"
   },
   {
-    "id": 1183,
-    "string_id": "6a518b2537f518eaadf8bb00",
-    "name": "Ezreal, Prodigy",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "sp5",
-    "energyCost": 3,
-    "power": 3,
-    "tags": "Ezreal, Piltover, Unit, Epic, Chaos",
-    "text": "When you play me, discard 1, then draw 2.Optional additional costs you pay cost :rb_energy_1: or :rb_rune_rainbow: less.",
-    "imageUrl": "images/6a518b2537f518eaadf8bb00.webp"
-  },
-  {
-    "id": 1184,
+    "id": 1153,
     "string_id": "6a56aba0ff602fd324f47686",
     "name": "Fallen Feline",
     "set": "VEN",
@@ -16576,21 +16142,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f47686.webp"
   },
   {
-    "id": 1185,
-    "string_id": "6a517605ad64d2d80a4f038c",
-    "name": "Field Musicians",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "026",
-    "energyCost": 4,
-    "power": 3,
-    "tags": "Ionia, Unit, Common, Calm",
-    "text": "When you play me, give a unit +3 :rb_might: this turn.",
-    "imageUrl": "images/6a517605ad64d2d80a4f038c.webp"
-  },
-  {
-    "id": 1186,
+    "id": 1154,
     "string_id": "6a56ab96ff602fd324f47617",
     "name": "Field Musicians",
     "set": "VEN",
@@ -16604,7 +16156,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f47617.webp"
   },
   {
-    "id": 1187,
+    "id": 1155,
     "string_id": "6a56aba0ff602fd324f47687",
     "name": "Forgotten Relic",
     "set": "VEN",
@@ -16618,7 +16170,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f47687.webp"
   },
   {
-    "id": 1188,
+    "id": 1156,
     "string_id": "6a5a92b4fe2355878c40cc8a",
     "name": "Forsaken Baccai",
     "set": "VEN",
@@ -16632,7 +16184,7 @@
     "imageUrl": "images/6a5a92b4fe2355878c40cc8a.webp"
   },
   {
-    "id": 1189,
+    "id": 1157,
     "string_id": "6a590ef00e5d4c92d5d1efeb",
     "name": "Fretful Feline",
     "set": "VEN",
@@ -16646,7 +16198,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1efeb.webp"
   },
   {
-    "id": 1190,
+    "id": 1158,
     "string_id": "6a5a92b4fe2355878c40cc8b",
     "name": "Frostcoat Mother",
     "set": "VEN",
@@ -16660,21 +16212,7 @@
     "imageUrl": "images/6a5a92b4fe2355878c40cc8b.webp"
   },
   {
-    "id": 1191,
-    "string_id": "6a517605ad64d2d80a4f038d",
-    "name": "Fury Rune",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "r01",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Rune, Common, Fury",
-    "text": "[NO TEXT]",
-    "imageUrl": "images/6a517605ad64d2d80a4f038d.webp"
-  },
-  {
-    "id": 1192,
+    "id": 1159,
     "string_id": "6a56ab96ff602fd324f47618",
     "name": "Fury Rune",
     "set": "VEN",
@@ -16688,35 +16226,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f47618.webp"
   },
   {
-    "id": 1193,
-    "string_id": "6a517605ad64d2d80a4f038f",
-    "name": "Gangplank, Naval",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "086",
-    "energyCost": 6,
-    "power": 6,
-    "tags": "Bilgewater, Gangplank, Unit, Rare, Body",
-    "text": "[Empower] :rb_rune_body::rb_rune_body: (:rb_rune_body::rb_rune_body:: Empower me. Use only if not Empowered.)[Empowered][&gt;] If a spell or ability that chooses me would stun me, give me -:rb_might:, or return me to hand, give me +3 :rb_might: instead.",
-    "imageUrl": "images/6a517605ad64d2d80a4f038f.webp"
-  },
-  {
-    "id": 1194,
-    "string_id": "6a517605ad64d2d80a4f038e",
-    "name": "Gangplank, Naval",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "181",
-    "energyCost": 6,
-    "power": 6,
-    "tags": "Gangplank, Unit, Rare, Body",
-    "text": "[Empower] :rb_rune_body::rb_rune_body:[Empowered][&gt;] If a spell or ability that chooses me would stun me, give me -:rb_might:, or return me to hand, give me +3 :rb_might: instead.",
-    "imageUrl": "images/6a517605ad64d2d80a4f038e.webp"
-  },
-  {
-    "id": 1195,
+    "id": 1160,
     "string_id": "6a56ab96ff602fd324f4761a",
     "name": "Gangplank, Naval",
     "set": "VEN",
@@ -16730,7 +16240,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f4761a.webp"
   },
   {
-    "id": 1196,
+    "id": 1161,
     "string_id": "6a56ab96ff602fd324f47619",
     "name": "Gangplank, Naval (Overnumbered)",
     "set": "VEN",
@@ -16744,21 +16254,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f47619.webp"
   },
   {
-    "id": 1197,
-    "string_id": "6a517605ad64d2d80a4f0390",
-    "name": "Glowstone",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "133",
-    "energyCost": 2,
-    "power": 0,
-    "tags": "Gear, Rare, Order",
-    "text": "[Empower] :rb_rune_rainbow::rb_rune_rainbow: (:rb_rune_rainbow::rb_rune_rainbow:: Empower me. Use only if not Empowered.)Disempower this, :rb_exhaust:: Choose a player. They gain control of this and recall it. (Send it to their base.)At the end of your turn, kill this and deal 5 to all units you control.",
-    "imageUrl": "images/6a517605ad64d2d80a4f0390.webp"
-  },
-  {
-    "id": 1198,
+    "id": 1162,
     "string_id": "6a56ab96ff602fd324f4761b",
     "name": "Glowstone",
     "set": "VEN",
@@ -16772,7 +16268,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f4761b.webp"
   },
   {
-    "id": 1199,
+    "id": 1163,
     "string_id": "6a5a92b4fe2355878c40cc8c",
     "name": "Grumpy Rockbear",
     "set": "VEN",
@@ -16786,7 +16282,7 @@
     "imageUrl": "images/6a5a92b4fe2355878c40cc8c.webp"
   },
   {
-    "id": 1200,
+    "id": 1164,
     "string_id": "6a56ab96ff602fd324f4761c",
     "name": "Gust Monk",
     "set": "VEN",
@@ -16800,21 +16296,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f4761c.webp"
   },
   {
-    "id": 1201,
-    "string_id": "6a518b2537f518eaadf8bb01",
-    "name": "Gust Monk",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "101",
-    "energyCost": 2,
-    "power": 2,
-    "tags": "Yordle, Bandle City, Unit, Uncommon, Chaos",
-    "text": "You may pay :rb_energy_1: as an additional cost to play me.When you play me, if you paid the additional cost, banish a card from any trash to give a unit [Assault 2] this turn. (+2 :rb_might: while it's an attacker.)",
-    "imageUrl": "images/6a518b2537f518eaadf8bb01.webp"
-  },
-  {
-    "id": 1202,
+    "id": 1165,
     "string_id": "6a5a92b4fe2355878c40cc8d",
     "name": "Guttural Roar",
     "set": "VEN",
@@ -16828,7 +16310,7 @@
     "imageUrl": "images/6a5a92b4fe2355878c40cc8d.webp"
   },
   {
-    "id": 1203,
+    "id": 1166,
     "string_id": "6a590ef00e5d4c92d5d1efec",
     "name": "Hand Hammer",
     "set": "VEN",
@@ -16842,49 +16324,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1efec.webp"
   },
   {
-    "id": 1204,
-    "string_id": "6a517605ad64d2d80a4f0392",
-    "name": "Heart of the Tempest",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "155",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Yordle, Kennen, Legend, Rare, Order, Chaos",
-    "text": "When you play a card from anywhere other than your hand, empower me.[Action][&gt;] Disempower me, :rb_exhaust:: Give a unit [Assault 2] this turn. (+2 :rb_might: while it's an attacker.)",
-    "imageUrl": "images/6a517605ad64d2d80a4f0392.webp"
-  },
-  {
-    "id": 1205,
-    "string_id": "6a517605ad64d2d80a4f0391",
-    "name": "Heart of the Tempest",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "197",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Yordle, Kennen, Legend, Rare, Order, Chaos",
-    "text": "When you play a card from anywhere other than your hand, empower me.[Action][&gt;] Disempower me, :rb_exhaust:: Give a unit [Assault 2] this turn.",
-    "imageUrl": "images/6a517605ad64d2d80a4f0391.webp"
-  },
-  {
-    "id": 1206,
-    "string_id": "6a517605ad64d2d80a4f0393",
-    "name": "Heisho, Shell of the World",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "158",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Battlefield, Uncommon, Colorless",
-    "text": "Players ignore [Deflect] while paying for spells and abilities choosing something here.",
-    "imageUrl": "images/6a517605ad64d2d80a4f0393.webp"
-  },
-  {
-    "id": 1207,
+    "id": 1167,
     "string_id": "6a56ab96ff602fd324f4761f",
     "name": "Heisho, Shell of the World",
     "set": "VEN",
@@ -16898,7 +16338,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f4761f.webp"
   },
   {
-    "id": 1208,
+    "id": 1168,
     "string_id": "6a590ef00e5d4c92d5d1efed",
     "name": "Helm of Suppression",
     "set": "VEN",
@@ -16912,7 +16352,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1efed.webp"
   },
   {
-    "id": 1209,
+    "id": 1169,
     "string_id": "6a56ab96ff602fd324f47620",
     "name": "Hextech Disc",
     "set": "VEN",
@@ -16926,35 +16366,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f47620.webp"
   },
   {
-    "id": 1210,
-    "string_id": "6a518b2637f518eaadf8bb02",
-    "name": "Hextech Disc",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "087",
-    "energyCost": 4,
-    "power": 1,
-    "tags": "Gear, Rare, Body",
-    "text": "[Empower] — :rb_exhaust: (Pay the cost: Empower this. Use only if not Empowered.)Disempower this, :rb_energy_1:, :rb_exhaust:: Play a 3 :rb_might: Mech unit token to your base.",
-    "imageUrl": "images/6a518b2637f518eaadf8bb02.webp"
-  },
-  {
-    "id": 1211,
-    "string_id": "6a517605ad64d2d80a4f0394",
-    "name": "Hextech Formula",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "062",
-    "energyCost": 2,
-    "power": 0,
-    "tags": "Gear, Rare, Mind",
-    "text": "This enters exhausted.:rb_exhaust:: Empower another gear. (It becomes Empowered if it's not already.)",
-    "imageUrl": "images/6a517605ad64d2d80a4f0394.webp"
-  },
-  {
-    "id": 1212,
+    "id": 1170,
     "string_id": "6a56ab96ff602fd324f47621",
     "name": "Hextech Formula",
     "set": "VEN",
@@ -16968,7 +16380,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f47621.webp"
   },
   {
-    "id": 1213,
+    "id": 1171,
     "string_id": "6a56ab96ff602fd324f47622",
     "name": "Horns of the Dragon",
     "set": "VEN",
@@ -16982,21 +16394,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f47622.webp"
   },
   {
-    "id": 1214,
-    "string_id": "6a518b2637f518eaadf8bb03",
-    "name": "Horns of the Dragon",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "118",
-    "energyCost": 6,
-    "power": 6,
-    "tags": "Ionia, Unit, Common, Order",
-    "text": "[Tank] (I must be assigned combat damage first.)",
-    "imageUrl": "images/6a518b2637f518eaadf8bb03.webp"
-  },
-  {
-    "id": 1215,
+    "id": 1172,
     "string_id": "6a590ef00e5d4c92d5d1efee",
     "name": "Hungry Wolf",
     "set": "VEN",
@@ -17010,35 +16408,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1efee.webp"
   },
   {
-    "id": 1216,
-    "string_id": "6a517605ad64d2d80a4f0396",
-    "name": "Illaoi, Prophet of the Great Kraken",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "182",
-    "energyCost": 6,
-    "power": 4,
-    "tags": "Illaoi, Unit, Rare, Chaos",
-    "text": "When you play me or when I score, play a :rb_energy_1: :rb_might: Tentacle unit token from Bilgewater.I have +1 :rb_might: for each token unit you control.",
-    "imageUrl": "images/6a517605ad64d2d80a4f0396.webp"
-  },
-  {
-    "id": 1217,
-    "string_id": "6a517605ad64d2d80a4f0395",
-    "name": "Illaoi, Prophet of the Great Kraken",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "109",
-    "energyCost": 6,
-    "power": 4,
-    "tags": "Bilgewater, Illaoi, Unit, Rare, Chaos",
-    "text": "When you play me or when I score, play a :rb_energy_1: :rb_might: Tentacle unit token from Bilgewater.I have +1 :rb_might: for each token unit you control.",
-    "imageUrl": "images/6a517605ad64d2d80a4f0395.webp"
-  },
-  {
-    "id": 1218,
+    "id": 1173,
     "string_id": "6a56ab96ff602fd324f47624",
     "name": "Illaoi, Prophet of the Great Kraken",
     "set": "VEN",
@@ -17052,7 +16422,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f47624.webp"
   },
   {
-    "id": 1219,
+    "id": 1174,
     "string_id": "6a56ab96ff602fd324f47623",
     "name": "Illaoi, Prophet of the Great Kraken (Overnumbered)",
     "set": "VEN",
@@ -17066,7 +16436,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f47623.webp"
   },
   {
-    "id": 1220,
+    "id": 1175,
     "string_id": "6a5a92b4fe2355878c40cc8e",
     "name": "Irelia, Fervent",
     "set": "VEN",
@@ -17080,7 +16450,7 @@
     "imageUrl": "images/6a5a92b4fe2355878c40cc8e.webp"
   },
   {
-    "id": 1221,
+    "id": 1176,
     "string_id": "6a590ef00e5d4c92d5d1efef",
     "name": "Iterative Design",
     "set": "VEN",
@@ -17094,7 +16464,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1efef.webp"
   },
   {
-    "id": 1222,
+    "id": 1177,
     "string_id": "6a56ab96ff602fd324f47625",
     "name": "Jagged Cutlass",
     "set": "VEN",
@@ -17108,21 +16478,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f47625.webp"
   },
   {
-    "id": 1223,
-    "string_id": "6a517605ad64d2d80a4f0397",
-    "name": "Jagged Cutlass",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "073",
-    "energyCost": 3,
-    "power": 0,
-    "tags": "Equipment, Gear, Common, Body",
-    "text": "Equip :rb_rune_body: (:rb_rune_body:: Attach this to a unit you control.)",
-    "imageUrl": "images/6a517605ad64d2d80a4f0397.webp"
-  },
-  {
-    "id": 1224,
+    "id": 1178,
     "string_id": "6a56ab95ff602fd324f47610",
     "name": "Jayce - Defender of Tomorrow",
     "set": "VEN",
@@ -17136,7 +16492,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f47610.webp"
   },
   {
-    "id": 1225,
+    "id": 1179,
     "string_id": "6a56ab96ff602fd324f47626",
     "name": "Jayce, Brilliant Inventor",
     "set": "VEN",
@@ -17150,35 +16506,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f47626.webp"
   },
   {
-    "id": 1226,
-    "string_id": "6a517605ad64d2d80a4f0399",
-    "name": "Jayce, Brilliant Inventor",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "068",
-    "energyCost": 6,
-    "power": 6,
-    "tags": "Jayce, Piltover, Unit, Epic, Mind",
-    "text": "When you play me or the first time you play a non-token gear each turn, you may ready something besides me that's exhausted.",
-    "imageUrl": "images/6a517605ad64d2d80a4f0399.webp"
-  },
-  {
-    "id": 1227,
-    "string_id": "6a517605ad64d2d80a4f0398",
-    "name": "Jayce, Brilliant Inventor",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "068a",
-    "energyCost": 6,
-    "power": 6,
-    "tags": "Jayce, Unit, Epic, Mind",
-    "text": "When you play me or the first time you play a non-token gear each turn, you may ready something besides me that's exhausted.",
-    "imageUrl": "images/6a517605ad64d2d80a4f0398.webp"
-  },
-  {
-    "id": 1228,
+    "id": 1180,
     "string_id": "6a56ab97ff602fd324f47627",
     "name": "Jayce, Brilliant Inventor (Alternate Art)",
     "set": "VEN",
@@ -17192,7 +16520,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f47627.webp"
   },
   {
-    "id": 1229,
+    "id": 1181,
     "string_id": "6a56ab97ff602fd324f47628",
     "name": "Jayce, Hammer in Hand",
     "set": "VEN",
@@ -17206,35 +16534,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f47628.webp"
   },
   {
-    "id": 1230,
-    "string_id": "6a517605ad64d2d80a4f039b",
-    "name": "Jayce, Hammer in Hand",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "088a",
-    "energyCost": 4,
-    "power": 5,
-    "tags": "Jayce, Unit, Rare, Body",
-    "text": "When I become ready, choose one to give me this turn —[Assault 2][Deflect 2][Ganking]",
-    "imageUrl": "images/6a517605ad64d2d80a4f039b.webp"
-  },
-  {
-    "id": 1231,
-    "string_id": "6a517605ad64d2d80a4f039a",
-    "name": "Jayce, Hammer in Hand",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "088",
-    "energyCost": 4,
-    "power": 5,
-    "tags": "Jayce, Piltover, Unit, Rare, Body",
-    "text": "When I become ready, choose one to give me this turn —[Assault 2] (+2 :rb_might: while I'm an attacker.)[Deflect 2] (Opponents must pay :rb_rune_rainbow::rb_rune_rainbow: to choose me with a spell or ability.)[Ganking] (I can move from battlefield to battlefield.)",
-    "imageUrl": "images/6a517605ad64d2d80a4f039a.webp"
-  },
-  {
-    "id": 1232,
+    "id": 1182,
     "string_id": "6a56ab97ff602fd324f47629",
     "name": "Jayce, Hammer in Hand (Alternate Art)",
     "set": "VEN",
@@ -17248,7 +16548,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f47629.webp"
   },
   {
-    "id": 1233,
+    "id": 1183,
     "string_id": "6a56ab97ff602fd324f4762a",
     "name": "Jayce, Man of Progress",
     "set": "VEN",
@@ -17262,35 +16562,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f4762a.webp"
   },
   {
-    "id": 1234,
-    "string_id": "6a517605ad64d2d80a4f039c",
-    "name": "Jayce, Man of Progress",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "175",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Jayce, Piltover, Unit, Rare, Mind",
-    "text": "When you play me, you may kill a friendly gear. If you do, you may play a gear with Energy cost no more than :rb_energy_7: from hand this turn, ignoring its Energy cost.",
-    "imageUrl": "images/6a517605ad64d2d80a4f039c.webp"
-  },
-  {
-    "id": 1235,
-    "string_id": "6a517605ad64d2d80a4f039d",
-    "name": "Jinx, Demolitionist",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "168",
-    "energyCost": 3,
-    "power": 4,
-    "tags": "Jinx, Unit, Rare, Fury",
-    "text": "[Accelerate][Assault 2]When you play me, discard 2.",
-    "imageUrl": "images/6a517605ad64d2d80a4f039d.webp"
-  },
-  {
-    "id": 1236,
+    "id": 1184,
     "string_id": "6a56ab97ff602fd324f4762b",
     "name": "Jinx, Demolitionist (Overnumbered)",
     "set": "VEN",
@@ -17304,7 +16576,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f4762b.webp"
   },
   {
-    "id": 1237,
+    "id": 1185,
     "string_id": "6a56aba0ff602fd324f47688",
     "name": "Kai'Sa, Survivor",
     "set": "VEN",
@@ -17318,7 +16590,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f47688.webp"
   },
   {
-    "id": 1238,
+    "id": 1186,
     "string_id": "6a5fd1037dd422cf1aaca13c",
     "name": "Kayle, Justified",
     "set": "VEN",
@@ -17332,7 +16604,7 @@
     "imageUrl": "images/6a5fd1037dd422cf1aaca13c.webp"
   },
   {
-    "id": 1239,
+    "id": 1187,
     "string_id": "6a56aba0ff602fd324f47689",
     "name": "Kayle, Justified",
     "set": "VEN",
@@ -17346,7 +16618,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f47689.webp"
   },
   {
-    "id": 1240,
+    "id": 1188,
     "string_id": "6a56ab97ff602fd324f4762c",
     "name": "Keeper of Law",
     "set": "VEN",
@@ -17360,21 +16632,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f4762c.webp"
   },
   {
-    "id": 1241,
-    "string_id": "6a518b2637f518eaadf8bb04",
-    "name": "Keeper of Law",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "119",
-    "energyCost": 5,
-    "power": 5,
-    "tags": "Shurima, Unit, Common, Order",
-    "text": "I cost :rb_energy_2::rb_rune_order: less if you control a battlefield with exactly two units there.",
-    "imageUrl": "images/6a518b2637f518eaadf8bb04.webp"
-  },
-  {
-    "id": 1242,
+    "id": 1189,
     "string_id": "6a56ab97ff602fd324f4762e",
     "name": "Kennen, Keeper of Balance",
     "set": "VEN",
@@ -17388,35 +16646,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f4762e.webp"
   },
   {
-    "id": 1243,
-    "string_id": "6a517606ad64d2d80a4f039f",
-    "name": "Kennen, Keeper of Balance",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "135a",
-    "energyCost": 3,
-    "power": 2,
-    "tags": "Yordle, Kennen, Unit, Rare, Order",
-    "text": "[Hidden]When you play me or I attack, you may pay :rb_energy_2: to [Stun] a unit.While there's a stunned enemy unit here, I have +2 :rb_might:.",
-    "imageUrl": "images/6a517606ad64d2d80a4f039f.webp"
-  },
-  {
-    "id": 1244,
-    "string_id": "6a517606ad64d2d80a4f039e",
-    "name": "Kennen, Keeper of Balance",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "135",
-    "energyCost": 3,
-    "power": 2,
-    "tags": "Yordle, Ionia, Kennen, Unit, Rare, Order",
-    "text": "[Hidden] (Hide now for :rb_rune_rainbow: to react with later for :rb_energy_0:.)When you play me or I attack, you may pay :rb_energy_2: to [Stun] a unit. (It doesn't deal combat damage this turn.)While there's a stunned enemy unit here, I have +2 :rb_might:.",
-    "imageUrl": "images/6a517606ad64d2d80a4f039e.webp"
-  },
-  {
-    "id": 1245,
+    "id": 1190,
     "string_id": "6a56ab97ff602fd324f4762d",
     "name": "Kennen, Keeper of Balance (Alternate Art)",
     "set": "VEN",
@@ -17430,7 +16660,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f4762d.webp"
   },
   {
-    "id": 1246,
+    "id": 1191,
     "string_id": "6a56ab97ff602fd324f4762f",
     "name": "Kennen, Storm of Shuriken",
     "set": "VEN",
@@ -17444,7 +16674,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f4762f.webp"
   },
   {
-    "id": 1247,
+    "id": 1192,
     "string_id": "6a590ef00e5d4c92d5d1eff0",
     "name": "Kennen, Storm of Shuriken",
     "set": "VEN",
@@ -17458,21 +16688,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1eff0.webp"
   },
   {
-    "id": 1248,
-    "string_id": "6a517606ad64d2d80a4f03a0",
-    "name": "Kennen, Storm of Shuriken",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "113",
-    "energyCost": 3,
-    "power": 4,
-    "tags": "Yordle, Kennen, Unit, Epic, Chaos",
-    "text": "When you play me, [Burn 2]. (Put the top 2 cards of your Main Deck into your trash.)When I conquer, give a spell in your trash [Flow] equal to its cost this turn. (You may play it from your trash for its Flow cost. Then banish it.)",
-    "imageUrl": "images/6a517606ad64d2d80a4f03a0.webp"
-  },
-  {
-    "id": 1249,
+    "id": 1193,
     "string_id": "6a56ab97ff602fd324f47630",
     "name": "Kha'Zix, Evolving Hunter",
     "set": "VEN",
@@ -17486,21 +16702,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f47630.webp"
   },
   {
-    "id": 1250,
-    "string_id": "6a517606ad64d2d80a4f03a1",
-    "name": "Kha'Zix, Evolving Hunter",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "180",
-    "energyCost": 5,
-    "power": 5,
-    "tags": "Kha'Zix, The Void, Unit, Epic, Body",
-    "text": "[Hunt]When I attack, you may spend 3 XP to deal damage equal to my Might to an enemy unit here.",
-    "imageUrl": "images/6a517606ad64d2d80a4f03a1.webp"
-  },
-  {
-    "id": 1251,
+    "id": 1194,
     "string_id": "6a590ef00e5d4c92d5d1eff1",
     "name": "Kharox",
     "set": "VEN",
@@ -17514,7 +16716,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1eff1.webp"
   },
   {
-    "id": 1252,
+    "id": 1195,
     "string_id": "6a56ab97ff602fd324f47631",
     "name": "Ki Barrier",
     "set": "VEN",
@@ -17528,21 +16730,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f47631.webp"
   },
   {
-    "id": 1253,
-    "string_id": "6a517606ad64d2d80a4f03a2",
-    "name": "Ki Barrier",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "126",
-    "energyCost": 2,
-    "power": 1,
-    "tags": "Spell, Uncommon, Order",
-    "text": "[Reaction] (Play any time, even before spells and abilities resolve.)Choose a unit. Prevent the next 7 damage that would be dealt to it this turn. (Opponents can assign it extra combat damage to kill it.)",
-    "imageUrl": "images/6a517606ad64d2d80a4f03a2.webp"
-  },
-  {
-    "id": 1254,
+    "id": 1196,
     "string_id": "6a56ab97ff602fd324f47632",
     "name": "Kinkou Lifeblade",
     "set": "VEN",
@@ -17556,21 +16744,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f47632.webp"
   },
   {
-    "id": 1255,
-    "string_id": "6a517606ad64d2d80a4f03a3",
-    "name": "Kinkou Lifeblade",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "093",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Ionia, Unit, Common, Chaos",
-    "text": "[Empower] :rb_energy_2: (:rb_energy_2:: Empower me. Use only if not Empowered.)[Empowered][&gt;] I have +1 :rb_might: and [Ganking]. (I can move from battlefield to battlefield.)",
-    "imageUrl": "images/6a517606ad64d2d80a4f03a3.webp"
-  },
-  {
-    "id": 1256,
+    "id": 1197,
     "string_id": "6a590ef00e5d4c92d5d1eff2",
     "name": "Kinkou Temple",
     "set": "VEN",
@@ -17584,7 +16758,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1eff2.webp"
   },
   {
-    "id": 1257,
+    "id": 1198,
     "string_id": "6a56ab97ff602fd324f47633",
     "name": "Lacerate",
     "set": "VEN",
@@ -17598,21 +16772,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f47633.webp"
   },
   {
-    "id": 1258,
-    "string_id": "6a518b2637f518eaadf8bb05",
-    "name": "Lacerate",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "127",
-    "energyCost": 2,
-    "power": 1,
-    "tags": "Spell, Common, Order",
-    "text": "Choose a unit. If it's [Empowered], disempower it. Then kill it if it has 3 :rb_might: or less.[Flow] :rb_energy_4::rb_rune_order::rb_rune_order: (You may play this from your trash for its Flow cost. Then banish it.)",
-    "imageUrl": "images/6a518b2637f518eaadf8bb05.webp"
-  },
-  {
-    "id": 1259,
+    "id": 1199,
     "string_id": "6a5a92b4fe2355878c40cc8f",
     "name": "Legion Marauder",
     "set": "VEN",
@@ -17626,7 +16786,7 @@
     "imageUrl": "images/6a5a92b4fe2355878c40cc8f.webp"
   },
   {
-    "id": 1260,
+    "id": 1200,
     "string_id": "6a56aba0ff602fd324f4768a",
     "name": "Leona, Determined",
     "set": "VEN",
@@ -17640,7 +16800,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f4768a.webp"
   },
   {
-    "id": 1261,
+    "id": 1201,
     "string_id": "6a56ab97ff602fd324f47634",
     "name": "Lightning Rush",
     "set": "VEN",
@@ -17654,21 +16814,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f47634.webp"
   },
   {
-    "id": 1262,
-    "string_id": "6a517606ad64d2d80a4f03a4",
-    "name": "Lightning Rush",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "156",
-    "energyCost": 1,
-    "power": 0,
-    "tags": "Kennen, Spell, Epic, Order, Chaos",
-    "text": "Look at the top 3 cards of your Main Deck. You may choose a card from among them and draw it. Put the rest into your trash.[Flow] :rb_energy_2::rb_rune_rainbow: (You may play this from your trash for its Flow cost. Then banish it.)",
-    "imageUrl": "images/6a517606ad64d2d80a4f03a4.webp"
-  },
-  {
-    "id": 1263,
+    "id": 1202,
     "string_id": "6a56ab97ff602fd324f47635",
     "name": "Lux, Crownguard",
     "set": "VEN",
@@ -17682,21 +16828,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f47635.webp"
   },
   {
-    "id": 1264,
-    "string_id": "6a518b2637f518eaadf8bb06",
-    "name": "Lux, Crownguard",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "sp6",
-    "energyCost": 4,
-    "power": 2,
-    "tags": "Lux, Unit, Epic, Order",
-    "text": ":rb_exhaust:: [Reaction] — [Add] :rb_energy_2:. Spend this Energy only to play spells.",
-    "imageUrl": "images/6a518b2637f518eaadf8bb06.webp"
-  },
-  {
-    "id": 1265,
+    "id": 1203,
     "string_id": "6a590ef00e5d4c92d5d1eff3",
     "name": "Masa, Crashing Thunder",
     "set": "VEN",
@@ -17710,7 +16842,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1eff3.webp"
   },
   {
-    "id": 1266,
+    "id": 1204,
     "string_id": "6a5a92b4fe2355878c40cc90",
     "name": "Mask Mother",
     "set": "VEN",
@@ -17724,63 +16856,7 @@
     "imageUrl": "images/6a5a92b4fe2355878c40cc90.webp"
   },
   {
-    "id": 1267,
-    "string_id": "6a517606ad64d2d80a4f03a6",
-    "name": "Master of Shadows",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "191",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Zed, Legend, Rare, Fury, Chaos",
-    "text": "When you banish a card you own, empower me.[Action][&gt;] Disempower me, :rb_exhaust:: Discard 1, then draw 1.",
-    "imageUrl": "images/6a517606ad64d2d80a4f03a6.webp"
-  },
-  {
-    "id": 1268,
-    "string_id": "6a517606ad64d2d80a4f03a5",
-    "name": "Master of Shadows",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "143",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Zed, Legend, Rare, Fury, Chaos",
-    "text": "When you banish a card you own, empower me. (I become Empowered if I'm not already.)[Action][&gt;] Disempower me, :rb_exhaust:: Discard 1, then draw 1.",
-    "imageUrl": "images/6a517606ad64d2d80a4f03a5.webp"
-  },
-  {
-    "id": 1269,
-    "string_id": "6a517606ad64d2d80a4f03a7",
-    "name": "Matriarch of War",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "153",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Ambessa, Legend, Rare, Body, Order",
-    "text": "When you empower something else, empower me. (I become Empowered if I'm not already.)Disempower me, :rb_rune_rainbow:, :rb_exhaust:: Ready a unit.",
-    "imageUrl": "images/6a517606ad64d2d80a4f03a7.webp"
-  },
-  {
-    "id": 1270,
-    "string_id": "6a518b2637f518eaadf8bb07",
-    "name": "Matriarch of War",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "196",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Ambessa, Legend, Rare, Body, Order",
-    "text": "When you empower something else, empower me.Disempower me, :rb_rune_rainbow:, :rb_exhaust:: Ready a unit.",
-    "imageUrl": "images/6a518b2637f518eaadf8bb07.webp"
-  },
-  {
-    "id": 1271,
+    "id": 1205,
     "string_id": "6a56ab9aff602fd324f4766c",
     "name": "Mel - Soul's Reflection",
     "set": "VEN",
@@ -17794,7 +16870,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f4766c.webp"
   },
   {
-    "id": 1272,
+    "id": 1206,
     "string_id": "6a56ab9aff602fd324f4766b",
     "name": "Mel - Soul's Reflection (Overnumbered)",
     "set": "VEN",
@@ -17808,7 +16884,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f4766b.webp"
   },
   {
-    "id": 1273,
+    "id": 1207,
     "string_id": "6a56ab98ff602fd324f4763b",
     "name": "Mel, Defiant Soul",
     "set": "VEN",
@@ -17822,7 +16898,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f4763b.webp"
   },
   {
-    "id": 1274,
+    "id": 1208,
     "string_id": "6a56aba0ff602fd324f4768b",
     "name": "Mel, Defiant Soul",
     "set": "VEN",
@@ -17836,35 +16912,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f4768b.webp"
   },
   {
-    "id": 1275,
-    "string_id": "6a517606ad64d2d80a4f03a9",
-    "name": "Mel, Defiant Soul",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "110",
-    "energyCost": 5,
-    "power": 4,
-    "tags": "Noxus, Mel, Unit, Rare, Chaos",
-    "text": "[Empower] — Discard a spell (Pay the cost: Empower me. Use only if not Empowered.)When I become [Empowered], banish an enemy unit at a battlefield with 3 :rb_might: or less.",
-    "imageUrl": "images/6a517606ad64d2d80a4f03a9.webp"
-  },
-  {
-    "id": 1276,
-    "string_id": "6a517606ad64d2d80a4f03a8",
-    "name": "Mel, Defiant Soul",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "110a",
-    "energyCost": 5,
-    "power": 4,
-    "tags": "Mel, Unit, Rare, Chaos",
-    "text": "[Empower] — Discard a spellWhen I become [Empowered], banish an enemy unit at a battlefield with 3 :rb_might: or less.",
-    "imageUrl": "images/6a517606ad64d2d80a4f03a8.webp"
-  },
-  {
-    "id": 1277,
+    "id": 1209,
     "string_id": "6a56ab98ff602fd324f4763a",
     "name": "Mel, Defiant Soul (Alternate Art)",
     "set": "VEN",
@@ -17878,7 +16926,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f4763a.webp"
   },
   {
-    "id": 1278,
+    "id": 1210,
     "string_id": "6a56ab98ff602fd324f4763c",
     "name": "Mel, Newly Awakened",
     "set": "VEN",
@@ -17892,35 +16940,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f4763c.webp"
   },
   {
-    "id": 1279,
-    "string_id": "6a517606ad64d2d80a4f03ab",
-    "name": "Mel, Newly Awakened",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "069a",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Mel, Unit, Epic, Mind",
-    "text": "When you play me, draw 1.[Empower] :rb_energy_3:[Empowered][&gt;] Your spells and abilities can't be countered. If a spell or ability you control would give -:rb_might: to a unit it chooses, it gives an additional -1 :rb_might:.",
-    "imageUrl": "images/6a517606ad64d2d80a4f03ab.webp"
-  },
-  {
-    "id": 1280,
-    "string_id": "6a517606ad64d2d80a4f03aa",
-    "name": "Mel, Newly Awakened",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "069",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Noxus, Mel, Unit, Epic, Mind",
-    "text": "When you play me, draw 1.[Empower] :rb_energy_3: (:rb_energy_3:: Empower me. Use only if not Empowered.)[Empowered][&gt;] Your spells and abilities can't be countered. If a spell or ability you control would give -:rb_might: to a unit it chooses, it gives an additional -1 :rb_might:.",
-    "imageUrl": "images/6a517606ad64d2d80a4f03aa.webp"
-  },
-  {
-    "id": 1281,
+    "id": 1211,
     "string_id": "6a56ab98ff602fd324f4763d",
     "name": "Mel, Newly Awakened (Alternate Art)",
     "set": "VEN",
@@ -17934,7 +16954,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f4763d.webp"
   },
   {
-    "id": 1282,
+    "id": 1212,
     "string_id": "6a56ab98ff602fd324f4763e",
     "name": "Mesmerize",
     "set": "VEN",
@@ -17948,21 +16968,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f4763e.webp"
   },
   {
-    "id": 1283,
-    "string_id": "6a517606ad64d2d80a4f03ac",
-    "name": "Mesmerize",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "052",
-    "energyCost": 1,
-    "power": 1,
-    "tags": "Spell, Common, Mind",
-    "text": "[Reaction] (Play any time, even before spells and abilities resolve.)Choose one —Return a friendly unit to its owner's hand.Give an enemy unit -2 :rb_might: this turn.",
-    "imageUrl": "images/6a517606ad64d2d80a4f03ac.webp"
-  },
-  {
-    "id": 1284,
+    "id": 1213,
     "string_id": "6a5a92b4fe2355878c40cc91",
     "name": "Minah Swiftfoot",
     "set": "VEN",
@@ -17976,7 +16982,7 @@
     "imageUrl": "images/6a5a92b4fe2355878c40cc91.webp"
   },
   {
-    "id": 1285,
+    "id": 1214,
     "string_id": "6a56ab98ff602fd324f4763f",
     "name": "Mind Rune",
     "set": "VEN",
@@ -17990,21 +16996,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f4763f.webp"
   },
   {
-    "id": 1286,
-    "string_id": "6a517606ad64d2d80a4f03ad",
-    "name": "Mind Rune",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "r03",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Rune, Common, Mind",
-    "text": "[NO TEXT]",
-    "imageUrl": "images/6a517606ad64d2d80a4f03ad.webp"
-  },
-  {
-    "id": 1287,
+    "id": 1215,
     "string_id": "6a56ab98ff602fd324f47640",
     "name": "Morgana, Vindictive",
     "set": "VEN",
@@ -18018,7 +17010,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f47640.webp"
   },
   {
-    "id": 1288,
+    "id": 1216,
     "string_id": "6a5fd1037dd422cf1aaca13d",
     "name": "Morgana, Vindictive",
     "set": "VEN",
@@ -18032,21 +17024,7 @@
     "imageUrl": "images/6a5fd1037dd422cf1aaca13d.webp"
   },
   {
-    "id": 1289,
-    "string_id": "6a518b2737f518eaadf8bb08",
-    "name": "Morgana, Vindictive",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "017",
-    "energyCost": 5,
-    "power": 5,
-    "tags": "Demacia, Morgana, Unit, Rare, Fury",
-    "text": "[Ambush] (You may play me as a [Reaction] to a battlefield where you have units.)When you play me, deal damage to a unit equal to the damage marked on it.",
-    "imageUrl": "images/6a518b2737f518eaadf8bb08.webp"
-  },
-  {
-    "id": 1290,
+    "id": 1217,
     "string_id": "6a56ab98ff602fd324f47641",
     "name": "Mournful Witness",
     "set": "VEN",
@@ -18060,21 +17038,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f47641.webp"
   },
   {
-    "id": 1291,
-    "string_id": "6a518b2737f518eaadf8bb09",
-    "name": "Mournful Witness",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "028",
-    "energyCost": 2,
-    "power": 2,
-    "tags": "Fae, Ionia, Unit, Common, Calm",
-    "text": "When a combat that I was in ends, empower me. (I become Empowered if I'm not already.)[Empowered][&gt;] I have +2 :rb_might:.",
-    "imageUrl": "images/6a518b2737f518eaadf8bb09.webp"
-  },
-  {
-    "id": 1292,
+    "id": 1218,
     "string_id": "6a56aba0ff602fd324f4768c",
     "name": "Mystic Vortex",
     "set": "VEN",
@@ -18088,7 +17052,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f4768c.webp"
   },
   {
-    "id": 1293,
+    "id": 1219,
     "string_id": "6a56ab95ff602fd324f4760b",
     "name": "Nasus - Curator of the Sands",
     "set": "VEN",
@@ -18102,7 +17066,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f4760b.webp"
   },
   {
-    "id": 1294,
+    "id": 1220,
     "string_id": "6a56ab95ff602fd324f4760a",
     "name": "Nasus - Curator of the Sands (Overnumbered)",
     "set": "VEN",
@@ -18116,7 +17080,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f4760a.webp"
   },
   {
-    "id": 1295,
+    "id": 1221,
     "string_id": "6a56ab98ff602fd324f47642",
     "name": "Nasus, Ascended",
     "set": "VEN",
@@ -18130,35 +17094,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f47642.webp"
   },
   {
-    "id": 1296,
-    "string_id": "6a517606ad64d2d80a4f03af",
-    "name": "Nasus, Ascended",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "046",
-    "energyCost": 8,
-    "power": 8,
-    "tags": "Dog, Shurima, Nasus, Unit, Epic, Calm",
-    "text": "[Deflect 2] (Opponents must pay :rb_rune_rainbow::rb_rune_rainbow: to choose me with a spell or ability.)[Empower] :rb_energy_8: (:rb_energy_8:: Empower me. Use only if not Empowered.)[Empowered][&gt;] When I conquer, you score 1 point.",
-    "imageUrl": "images/6a517606ad64d2d80a4f03af.webp"
-  },
-  {
-    "id": 1297,
-    "string_id": "6a517606ad64d2d80a4f03ae",
-    "name": "Nasus, Ascended",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "046a",
-    "energyCost": 8,
-    "power": 8,
-    "tags": "Dog, Nasus, Unit, Epic, Calm",
-    "text": "[Deflect 2][Empower] :rb_energy_8:[Empowered][&gt;] When I conquer, you score 1 point.",
-    "imageUrl": "images/6a517606ad64d2d80a4f03ae.webp"
-  },
-  {
-    "id": 1298,
+    "id": 1222,
     "string_id": "6a56ab98ff602fd324f47643",
     "name": "Nasus, Ascended (Alternate Art)",
     "set": "VEN",
@@ -18172,7 +17108,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f47643.webp"
   },
   {
-    "id": 1299,
+    "id": 1223,
     "string_id": "6a56ab98ff602fd324f47644",
     "name": "Nasus, Guardian of Knowledge",
     "set": "VEN",
@@ -18186,7 +17122,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f47644.webp"
   },
   {
-    "id": 1300,
+    "id": 1224,
     "string_id": "6a590ef00e5d4c92d5d1eff4",
     "name": "Nasus, Guardian of Knowledge",
     "set": "VEN",
@@ -18200,35 +17136,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1eff4.webp"
   },
   {
-    "id": 1301,
-    "string_id": "6a517607ad64d2d80a4f03b1",
-    "name": "Nasus, Guardian of Knowledge",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "063a",
-    "energyCost": 5,
-    "power": 6,
-    "tags": "Dog, Nasus, Unit, Rare, Mind",
-    "text": "Once each turn, when an enemy unit here dies, channel 1 rune exhausted.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03b1.webp"
-  },
-  {
-    "id": 1302,
-    "string_id": "6a517607ad64d2d80a4f03b0",
-    "name": "Nasus, Guardian of Knowledge",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "063",
-    "energyCost": 5,
-    "power": 6,
-    "tags": "Dog, Shurima, Nasus, Unit, Rare, Mind",
-    "text": "Once each turn, when an enemy unit here dies, channel 1 rune exhausted.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03b0.webp"
-  },
-  {
-    "id": 1303,
+    "id": 1225,
     "string_id": "6a56ab98ff602fd324f47645",
     "name": "Nasus, Guardian of Knowledge (Alternate Art)",
     "set": "VEN",
@@ -18242,7 +17150,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f47645.webp"
   },
   {
-    "id": 1304,
+    "id": 1226,
     "string_id": "6a56ab98ff602fd324f47646",
     "name": "Noxian Demolitionist",
     "set": "VEN",
@@ -18256,21 +17164,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f47646.webp"
   },
   {
-    "id": 1305,
-    "string_id": "6a518b2737f518eaadf8bb0a",
-    "name": "Noxian Demolitionist",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "080",
-    "energyCost": 2,
-    "power": 1,
-    "tags": "Noxus, Unit, Uncommon, Body",
-    "text": "When I conquer, you may kill a gear with Energy cost no more than my Might.",
-    "imageUrl": "images/6a518b2737f518eaadf8bb0a.webp"
-  },
-  {
-    "id": 1306,
+    "id": 1227,
     "string_id": "6a590ef00e5d4c92d5d1eff5",
     "name": "Noxian Emissary",
     "set": "VEN",
@@ -18284,7 +17178,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1eff5.webp"
   },
   {
-    "id": 1307,
+    "id": 1228,
     "string_id": "6a56ab98ff602fd324f47647",
     "name": "Oasis Raider",
     "set": "VEN",
@@ -18298,21 +17192,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f47647.webp"
   },
   {
-    "id": 1308,
-    "string_id": "6a518b2737f518eaadf8bb0b",
-    "name": "Oasis Raider",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "006",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Shurima, Unit, Common, Fury",
-    "text": "If you control fewer runes than an opponent at the start of your Beginning Phase, give me +2 :rb_might: and [Ganking] this turn. (I can move from battlefield to battlefield.)",
-    "imageUrl": "images/6a518b2737f518eaadf8bb0b.webp"
-  },
-  {
-    "id": 1309,
+    "id": 1229,
     "string_id": "6a56ab98ff602fd324f47648",
     "name": "Ocean Drake",
     "set": "VEN",
@@ -18326,21 +17206,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f47648.webp"
   },
   {
-    "id": 1310,
-    "string_id": "6a517607ad64d2d80a4f03b2",
-    "name": "Ocean Drake",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "115",
-    "energyCost": 8,
-    "power": 7,
-    "tags": "Dragon, Ionia, Unit, Epic, Chaos",
-    "text": "You may play me to an open battlefield.When you play me, you may return a non-Dragon unit to its owner's hand.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03b2.webp"
-  },
-  {
-    "id": 1311,
+    "id": 1230,
     "string_id": "6a56ab98ff602fd324f47649",
     "name": "Ol' Poro",
     "set": "VEN",
@@ -18354,21 +17220,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f47649.webp"
   },
   {
-    "id": 1312,
-    "string_id": "6a517607ad64d2d80a4f03b3",
-    "name": "Ol' Poro",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "029",
-    "energyCost": 2,
-    "power": 4,
-    "tags": "Poro, Bandle City, Unit, Common, Calm",
-    "text": "I can't be played on your first, second, or third turns.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03b3.webp"
-  },
-  {
-    "id": 1313,
+    "id": 1231,
     "string_id": "6a590ef00e5d4c92d5d1eff6",
     "name": "Onslaught",
     "set": "VEN",
@@ -18382,7 +17234,7 @@
     "imageUrl": "images/6a590ef00e5d4c92d5d1eff6.webp"
   },
   {
-    "id": 1314,
+    "id": 1232,
     "string_id": "6a56ab98ff602fd324f4764a",
     "name": "Order Rune",
     "set": "VEN",
@@ -18396,21 +17248,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f4764a.webp"
   },
   {
-    "id": 1315,
-    "string_id": "6a517607ad64d2d80a4f03b4",
-    "name": "Order Rune",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "r06",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Rune, Common, Order",
-    "text": "[NO TEXT]",
-    "imageUrl": "images/6a517607ad64d2d80a4f03b4.webp"
-  },
-  {
-    "id": 1316,
+    "id": 1233,
     "string_id": "6a590ef10e5d4c92d5d1eff7",
     "name": "Otterpus",
     "set": "VEN",
@@ -18424,7 +17262,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1eff7.webp"
   },
   {
-    "id": 1317,
+    "id": 1234,
     "string_id": "6a590ef10e5d4c92d5d1eff8",
     "name": "Pakaa Protector",
     "set": "VEN",
@@ -18438,7 +17276,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1eff8.webp"
   },
   {
-    "id": 1318,
+    "id": 1235,
     "string_id": "6a56ab98ff602fd324f4764b",
     "name": "Patched Porobot",
     "set": "VEN",
@@ -18452,21 +17290,7 @@
     "imageUrl": "images/6a56ab98ff602fd324f4764b.webp"
   },
   {
-    "id": 1319,
-    "string_id": "6a517607ad64d2d80a4f03b5",
-    "name": "Patched Porobot",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "058",
-    "energyCost": 2,
-    "power": 2,
-    "tags": "Mech, Poro, Piltover, Unit, Common, Mind",
-    "text": "(I enter exhausted.)When you play me, if you control 3 or more other gear, draw 1.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03b5.webp"
-  },
-  {
-    "id": 1320,
+    "id": 1236,
     "string_id": "6a590ef10e5d4c92d5d1eff9",
     "name": "Pendulum Blade",
     "set": "VEN",
@@ -18480,7 +17304,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1eff9.webp"
   },
   {
-    "id": 1321,
+    "id": 1237,
     "string_id": "6a56ab99ff602fd324f4764c",
     "name": "Perfect Execution",
     "set": "VEN",
@@ -18494,21 +17318,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f4764c.webp"
   },
   {
-    "id": 1322,
-    "string_id": "6a517607ad64d2d80a4f03b6",
-    "name": "Perfect Execution",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "012",
-    "energyCost": 3,
-    "power": 1,
-    "tags": "Spell, Uncommon, Fury",
-    "text": "Ready a unit and give it [Assault 3] this turn. (+3 :rb_might: while it's an attacker.)[Flow] :rb_energy_3::rb_rune_fury: (You may play this from your trash for its Flow cost. Then banish it.)",
-    "imageUrl": "images/6a517607ad64d2d80a4f03b6.webp"
-  },
-  {
-    "id": 1323,
+    "id": 1238,
     "string_id": "6a56ab99ff602fd324f4764d",
     "name": "Piltovan Forge",
     "set": "VEN",
@@ -18522,21 +17332,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f4764d.webp"
   },
   {
-    "id": 1324,
-    "string_id": "6a517607ad64d2d80a4f03b7",
-    "name": "Piltovan Forge",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "161",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Battlefield, Uncommon, Colorless",
-    "text": "While you control this battlefield, the first friendly gear activated ability played each turn costs :rb_energy_1: less.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03b7.webp"
-  },
-  {
-    "id": 1325,
+    "id": 1239,
     "string_id": "6a5a92b5fe2355878c40cc92",
     "name": "Platewyrm Egg",
     "set": "VEN",
@@ -18550,7 +17346,7 @@
     "imageUrl": "images/6a5a92b5fe2355878c40cc92.webp"
   },
   {
-    "id": 1326,
+    "id": 1240,
     "string_id": "6a590ef10e5d4c92d5d1effa",
     "name": "Plaza Guardian",
     "set": "VEN",
@@ -18564,7 +17360,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1effa.webp"
   },
   {
-    "id": 1327,
+    "id": 1241,
     "string_id": "6a590ef10e5d4c92d5d1effb",
     "name": "Profiteer",
     "set": "VEN",
@@ -18578,7 +17374,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1effb.webp"
   },
   {
-    "id": 1328,
+    "id": 1242,
     "string_id": "6a56aba0ff602fd324f4768d",
     "name": "Protective Sands",
     "set": "VEN",
@@ -18592,7 +17388,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f4768d.webp"
   },
   {
-    "id": 1329,
+    "id": 1243,
     "string_id": "6a590ef10e5d4c92d5d1effc",
     "name": "Public Execution",
     "set": "VEN",
@@ -18606,7 +17402,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1effc.webp"
   },
   {
-    "id": 1330,
+    "id": 1244,
     "string_id": "6a56ab99ff602fd324f4764e",
     "name": "Punching Poro",
     "set": "VEN",
@@ -18620,21 +17416,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f4764e.webp"
   },
   {
-    "id": 1331,
-    "string_id": "6a517607ad64d2d80a4f03b8",
-    "name": "Punching Poro",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "007",
-    "energyCost": 2,
-    "power": 2,
-    "tags": "Poro, Ionia, Unit, Common, Fury",
-    "text": "[Empower] — Discard 1 (Pay the cost: Empower me. Use only if not Empowered.)[Empowered][&gt;] I have +1 :rb_might:.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03b8.webp"
-  },
-  {
-    "id": 1332,
+    "id": 1245,
     "string_id": "6a56ab99ff602fd324f4764f",
     "name": "Questionable Tome",
     "set": "VEN",
@@ -18648,21 +17430,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f4764f.webp"
   },
   {
-    "id": 1333,
-    "string_id": "6a517607ad64d2d80a4f03b9",
-    "name": "Questionable Tome",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "054",
-    "energyCost": 3,
-    "power": 0,
-    "tags": "Gear, Common, Mind",
-    "text": "[Empower] —  :rb_exhaust: (Pay the cost: Empower me. Use only if not Empowered.)Disempower this, :rb_energy_1:, :rb_exhaust:: Draw 1.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03b9.webp"
-  },
-  {
-    "id": 1334,
+    "id": 1246,
     "string_id": "6a56ab99ff602fd324f47650",
     "name": "Rage Amplifier",
     "set": "VEN",
@@ -18676,21 +17444,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f47650.webp"
   },
   {
-    "id": 1335,
-    "string_id": "6a518b2737f518eaadf8bb0c",
-    "name": "Rage Amplifier",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "018",
-    "energyCost": 4,
-    "power": 1,
-    "tags": "Gear, Rare, Fury",
-    "text": "[Empower] :rb_energy_6::rb_rune_fury: (:rb_energy_6::rb_rune_fury:: Empower this. Use only if not Empowered.)Your units have +1 :rb_might:. If I'm [Empowered], they have +2 :rb_might: instead.",
-    "imageUrl": "images/6a518b2737f518eaadf8bb0c.webp"
-  },
-  {
-    "id": 1336,
+    "id": 1247,
     "string_id": "6a56ab99ff602fd324f47651",
     "name": "Rampage",
     "set": "VEN",
@@ -18704,21 +17458,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f47651.webp"
   },
   {
-    "id": 1337,
-    "string_id": "6a518b2737f518eaadf8bb0d",
-    "name": "Rampage",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "083",
-    "energyCost": 3,
-    "power": 0,
-    "tags": "Spell, Uncommon, Body",
-    "text": "As you play this, you may pay :rb_rune_body: as an additional cost.Choose a friendly unit and an enemy unit. If you paid the additional cost, give the friendly unit +2 :rb_might: this turn. They deal damage equal to their Mights to each other.",
-    "imageUrl": "images/6a518b2737f518eaadf8bb0d.webp"
-  },
-  {
-    "id": 1338,
+    "id": 1248,
     "string_id": "6a56ab99ff602fd324f47652",
     "name": "Ravenbloom Prefect",
     "set": "VEN",
@@ -18732,21 +17472,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f47652.webp"
   },
   {
-    "id": 1339,
-    "string_id": "6a517607ad64d2d80a4f03ba",
-    "name": "Ravenbloom Prefect",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "102",
-    "energyCost": 3,
-    "power": 3,
-    "tags": "Noxus, Unit, Common, Chaos",
-    "text": "When an opponent plays a gear, you may banish me to banish it.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03ba.webp"
-  },
-  {
-    "id": 1340,
+    "id": 1249,
     "string_id": "6a56ab99ff602fd324f47653",
     "name": "Rebuttal",
     "set": "VEN",
@@ -18760,21 +17486,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f47653.webp"
   },
   {
-    "id": 1341,
-    "string_id": "6a518b2837f518eaadf8bb0e",
-    "name": "Rebuttal",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "152",
-    "energyCost": 1,
-    "power": 1,
-    "tags": "Mel, Spell, Epic, Mind, Chaos",
-    "text": "[Reaction] (Play any time, even before spells and abilities resolve.)Choose a spell with Energy cost no more than :rb_energy_4:.  You may pay :rb_rune_rainbow:. If you do, gain control of it and you may make new choices for it. Otherwise, counter it.",
-    "imageUrl": "images/6a518b2837f518eaadf8bb0e.webp"
-  },
-  {
-    "id": 1342,
+    "id": 1250,
     "string_id": "6a56ab99ff602fd324f47654",
     "name": "Reluctant Leader",
     "set": "VEN",
@@ -18788,21 +17500,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f47654.webp"
   },
   {
-    "id": 1343,
-    "string_id": "6a517607ad64d2d80a4f03bb",
-    "name": "Reluctant Leader",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "121",
-    "energyCost": 4,
-    "power": 3,
-    "tags": "Ionia, Unit, Common, Order",
-    "text": "When you play another unit, give me +2 :rb_might: this turn.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03bb.webp"
-  },
-  {
-    "id": 1344,
+    "id": 1251,
     "string_id": "6a56ab95ff602fd324f47604",
     "name": "Renekton - Butcher of the Sands",
     "set": "VEN",
@@ -18816,7 +17514,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f47604.webp"
   },
   {
-    "id": 1345,
+    "id": 1252,
     "string_id": "6a56ab95ff602fd324f47605",
     "name": "Renekton - Butcher of the Sands (Overnumbered)",
     "set": "VEN",
@@ -18830,7 +17528,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f47605.webp"
   },
   {
-    "id": 1346,
+    "id": 1253,
     "string_id": "6a590ef10e5d4c92d5d1effd",
     "name": "Renekton, Brute",
     "set": "VEN",
@@ -18844,7 +17542,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1effd.webp"
   },
   {
-    "id": 1347,
+    "id": 1254,
     "string_id": "6a56aba0ff602fd324f4768f",
     "name": "Renekton, Brute",
     "set": "VEN",
@@ -18858,7 +17556,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f4768f.webp"
   },
   {
-    "id": 1348,
+    "id": 1255,
     "string_id": "6a56aba0ff602fd324f4768e",
     "name": "Renekton, Brute",
     "set": "VEN",
@@ -18872,7 +17570,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f4768e.webp"
   },
   {
-    "id": 1349,
+    "id": 1256,
     "string_id": "6a56ab99ff602fd324f47655",
     "name": "Renekton, Rage Fueled",
     "set": "VEN",
@@ -18886,35 +17584,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f47655.webp"
   },
   {
-    "id": 1350,
-    "string_id": "6a517607ad64d2d80a4f03bd",
-    "name": "Renekton, Rage Fueled",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "019a",
-    "energyCost": 6,
-    "power": 6,
-    "tags": "Renekton, Unit, Rare, Fury",
-    "text": "[Accelerate]When I attack, if you control 4 or fewer runes, deal 2 to all enemy units here.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03bd.webp"
-  },
-  {
-    "id": 1351,
-    "string_id": "6a517607ad64d2d80a4f03bc",
-    "name": "Renekton, Rage Fueled",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "019",
-    "energyCost": 6,
-    "power": 6,
-    "tags": "Shurima, Renekton, Unit, Rare, Fury",
-    "text": "[Accelerate] (You may pay :rb_energy_1::rb_rune_fury: as an additional cost to have me enter ready.)When I attack, if you control 4 or fewer runes, deal 2 to all enemy units here.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03bc.webp"
-  },
-  {
-    "id": 1352,
+    "id": 1257,
     "string_id": "6a56ab99ff602fd324f47656",
     "name": "Renekton, Rage Fueled (Alternate Art)",
     "set": "VEN",
@@ -18928,7 +17598,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f47656.webp"
   },
   {
-    "id": 1353,
+    "id": 1258,
     "string_id": "6a56ab99ff602fd324f47657",
     "name": "Rengar, Trophy Hunter",
     "set": "VEN",
@@ -18942,21 +17612,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f47657.webp"
   },
   {
-    "id": 1354,
-    "string_id": "6a517607ad64d2d80a4f03be",
-    "name": "Rengar, Trophy Hunter",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "179",
-    "energyCost": 5,
-    "power": 6,
-    "tags": "Cat, Rengar, Ixtal, Unit, Epic, Body",
-    "text": "[Ambush]I can be played to a battlefield where there are enemy units.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03be.webp"
-  },
-  {
-    "id": 1355,
+    "id": 1259,
     "string_id": "6a5a92b5fe2355878c40cc93",
     "name": "Repair Specialist",
     "set": "VEN",
@@ -18970,7 +17626,7 @@
     "imageUrl": "images/6a5a92b5fe2355878c40cc93.webp"
   },
   {
-    "id": 1356,
+    "id": 1260,
     "string_id": "6a56aba0ff602fd324f47690",
     "name": "Resonating Strike",
     "set": "VEN",
@@ -18984,7 +17640,7 @@
     "imageUrl": "images/6a56aba0ff602fd324f47690.webp"
   },
   {
-    "id": 1357,
+    "id": 1261,
     "string_id": "6a56ab99ff602fd324f47658",
     "name": "Risen Altar",
     "set": "VEN",
@@ -18998,21 +17654,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f47658.webp"
   },
   {
-    "id": 1358,
-    "string_id": "6a517607ad64d2d80a4f03bf",
-    "name": "Risen Altar",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "163",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Battlefield, Uncommon, Colorless",
-    "text": "[Empower] costs of your units here cost :rb_energy_1: or :rb_rune_rainbow: less.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03bf.webp"
-  },
-  {
-    "id": 1359,
+    "id": 1262,
     "string_id": "6a56ab99ff602fd324f47659",
     "name": "Riven, Shattered",
     "set": "VEN",
@@ -19026,7 +17668,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f47659.webp"
   },
   {
-    "id": 1360,
+    "id": 1263,
     "string_id": "6a5a92b5fe2355878c40cc94",
     "name": "Riven, Shattered",
     "set": "VEN",
@@ -19040,49 +17682,7 @@
     "imageUrl": "images/6a5a92b5fe2355878c40cc94.webp"
   },
   {
-    "id": 1361,
-    "string_id": "6a517607ad64d2d80a4f03c0",
-    "name": "Riven, Shattered",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "041",
-    "energyCost": 3,
-    "power": 3,
-    "tags": "Noxus, Riven, Unit, Rare, Calm",
-    "text": "[Weaponmaster] (When you play me, you may [Equip] one of your Equipment to me for :rb_rune_rainbow: less, even if it's already attached.)When I attack, choose an enemy unit here. Deal 2 to it for each Equipment attached to me.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03c0.webp"
-  },
-  {
-    "id": 1362,
-    "string_id": "6a517607ad64d2d80a4f03c1",
-    "name": "Rogue Assassin",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "139",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Akali, Legend, Rare, Fury, Calm",
-    "text": "[Empower] :rb_energy_3::rb_rune_rainbow: (:rb_energy_3::rb_rune_rainbow:: Empower this. Use only if not Empowered.)[Action][&gt;] :rb_exhaust:: If it's your turn, move a friendly unit in a showdown to base and if I'm [Empowered], ready it.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03c1.webp"
-  },
-  {
-    "id": 1363,
-    "string_id": "6a518b2837f518eaadf8bb0f",
-    "name": "Rogue Assassin",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "189",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Akali, Legend, Rare, Fury, Calm",
-    "text": "[Empower] :rb_energy_3::rb_rune_rainbow:[Action][&gt;] :rb_exhaust:: If it's your turn, move a friendly unit in a showdown to base and if I'm [Empowered], ready it.",
-    "imageUrl": "images/6a518b2837f518eaadf8bb0f.webp"
-  },
-  {
-    "id": 1364,
+    "id": 1264,
     "string_id": "6a590ef10e5d4c92d5d1effe",
     "name": "Ruthless Strike",
     "set": "VEN",
@@ -19096,7 +17696,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1effe.webp"
   },
   {
-    "id": 1365,
+    "id": 1265,
     "string_id": "6a56ab99ff602fd324f4765c",
     "name": "Sacred Protector",
     "set": "VEN",
@@ -19110,21 +17710,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f4765c.webp"
   },
   {
-    "id": 1366,
-    "string_id": "6a518b2837f518eaadf8bb10",
-    "name": "Sacred Protector",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "129",
-    "energyCost": 4,
-    "power": 6,
-    "tags": "Fae, Ionia, Unit, Uncommon, Order",
-    "text": "I don't deal combat damage unless I'm at a battlefield with exactly one other unit you control.",
-    "imageUrl": "images/6a518b2837f518eaadf8bb10.webp"
-  },
-  {
-    "id": 1367,
+    "id": 1266,
     "string_id": "6a590ef10e5d4c92d5d1efff",
     "name": "Sanction",
     "set": "VEN",
@@ -19138,7 +17724,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1efff.webp"
   },
   {
-    "id": 1368,
+    "id": 1267,
     "string_id": "6a590ef10e5d4c92d5d1f000",
     "name": "Sandstone Chimera",
     "set": "VEN",
@@ -19152,7 +17738,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1f000.webp"
   },
   {
-    "id": 1369,
+    "id": 1268,
     "string_id": "6a56ab99ff602fd324f4765d",
     "name": "Sandswept Tomb",
     "set": "VEN",
@@ -19166,21 +17752,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f4765d.webp"
   },
   {
-    "id": 1370,
-    "string_id": "6a517607ad64d2d80a4f03c2",
-    "name": "Sandswept Tomb",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "164",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Battlefield, Uncommon, Colorless",
-    "text": "Each spell that chooses one or more units here that are friendly to it costs :rb_rune_rainbow: less.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03c2.webp"
-  },
-  {
-    "id": 1371,
+    "id": 1269,
     "string_id": "6a5a92b5fe2355878c40cc95",
     "name": "Serene Ascetic",
     "set": "VEN",
@@ -19194,7 +17766,7 @@
     "imageUrl": "images/6a5a92b5fe2355878c40cc95.webp"
   },
   {
-    "id": 1372,
+    "id": 1270,
     "string_id": "6a56ab99ff602fd324f4765e",
     "name": "Sett, Brawler",
     "set": "VEN",
@@ -19208,21 +17780,7 @@
     "imageUrl": "images/6a56ab99ff602fd324f4765e.webp"
   },
   {
-    "id": 1373,
-    "string_id": "6a517607ad64d2d80a4f03c3",
-    "name": "Sett, Brawler",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "sp4",
-    "energyCost": 5,
-    "power": 4,
-    "tags": "Sett, Unit, Epic, Body",
-    "text": "When you play me or when I conquer, buff me.Spend my buff: Give me +4 :rb_might: this turn.",
-    "imageUrl": "images/6a517607ad64d2d80a4f03c3.webp"
-  },
-  {
-    "id": 1374,
+    "id": 1271,
     "string_id": "6a56ab9aff602fd324f4765f",
     "name": "Shadow Assassin",
     "set": "VEN",
@@ -19236,21 +17794,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f4765f.webp"
   },
   {
-    "id": 1375,
-    "string_id": "6a517608ad64d2d80a4f03c4",
-    "name": "Shadow Assassin",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "013",
-    "energyCost": 5,
-    "power": 5,
-    "tags": "Ionia, Unit, Uncommon, Fury",
-    "text": "I enter ready if you have a card with my name in your trash.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03c4.webp"
-  },
-  {
-    "id": 1376,
+    "id": 1272,
     "string_id": "6a56aba1ff602fd324f47691",
     "name": "Shadow Dash",
     "set": "VEN",
@@ -19264,7 +17808,7 @@
     "imageUrl": "images/6a56aba1ff602fd324f47691.webp"
   },
   {
-    "id": 1377,
+    "id": 1273,
     "string_id": "6a5a92b5fe2355878c40cc96",
     "name": "Shadow Fiend",
     "set": "VEN",
@@ -19278,7 +17822,7 @@
     "imageUrl": "images/6a5a92b5fe2355878c40cc96.webp"
   },
   {
-    "id": 1378,
+    "id": 1274,
     "string_id": "6a56ab9aff602fd324f47660",
     "name": "Shadow Order Disciple",
     "set": "VEN",
@@ -19292,21 +17836,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47660.webp"
   },
   {
-    "id": 1379,
-    "string_id": "6a517608ad64d2d80a4f03c5",
-    "name": "Shadow Order Disciple",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "095",
-    "energyCost": 2,
-    "power": 2,
-    "tags": "Ionia, Unit, Common, Chaos",
-    "text": "When I move, you may [Burn 1] to give me +1 :rb_might: this turn. (To Burn 1, put the top card of your Main Deck into your trash.)",
-    "imageUrl": "images/6a517608ad64d2d80a4f03c5.webp"
-  },
-  {
-    "id": 1380,
+    "id": 1275,
     "string_id": "6a5a92b5fe2355878c40cc97",
     "name": "Shadow Temple",
     "set": "VEN",
@@ -19320,7 +17850,7 @@
     "imageUrl": "images/6a5a92b5fe2355878c40cc97.webp"
   },
   {
-    "id": 1381,
+    "id": 1276,
     "string_id": "6a56aba1ff602fd324f47692",
     "name": "Shadowblade Lurker",
     "set": "VEN",
@@ -19334,7 +17864,7 @@
     "imageUrl": "images/6a56aba1ff602fd324f47692.webp"
   },
   {
-    "id": 1382,
+    "id": 1277,
     "string_id": "6a56ab9aff602fd324f47661",
     "name": "Shadows of the Past",
     "set": "VEN",
@@ -19348,21 +17878,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47661.webp"
   },
   {
-    "id": 1383,
-    "string_id": "6a517608ad64d2d80a4f03c6",
-    "name": "Shadows of the Past",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "103",
-    "energyCost": 3,
-    "power": 1,
-    "tags": "Spell, Uncommon, Chaos",
-    "text": "Return up to 2 units from trashes to their owners' hands.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03c6.webp"
-  },
-  {
-    "id": 1384,
+    "id": 1278,
     "string_id": "6a56ab9aff602fd324f47662",
     "name": "Shady Spectacles",
     "set": "VEN",
@@ -19376,21 +17892,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47662.webp"
   },
   {
-    "id": 1385,
-    "string_id": "6a517608ad64d2d80a4f03c7",
-    "name": "Shady Spectacles",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "137",
-    "energyCost": 4,
-    "power": 0,
-    "tags": "Equipment, Gear, Epic, Order",
-    "text": "[Equip] :rb_energy_1::rb_rune_order: (:rb_energy_1::rb_rune_order:: Attach this to a unit you control.)As this is attached to a unit, choose another friendly unit. The equipped unit becomes a copy of that unit for as long as this is attached to it.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03c7.webp"
-  },
-  {
-    "id": 1386,
+    "id": 1279,
     "string_id": "6a56ab95ff602fd324f47615",
     "name": "Shen - Eye of Twilight",
     "set": "VEN",
@@ -19404,7 +17906,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f47615.webp"
   },
   {
-    "id": 1387,
+    "id": 1280,
     "string_id": "6a56ab95ff602fd324f47614",
     "name": "Shen - Eye of Twilight (Overnumbered)",
     "set": "VEN",
@@ -19418,7 +17920,7 @@
     "imageUrl": "images/6a56ab95ff602fd324f47614.webp"
   },
   {
-    "id": 1388,
+    "id": 1281,
     "string_id": "6a56ab9aff602fd324f47664",
     "name": "Shen, Leader of the Kinkou Order",
     "set": "VEN",
@@ -19432,35 +17934,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47664.webp"
   },
   {
-    "id": 1389,
-    "string_id": "6a517608ad64d2d80a4f03c8",
-    "name": "Shen, Leader of the Kinkou Order",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "138a",
-    "energyCost": 6,
-    "power": 7,
-    "tags": "Shen, Ionia, Unit, Epic, Order",
-    "text": "[Shield]When I hold, if there is exactly one other unit you control here, you score 1 point.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03c8.webp"
-  },
-  {
-    "id": 1390,
-    "string_id": "6a517608ad64d2d80a4f03c9",
-    "name": "Shen, Leader of the Kinkou Order",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "138",
-    "energyCost": 6,
-    "power": 7,
-    "tags": "Shen, Ionia, Unit, Epic, Order",
-    "text": "[Shield] (+1 :rb_might: while I'm a defender.)When I hold, if there is exactly one other unit you control here, you score 1 point.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03c9.webp"
-  },
-  {
-    "id": 1391,
+    "id": 1282,
     "string_id": "6a56ab9aff602fd324f47663",
     "name": "Shen, Leader of the Kinkou Order (Alternate Art)",
     "set": "VEN",
@@ -19474,7 +17948,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47663.webp"
   },
   {
-    "id": 1392,
+    "id": 1283,
     "string_id": "6a56ab9aff602fd324f47666",
     "name": "Shen, Scourge of Shadows",
     "set": "VEN",
@@ -19488,7 +17962,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47666.webp"
   },
   {
-    "id": 1393,
+    "id": 1284,
     "string_id": "6a590ef10e5d4c92d5d1f001",
     "name": "Shen, Scourge of Shadows",
     "set": "VEN",
@@ -19502,35 +17976,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1f001.webp"
   },
   {
-    "id": 1394,
-    "string_id": "6a517608ad64d2d80a4f03cb",
-    "name": "Shen, Scourge of Shadows",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "042",
-    "energyCost": 5,
-    "power": 6,
-    "tags": "Shen, Ionia, Unit, Rare, Calm",
-    "text": "When I hold, if there is exactly one other unit you control here, draw 1.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03cb.webp"
-  },
-  {
-    "id": 1395,
-    "string_id": "6a517608ad64d2d80a4f03ca",
-    "name": "Shen, Scourge of Shadows",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "042a",
-    "energyCost": 5,
-    "power": 6,
-    "tags": "Shen, Unit, Rare, Calm",
-    "text": "When I hold, if there is exactly one other unit you control here, draw 1.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03ca.webp"
-  },
-  {
-    "id": 1396,
+    "id": 1285,
     "string_id": "6a56ab9aff602fd324f47665",
     "name": "Shen, Scourge of Shadows (Alternate Art)",
     "set": "VEN",
@@ -19544,7 +17990,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47665.webp"
   },
   {
-    "id": 1397,
+    "id": 1286,
     "string_id": "6a5a92b5fe2355878c40cc98",
     "name": "Shock Blast",
     "set": "VEN",
@@ -19558,7 +18004,7 @@
     "imageUrl": "images/6a5a92b5fe2355878c40cc98.webp"
   },
   {
-    "id": 1398,
+    "id": 1287,
     "string_id": "6a56ab9aff602fd324f47667",
     "name": "Shuriken Flip",
     "set": "VEN",
@@ -19572,21 +18018,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47667.webp"
   },
   {
-    "id": 1399,
-    "string_id": "6a517608ad64d2d80a4f03cc",
-    "name": "Shuriken Flip",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "140",
-    "energyCost": 1,
-    "power": 1,
-    "tags": "Akali, Spell, Epic, Fury, Calm",
-    "text": "Deal 2 to up to one enemy unit at a battlefield, then move a friendly unit.[Flow] :rb_energy_3::rb_rune_rainbow: (You may play this from your trash for its Flow cost. Then banish it.)",
-    "imageUrl": "images/6a517608ad64d2d80a4f03cc.webp"
-  },
-  {
-    "id": 1400,
+    "id": 1288,
     "string_id": "6a56ab9aff602fd324f47668",
     "name": "Siphoning Strike",
     "set": "VEN",
@@ -19600,21 +18032,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47668.webp"
   },
   {
-    "id": 1401,
-    "string_id": "6a517608ad64d2d80a4f03cd",
-    "name": "Siphoning Strike",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "146",
-    "energyCost": 4,
-    "power": 0,
-    "tags": "Nasus, Spell, Epic, Calm, Mind",
-    "text": "Deal 4 to a unit at a battlefield. If you control 7 or more runes, deal 7 to it instead. When it dies this turn, channel 1 rune exhausted.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03cd.webp"
-  },
-  {
-    "id": 1402,
+    "id": 1289,
     "string_id": "6a56ab9aff602fd324f47669",
     "name": "Sky Cruiser",
     "set": "VEN",
@@ -19628,21 +18046,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47669.webp"
   },
   {
-    "id": 1403,
-    "string_id": "6a518b2837f518eaadf8bb11",
-    "name": "Sky Cruiser",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "060",
-    "energyCost": 4,
-    "power": 3,
-    "tags": "Piltover, Unit, Uncommon, Mind",
-    "text": "Discard a gear, :rb_energy_1:, :rb_exhaust:: Deal 4 to a unit at a battlefield.",
-    "imageUrl": "images/6a518b2837f518eaadf8bb11.webp"
-  },
-  {
-    "id": 1404,
+    "id": 1290,
     "string_id": "6a5a92b5fe2355878c40cc99",
     "name": "Solari Sunhawk",
     "set": "VEN",
@@ -19656,7 +18060,7 @@
     "imageUrl": "images/6a5a92b5fe2355878c40cc99.webp"
   },
   {
-    "id": 1405,
+    "id": 1291,
     "string_id": "6a56ab9aff602fd324f4766a",
     "name": "Sona, Harmonious",
     "set": "VEN",
@@ -19670,49 +18074,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f4766a.webp"
   },
   {
-    "id": 1406,
-    "string_id": "6a517608ad64d2d80a4f03ce",
-    "name": "Sona, Harmonious",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "sp2",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Sona, Unit, Epic, Calm",
-    "text": "At the end of your turn, if I'm at a battlefield, ready up to 4 friendly runes.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03ce.webp"
-  },
-  {
-    "id": 1407,
-    "string_id": "6a517608ad64d2d80a4f03cf",
-    "name": "Soul's Reflection",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "151",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Mel, Legend, Rare, Mind, Chaos",
-    "text": "When you empower something else, empower me. (I become Empowered if I'm not already.)Disempower me, :rb_exhaust:: Give a unit at a battlefield -2 :rb_might: this turn.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03cf.webp"
-  },
-  {
-    "id": 1408,
-    "string_id": "6a518b2837f518eaadf8bb12",
-    "name": "Soul's Reflection",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "195",
-    "energyCost": 0,
-    "power": 0,
-    "tags": "Mel, Legend, Rare, Mind, Chaos",
-    "text": "When you empower something else, empower me.Disempower me, :rb_exhaust:: Give a unit at a battlefield -2 :rb_might: this turn.",
-    "imageUrl": "images/6a518b2837f518eaadf8bb12.webp"
-  },
-  {
-    "id": 1409,
+    "id": 1292,
     "string_id": "6a5a92b5fe2355878c40cc9a",
     "name": "Soulspinner",
     "set": "VEN",
@@ -19726,7 +18088,7 @@
     "imageUrl": "images/6a5a92b5fe2355878c40cc9a.webp"
   },
   {
-    "id": 1410,
+    "id": 1293,
     "string_id": "6a590ef10e5d4c92d5d1f002",
     "name": "Spiderling",
     "set": "VEN",
@@ -19740,7 +18102,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1f002.webp"
   },
   {
-    "id": 1411,
+    "id": 1294,
     "string_id": "6a590ef10e5d4c92d5d1f003",
     "name": "Stargazer",
     "set": "VEN",
@@ -19754,7 +18116,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1f003.webp"
   },
   {
-    "id": 1412,
+    "id": 1295,
     "string_id": "6a56ab9aff602fd324f4766d",
     "name": "Steel Paws",
     "set": "VEN",
@@ -19768,21 +18130,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f4766d.webp"
   },
   {
-    "id": 1413,
-    "string_id": "6a518b2937f518eaadf8bb13",
-    "name": "Steel Paws",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "043",
-    "energyCost": 1,
-    "power": 0,
-    "tags": "Cat, Piltover, Unit, Rare, Calm",
-    "text": "[Deflect] (Opponents must pay :rb_rune_rainbow: to choose me with a spell or ability.)[Empower] :rb_energy_7: (:rb_energy_7:: Empower me. Use only if not Empowered.)[Empowered][&gt;] I have +7 :rb_might:.",
-    "imageUrl": "images/6a518b2937f518eaadf8bb13.webp"
-  },
-  {
-    "id": 1414,
+    "id": 1296,
     "string_id": "6a5a92b5fe2355878c40cc9c",
     "name": "Swain, Visionary",
     "set": "VEN",
@@ -19796,7 +18144,7 @@
     "imageUrl": "images/6a5a92b5fe2355878c40cc9c.webp"
   },
   {
-    "id": 1415,
+    "id": 1297,
     "string_id": "6a5a92b5fe2355878c40cc9b",
     "name": "Swain, Visionary",
     "set": "VEN",
@@ -19810,7 +18158,7 @@
     "imageUrl": "images/6a5a92b5fe2355878c40cc9b.webp"
   },
   {
-    "id": 1416,
+    "id": 1298,
     "string_id": "6a590ef10e5d4c92d5d1f004",
     "name": "Tail-Cloaked Matriarch",
     "set": "VEN",
@@ -19824,7 +18172,7 @@
     "imageUrl": "images/6a590ef10e5d4c92d5d1f004.webp"
   },
   {
-    "id": 1417,
+    "id": 1299,
     "string_id": "6a56ab9aff602fd324f4766e",
     "name": "Temporal Breach",
     "set": "VEN",
@@ -19838,21 +18186,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f4766e.webp"
   },
   {
-    "id": 1418,
-    "string_id": "6a518b2937f518eaadf8bb14",
-    "name": "Temporal Breach",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "066",
-    "energyCost": 2,
-    "power": 1,
-    "tags": "Spell, Rare, Mind",
-    "text": "[Hidden] (Hide now for :rb_rune_rainbow: to react with later for :rb_energy_0:.)Banish a unit, then its owner plays it to the same location, ignoring its cost.",
-    "imageUrl": "images/6a518b2937f518eaadf8bb14.webp"
-  },
-  {
-    "id": 1419,
+    "id": 1300,
     "string_id": "6a5a92b5fe2355878c40cc9d",
     "name": "Threshold of the Gray",
     "set": "VEN",
@@ -19866,7 +18200,7 @@
     "imageUrl": "images/6a5a92b5fe2355878c40cc9d.webp"
   },
   {
-    "id": 1420,
+    "id": 1301,
     "string_id": "6a56ab9aff602fd324f4766f",
     "name": "Tomb-Raider Barbara",
     "set": "VEN",
@@ -19880,21 +18214,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f4766f.webp"
   },
   {
-    "id": 1421,
-    "string_id": "6a517608ad64d2d80a4f03d0",
-    "name": "Tomb-Raider Barbara",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "037",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Shurima, Unit, Uncommon, Calm",
-    "text": "When you play me, if you control 7 or more runes, choose an enemy gear. If it's [Empowered], disempower it. Otherwise, kill it.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03d0.webp"
-  },
-  {
-    "id": 1422,
+    "id": 1302,
     "string_id": "6a56ab9aff602fd324f47670",
     "name": "Tools of Empire",
     "set": "VEN",
@@ -19908,21 +18228,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47670.webp"
   },
   {
-    "id": 1423,
-    "string_id": "6a518b2937f518eaadf8bb15",
-    "name": "Tools of Empire",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "077",
-    "energyCost": 4,
-    "power": 0,
-    "tags": "Gear, Common, Body",
-    "text": "[Empower] :rb_energy_2: (:rb_energy_2:: Empower this. Use only if not Empowered.):rb_exhaust:: Give a unit +2 :rb_might: this turn. If this is [Empowered], give that unit +4 :rb_might: this turn instead.",
-    "imageUrl": "images/6a518b2937f518eaadf8bb15.webp"
-  },
-  {
-    "id": 1424,
+    "id": 1303,
     "string_id": "6a5a92b6fe2355878c40cc9e",
     "name": "Tornado Warrior",
     "set": "VEN",
@@ -19936,7 +18242,7 @@
     "imageUrl": "images/6a5a92b6fe2355878c40cc9e.webp"
   },
   {
-    "id": 1425,
+    "id": 1304,
     "string_id": "6a5a92b6fe2355878c40cc9f",
     "name": "Twilight Reveler",
     "set": "VEN",
@@ -19950,7 +18256,7 @@
     "imageUrl": "images/6a5a92b6fe2355878c40cc9f.webp"
   },
   {
-    "id": 1426,
+    "id": 1305,
     "string_id": "6a56ab9aff602fd324f47671",
     "name": "Twilight Shroud",
     "set": "VEN",
@@ -19964,21 +18270,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47671.webp"
   },
   {
-    "id": 1427,
-    "string_id": "6a517608ad64d2d80a4f03d1",
-    "name": "Twilight Shroud",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "031",
-    "energyCost": 1,
-    "power": 0,
-    "tags": "Spell, Common, Calm",
-    "text": "Give a friendly unit +1 :rb_might: this turn. It can't be chosen by enemy spells and abilities this turn.[Flow] :rb_energy_2: (You may play this from your trash for its Flow cost. Then banish it.)",
-    "imageUrl": "images/6a517608ad64d2d80a4f03d1.webp"
-  },
-  {
-    "id": 1428,
+    "id": 1306,
     "string_id": "6a590ef20e5d4c92d5d1f005",
     "name": "Twilight Step",
     "set": "VEN",
@@ -19992,7 +18284,7 @@
     "imageUrl": "images/6a590ef20e5d4c92d5d1f005.webp"
   },
   {
-    "id": 1429,
+    "id": 1307,
     "string_id": "6a56aba1ff602fd324f47693",
     "name": "Up from the Deep",
     "set": "VEN",
@@ -20006,7 +18298,7 @@
     "imageUrl": "images/6a56aba1ff602fd324f47693.webp"
   },
   {
-    "id": 1430,
+    "id": 1308,
     "string_id": "6a56ab9aff602fd324f47672",
     "name": "Vi, Destructive",
     "set": "VEN",
@@ -20020,21 +18312,7 @@
     "imageUrl": "images/6a56ab9aff602fd324f47672.webp"
   },
   {
-    "id": 1431,
-    "string_id": "6a517608ad64d2d80a4f03d2",
-    "name": "Vi, Destructive",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "167",
-    "energyCost": 2,
-    "power": 3,
-    "tags": "Vi, Unit, Rare, Fury",
-    "text": "[Ganking]Recycle 1 from your trash: Give me +1 :rb_might: this turn.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03d2.webp"
-  },
-  {
-    "id": 1432,
+    "id": 1309,
     "string_id": "6a56ab9bff602fd324f47673",
     "name": "Viktor, Innovator",
     "set": "VEN",
@@ -20048,21 +18326,7 @@
     "imageUrl": "images/6a56ab9bff602fd324f47673.webp"
   },
   {
-    "id": 1433,
-    "string_id": "6a517608ad64d2d80a4f03d3",
-    "name": "Viktor, Innovator",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "176",
-    "energyCost": 4,
-    "power": 3,
-    "tags": "Viktor, Unit, Rare, Mind",
-    "text": "When you play a card on an opponent's turn, play a 1 :rb_might: Recruit unit token to your base.",
-    "imageUrl": "images/6a517608ad64d2d80a4f03d3.webp"
-  },
-  {
-    "id": 1434,
+    "id": 1310,
     "string_id": "6a56ab9bff602fd324f47674",
     "name": "Wild Claw",
     "set": "VEN",
@@ -20076,21 +18340,7 @@
     "imageUrl": "images/6a56ab9bff602fd324f47674.webp"
   },
   {
-    "id": 1435,
-    "string_id": "6a517608ad64d2d80a4f03d4",
-    "name": "Wild Claw",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "089",
-    "energyCost": 7,
-    "power": 1,
-    "tags": "Spell, Rare, Body",
-    "text": "Look at the top 5 cards of your Main Deck. You may banish a unit or gear from among them and play it, reducing its Energy cost by :rb_energy_5:. Recycle the rest. Then you may do this: Empower it. (It becomes Empowered if it's not already.)",
-    "imageUrl": "images/6a517608ad64d2d80a4f03d4.webp"
-  },
-  {
-    "id": 1436,
+    "id": 1311,
     "string_id": "6a56ab9bff602fd324f47675",
     "name": "Wind and Ghosts",
     "set": "VEN",
@@ -20104,21 +18354,7 @@
     "imageUrl": "images/6a56ab9bff602fd324f47675.webp"
   },
   {
-    "id": 1437,
-    "string_id": "6a517609ad64d2d80a4f03d5",
-    "name": "Wind and Ghosts",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "106",
-    "energyCost": 3,
-    "power": 1,
-    "tags": "Spell, Uncommon, Chaos",
-    "text": "[Action] (Play on your turn or in showdowns.)Choose a unit at a battlefield. If it has 3 :rb_might: or less, banish it. Otherwise, return it to its owner's hand.",
-    "imageUrl": "images/6a517609ad64d2d80a4f03d5.webp"
-  },
-  {
-    "id": 1438,
+    "id": 1312,
     "string_id": "6a56ab96ff602fd324f4761e",
     "name": "Yordle, Kennen - Heart of the Tempest",
     "set": "VEN",
@@ -20132,7 +18368,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f4761e.webp"
   },
   {
-    "id": 1439,
+    "id": 1313,
     "string_id": "6a56ab96ff602fd324f4761d",
     "name": "Yordle, Kennen - Heart of the Tempest (Overnumbered)",
     "set": "VEN",
@@ -20146,7 +18382,7 @@
     "imageUrl": "images/6a56ab96ff602fd324f4761d.webp"
   },
   {
-    "id": 1440,
+    "id": 1314,
     "string_id": "6a56ab97ff602fd324f47636",
     "name": "Zed - Master of Shadows",
     "set": "VEN",
@@ -20160,7 +18396,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f47636.webp"
   },
   {
-    "id": 1441,
+    "id": 1315,
     "string_id": "6a56ab97ff602fd324f47637",
     "name": "Zed - Master of Shadows (Overnumbered)",
     "set": "VEN",
@@ -20174,7 +18410,7 @@
     "imageUrl": "images/6a56ab97ff602fd324f47637.webp"
   },
   {
-    "id": 1442,
+    "id": 1316,
     "string_id": "6a56ab9bff602fd324f47676",
     "name": "Zed, From the Shadows",
     "set": "VEN",
@@ -20188,49 +18424,7 @@
     "imageUrl": "images/6a56ab9bff602fd324f47676.webp"
   },
   {
-    "id": 1443,
-    "string_id": "6a517609ad64d2d80a4f03d7",
-    "name": "Zed, From the Shadows",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "023",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Ionia, Zed, Unit, Epic, Fury",
-    "text": "You may discard 1 as an additional cost to play me.When you play me, if you paid the additional cost, play a 0 :rb_might: Shadow Clone unit token. (It has &quot;When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn.&quot;)",
-    "imageUrl": "images/6a517609ad64d2d80a4f03d7.webp"
-  },
-  {
-    "id": 1444,
-    "string_id": "6a517609ad64d2d80a4f03d6",
-    "name": "Zed, From the Shadows",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "023a",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Zed, Unit, Epic, Fury",
-    "text": "You may discard 1 as an additional cost to play me.When you play me, if you paid the additional cost, play a 0 :rb_might: Shadow Clone unit token.",
-    "imageUrl": "images/6a517609ad64d2d80a4f03d6.webp"
-  },
-  {
-    "id": 1445,
-    "string_id": "6a518b2937f518eaadf8bb16",
-    "name": "Zed, From the Shadows",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "169",
-    "energyCost": 4,
-    "power": 4,
-    "tags": "Zed, Unit, Epic, Fury",
-    "text": "You may discard 1 as an additional cost to play me.When you play me, if you paid the additional cost, play a 0 :rb_might: Shadow Clone unit token.",
-    "imageUrl": "images/6a518b2937f518eaadf8bb16.webp"
-  },
-  {
-    "id": 1446,
+    "id": 1317,
     "string_id": "6a56ab9bff602fd324f47678",
     "name": "Zed, From the Shadows (Alternate Art)",
     "set": "VEN",
@@ -20244,7 +18438,7 @@
     "imageUrl": "images/6a56ab9bff602fd324f47678.webp"
   },
   {
-    "id": 1447,
+    "id": 1318,
     "string_id": "6a56ab9bff602fd324f47677",
     "name": "Zed, From the Shadows (Overnumbered)",
     "set": "VEN",
@@ -20258,7 +18452,7 @@
     "imageUrl": "images/6a56ab9bff602fd324f47677.webp"
   },
   {
-    "id": 1448,
+    "id": 1319,
     "string_id": "6a56ab9bff602fd324f47679",
     "name": "Zed, Without a Sound",
     "set": "VEN",
@@ -20272,35 +18466,7 @@
     "imageUrl": "images/6a56ab9bff602fd324f47679.webp"
   },
   {
-    "id": 1449,
-    "string_id": "6a517609ad64d2d80a4f03d9",
-    "name": "Zed, Without a Sound",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "112",
-    "energyCost": 5,
-    "power": 5,
-    "tags": "Ionia, Zed, Unit, Rare, Chaos",
-    "text": "When I conquer, play a 0 :rb_might: Shadow Clone unit token to your base. (It has &quot;When I attack, you may banish a unit from your trash. If you do, give me [Assault 4] this turn.&quot;)[Action][&gt;] :rb_energy_1::rb_rune_chaos:: Move me and a Shadow Clone you control to each other's locations.",
-    "imageUrl": "images/6a517609ad64d2d80a4f03d9.webp"
-  },
-  {
-    "id": 1450,
-    "string_id": "6a517609ad64d2d80a4f03d8",
-    "name": "Zed, Without a Sound",
-    "set": "VEN",
-    "setName": "Vendetta",
-    "setCode": "VEN",
-    "collectorNumber": "112a",
-    "energyCost": 5,
-    "power": 5,
-    "tags": "Zed, Unit, Rare, Chaos",
-    "text": "When I conquer, play a 0 :rb_might: Shadow Clone unit token to your base.[Action][&gt;] :rb_energy_1::rb_rune_chaos:: Move me and a Shadow Clone you control to each other's locations.",
-    "imageUrl": "images/6a517609ad64d2d80a4f03d8.webp"
-  },
-  {
-    "id": 1451,
+    "id": 1320,
     "string_id": "6a56ab9bff602fd324f4767a",
     "name": "Zed, Without a Sound (Alternate Art)",
     "set": "VEN",
@@ -20314,7 +18480,7 @@
     "imageUrl": "images/6a56ab9bff602fd324f4767a.webp"
   },
   {
-    "id": 1452,
+    "id": 1321,
     "string_id": "69bc5bc6d308c64675ca86bc",
     "name": "Fury Rune",
     "set": "UNL",
@@ -20328,7 +18494,7 @@
     "imageUrl": "images/69bc5bc6d308c64675ca86bc.webp"
   },
   {
-    "id": 1453,
+    "id": 1322,
     "string_id": "69bc5bc9d308c64675ca86e4",
     "name": "Calm Rune",
     "set": "UNL",
@@ -20342,7 +18508,7 @@
     "imageUrl": "images/69bc5bc9d308c64675ca86e4.webp"
   },
   {
-    "id": 1454,
+    "id": 1323,
     "string_id": "69bc5bcbd308c64675ca8718",
     "name": "Mind Rune",
     "set": "UNL",
@@ -20356,7 +18522,7 @@
     "imageUrl": "images/69bc5bcbd308c64675ca8718.webp"
   },
   {
-    "id": 1455,
+    "id": 1324,
     "string_id": "69bc5bcdd308c64675ca8740",
     "name": "Body Rune",
     "set": "UNL",
@@ -20370,7 +18536,7 @@
     "imageUrl": "images/69bc5bcdd308c64675ca8740.webp"
   },
   {
-    "id": 1456,
+    "id": 1325,
     "string_id": "69bc5bd0d308c64675ca876d",
     "name": "Chaos Rune",
     "set": "UNL",
@@ -20384,7 +18550,7 @@
     "imageUrl": "images/69bc5bd0d308c64675ca876d.webp"
   },
   {
-    "id": 1457,
+    "id": 1326,
     "string_id": "69bc5bd2d308c64675ca87a2",
     "name": "Order Rune",
     "set": "UNL",
@@ -20398,7 +18564,7 @@
     "imageUrl": "images/69bc5bd2d308c64675ca87a2.webp"
   },
   {
-    "id": 1458,
+    "id": 1327,
     "string_id": "69bc5bc6d308c64675ca86bc",
     "name": "Fury Rune",
     "set": "SFD",
@@ -20412,7 +18578,7 @@
     "imageUrl": "images/69bc5bc6d308c64675ca86bc.webp"
   },
   {
-    "id": 1459,
+    "id": 1328,
     "string_id": "69bc5bc9d308c64675ca86e4",
     "name": "Calm Rune",
     "set": "SFD",
@@ -20426,7 +18592,7 @@
     "imageUrl": "images/69bc5bc9d308c64675ca86e4.webp"
   },
   {
-    "id": 1460,
+    "id": 1329,
     "string_id": "69bc5bcbd308c64675ca8718",
     "name": "Mind Rune",
     "set": "SFD",
@@ -20440,7 +18606,7 @@
     "imageUrl": "images/69bc5bcbd308c64675ca8718.webp"
   },
   {
-    "id": 1461,
+    "id": 1330,
     "string_id": "69bc5bcdd308c64675ca8740",
     "name": "Body Rune",
     "set": "SFD",
@@ -20454,7 +18620,7 @@
     "imageUrl": "images/69bc5bcdd308c64675ca8740.webp"
   },
   {
-    "id": 1462,
+    "id": 1331,
     "string_id": "69bc5bd0d308c64675ca876d",
     "name": "Chaos Rune",
     "set": "SFD",
@@ -20468,7 +18634,7 @@
     "imageUrl": "images/69bc5bd0d308c64675ca876d.webp"
   },
   {
-    "id": 1463,
+    "id": 1332,
     "string_id": "69bc5bd2d308c64675ca87a2",
     "name": "Order Rune",
     "set": "SFD",
@@ -20482,7 +18648,7 @@
     "imageUrl": "images/69bc5bd2d308c64675ca87a2.webp"
   },
   {
-    "id": 1464,
+    "id": 1333,
     "string_id": "69bc5bd8d308c64675ca8815",
     "name": "Sprite (T07) // Buff",
     "set": "UNL",
@@ -20496,7 +18662,7 @@
     "imageUrl": "images/69bc5bd8d308c64675ca8815.webp"
   },
   {
-    "id": 1465,
+    "id": 1334,
     "string_id": "custom_token_sfd_t01",
     "name": "Mech // Buff",
     "set": "SFD",
@@ -20510,7 +18676,7 @@
     "collectorNumber": "t01"
   },
   {
-    "id": 1466,
+    "id": 1335,
     "string_id": "custom_token_sfd_t01g",
     "name": "Mech // Gold",
     "set": "SFD",
@@ -20524,7 +18690,7 @@
     "collectorNumber": "t01g"
   },
   {
-    "id": 1467,
+    "id": 1336,
     "string_id": "custom_token_sfd_t02",
     "name": "Sand Soldier // Buff",
     "set": "SFD",
@@ -20538,7 +18704,7 @@
     "collectorNumber": "t02"
   },
   {
-    "id": 1468,
+    "id": 1337,
     "string_id": "custom_token_unl_t01",
     "name": "Baron Pit // Gold",
     "set": "UNL",
@@ -20552,7 +18718,7 @@
     "collectorNumber": "t01"
   },
   {
-    "id": 1469,
+    "id": 1338,
     "string_id": "custom_token_unl_t02",
     "name": "Bird",
     "set": "UNL",
@@ -20566,7 +18732,7 @@
     "collectorNumber": "t02"
   },
   {
-    "id": 1470,
+    "id": 1339,
     "string_id": "custom_token_unl_t03",
     "name": "Brush",
     "set": "UNL",
@@ -20580,7 +18746,7 @@
     "collectorNumber": "t03"
   },
   {
-    "id": 1471,
+    "id": 1340,
     "string_id": "custom_token_unl_t04",
     "name": "Buff",
     "set": "UNL",
@@ -20594,7 +18760,7 @@
     "collectorNumber": "t04"
   },
   {
-    "id": 1472,
+    "id": 1341,
     "string_id": "custom_token_unl_t05",
     "name": "Gold // Buff",
     "set": "UNL",
