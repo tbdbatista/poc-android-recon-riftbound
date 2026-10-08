@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Native Google Sign-In button on `AuthScreen.kt` for seamless one-tap account creation and authentication.
 - Account Linking support (`linkWithGoogle`) in `AuthRepository` and `SettingsScreen.kt`, allowing users with existing Email/Password accounts to link their Google Account without losing collections or creating duplicate users.
 - Provider tracking on `UserProfile` displaying linked authentication providers (Google / Email & Password) with visual badges.
+- Official Google brand multi-color vector logo (`ic_google_logo.xml`) integrated into Google Sign-In button (`AuthScreen.kt`) and account linking controls (`SettingsScreen.kt`).
 
 ### Fixed
 - Resolved missing card mockup thumbnails across Compendium, Collection Details, and Scanner feedback by enforcing asset URL normalization (`.webp`) and ensuring Room database re-seeds if any legacy `.png` paths exist.

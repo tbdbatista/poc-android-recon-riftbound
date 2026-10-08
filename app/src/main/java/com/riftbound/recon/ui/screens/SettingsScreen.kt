@@ -27,7 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
+import com.riftbound.recon.R
 import com.riftbound.recon.ui.auth.GoogleAuthClientHelper
 import com.riftbound.recon.data.local.ThemeMode
 import com.riftbound.recon.ui.MainViewModel
@@ -206,9 +208,9 @@ fun SettingsScreen(
                                                     verticalAlignment = Alignment.CenterVertically
                                                 ) {
                                                     Icon(
-                                                        imageVector = Icons.Default.CheckCircle,
+                                                        painter = painterResource(id = R.drawable.ic_google_logo),
                                                         contentDescription = null,
-                                                        tint = Color(0xFF4CAF50),
+                                                        tint = Color.Unspecified,
                                                         modifier = Modifier.size(12.dp)
                                                     )
                                                     Spacer(modifier = Modifier.width(4.dp))
@@ -260,9 +262,9 @@ fun SettingsScreen(
                                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.7f))
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Default.AccountCircle,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.primary,
+                                        painter = painterResource(id = R.drawable.ic_google_logo),
+                                        contentDescription = "Google Logo",
+                                        tint = Color.Unspecified,
                                         modifier = Modifier.size(16.dp)
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
@@ -270,7 +272,7 @@ fun SettingsScreen(
                                         text = "Vincular Login com Conta Google",
                                         fontSize = 12.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.primary
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
                                 }
                             }
