@@ -112,6 +112,9 @@ class MainViewModel @Inject constructor(
     fun signOut() {
         viewModelScope.launch {
             authRepository.signOut()
+            repository.clearAllCollections()
+            _selectedCollection.value = null
+            _selectedCollectionCards.value = emptyList()
         }
     }
 
@@ -235,8 +238,12 @@ class MainViewModel @Inject constructor(
             repository.deleteCollection(collectionId)
             _selectedCollection.value = null
             _selectedCollectionCards.value = emptyList()
-            currentUser?.takeIf { !it.isGuest }?.let { user ->
-                syncRepository.deleteRemoteCollection(user.uid, collectionId)
+            val user = currentUser
+            if (user != null && !user.isGuest) {
+                val result = syncRepository.deleteRemoteCollection(user.uid, collectionId)
+                if (result.isFailure) {
+                    android.util.Log.e("MainViewModel", "Erro ao excluir coleção remota $collectionId: ${result.exceptionOrNull()?.message}")
+                }
             }
         }
     }

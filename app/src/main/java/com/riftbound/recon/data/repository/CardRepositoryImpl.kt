@@ -149,17 +149,13 @@ class CardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteCollection(collectionId: Long) {
-        val current = cardDao.getAllCollectionsWithCount().first().find { it.id == collectionId }
-        if (current != null) {
-            cardDao.deleteCollection(
-                CollectionEntity(
-                    id = collectionId,
-                    name = current.name,
-                    description = current.description,
-                    createdAt = current.createdAt
-                )
-            )
-        }
+        cardDao.clearCollection(collectionId)
+        cardDao.deleteCollectionById(collectionId)
+    }
+
+    override suspend fun clearAllCollections() {
+        cardDao.deleteAllCollectionCards()
+        cardDao.deleteAllCollections()
     }
 
     override fun getCardsInCollection(collectionId: Long): Flow<List<CollectionCard>> {

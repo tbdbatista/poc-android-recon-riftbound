@@ -33,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Resolved missing card mockup thumbnails across Compendium, Collection Details, and Scanner feedback by enforcing asset URL normalization (`.webp`) and ensuring Room database re-seeds if any legacy `.png` paths exist.
+- Fixed collection deletion synchronization with Firebase Cloud Firestore, preventing deleted collections from resurrecting upon logout/login by clearing local database on sign-out, enforcing remote document deletion with cascade, and properly handling tombstones during `syncAll`.
 
 
 ---

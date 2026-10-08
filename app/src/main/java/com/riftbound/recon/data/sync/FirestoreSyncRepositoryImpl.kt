@@ -72,9 +72,14 @@ class FirestoreSyncRepositoryImpl @Inject constructor(
                 userCollectionsRef.document(local.id.toString()).set(cloudDto).await()
             }
 
-            // 4. Download remote collections not present locally
+            // 4. Download remote collections not present locally and handle tombstones
             for (remote in remoteCollections) {
-                if (!remote.isDeleted && !localMap.containsKey(remote.id)) {
+                if (remote.isDeleted) {
+                    // If marked as deleted in remote, clean up locally and remove document
+                    cardDao.clearCollection(remote.id)
+                    cardDao.deleteCollectionById(remote.id)
+                    userCollectionsRef.document(remote.id.toString()).delete().await()
+                } else if (!localMap.containsKey(remote.id)) {
                     val localEntity = CollectionEntity(
                         id = remote.id,
                         name = remote.name,
@@ -113,6 +118,11 @@ class FirestoreSyncRepositoryImpl @Inject constructor(
 
         try {
             val local = cardDao.getCollectionById(collectionId)
+            val docRef = firestore.collection("users")
+                .document(userId)
+                .collection("collections")
+                .document(collectionId.toString())
+
             if (local != null) {
                 val cardEntities = cardDao.getCollectionCardEntities(collectionId)
                 val cloudCards = cardEntities.map { CloudCardDto(cardId = it.cardId, scanOrder = it.scanOrder) }
@@ -125,12 +135,10 @@ class FirestoreSyncRepositoryImpl @Inject constructor(
                     cards = cloudCards,
                     isDeleted = false
                 )
-                firestore.collection("users")
-                    .document(userId)
-                    .collection("collections")
-                    .document(collectionId.toString())
-                    .set(cloudDto)
-                    .await()
+                docRef.set(cloudDto).await()
+            } else {
+                // If local collection was deleted, delete the remote document
+                docRef.delete().await()
             }
             Result.success(Unit)
         } catch (e: Exception) {

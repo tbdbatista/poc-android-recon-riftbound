@@ -73,6 +73,9 @@ interface CardDao {
     @Delete
     suspend fun deleteCollection(collection: CollectionEntity)
 
+    @Query("DELETE FROM collections WHERE id = :id")
+    suspend fun deleteCollectionById(id: Long)
+
     // --- COLLECTION CARDS (Scanning Records) ---
     @Query("""
         SELECT cc.id as collectionCardId, c.id as cardId, c.name, c.cardSet, c.setCode, c.collectorNumber, 
