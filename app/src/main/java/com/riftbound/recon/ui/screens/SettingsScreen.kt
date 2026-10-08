@@ -121,53 +121,155 @@ fun SettingsScreen(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 if (currentUser != null && !currentUser.isGuest) {
+                    val syncStatus by viewModel.syncStatus.collectAsState()
+                    val lastSyncTime by viewModel.lastSyncTime.collectAsState()
+                    val syncDateFormat = remember { java.text.SimpleDateFormat("dd/MM/yyyy • HH:mm", java.util.Locale.getDefault()) }
+
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(16.dp),
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.4f))
                     ) {
-                        Row(
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                                .padding(16.dp)
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(48.dp)
-                                    .clip(CircleShape)
-                                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)),
-                                contentAlignment = Alignment.Center
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text(
-                                    text = (currentUser.displayName?.take(1) ?: "U").uppercase(),
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 20.sp,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                            }
-                            Spacer(modifier = Modifier.width(14.dp))
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = currentUser.displayName ?: "Colecionador",
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                currentUser.email?.let { email ->
+                                Box(
+                                    modifier = Modifier
+                                        .size(48.dp)
+                                        .clip(CircleShape)
+                                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)),
+                                    contentAlignment = Alignment.Center
+                                ) {
                                     Text(
-                                        text = email,
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        text = (currentUser.displayName?.take(1) ?: "U").uppercase(),
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 20.sp,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                }
+                                Spacer(modifier = Modifier.width(14.dp))
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = currentUser.displayName ?: "Colecionador",
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
+                                    currentUser.email?.let { email ->
+                                        Text(
+                                            text = email,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                }
+                                IconButton(onClick = { showSignOutDialog = true }) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.Logout,
+                                        contentDescription = "Sair da Conta",
+                                        tint = MaterialTheme.colorScheme.error
                                     )
                                 }
                             }
-                            IconButton(onClick = { showSignOutDialog = true }) {
+
+                            HorizontalDivider(
+                                modifier = Modifier.padding(vertical = 12.dp),
+                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                            )
+
+                            // Cloud Sync status info
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    when (syncStatus) {
+                                        is com.riftbound.recon.domain.model.SyncStatus.Syncing -> {
+                                            CircularProgressIndicator(
+                                                modifier = Modifier.size(18.dp),
+                                                strokeWidth = 2.dp,
+                                                color = MaterialTheme.colorScheme.primary
+                                            )
+                                        }
+                                        is com.riftbound.recon.domain.model.SyncStatus.Error -> {
+                                            Icon(
+                                                imageVector = Icons.Default.SyncProblem,
+                                                contentDescription = null,
+                                                tint = MaterialTheme.colorScheme.error,
+                                                modifier = Modifier.size(18.dp)
+                                            )
+                                        }
+                                        else -> {
+                                            Icon(
+                                                imageVector = Icons.Default.CloudDone,
+                                                contentDescription = null,
+                                                tint = Color(0xFF4CAF50),
+                                                modifier = Modifier.size(18.dp)
+                                            )
+                                        }
+                                    }
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Column {
+                                        Text(
+                                            text = "Sincronização Cloud Firestore",
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.onSurface
+                                        )
+                                        Text(
+                                            text = if (lastSyncTime != null) {
+                                                "Último backup: ${syncDateFormat.format(java.util.Date(lastSyncTime!!))}"
+                                            } else {
+                                                "Nenhum backup realizado ainda"
+                                            },
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                }
+                            }
+
+                            if (syncStatus is com.riftbound.recon.domain.model.SyncStatus.Error) {
+                                Spacer(modifier = Modifier.height(6.dp))
+                                Text(
+                                    text = "Erro: ${(syncStatus as com.riftbound.recon.domain.model.SyncStatus.Error).message}",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            OutlinedButton(
+                                onClick = { viewModel.forceSync() },
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(10.dp),
+                                enabled = syncStatus !is com.riftbound.recon.domain.model.SyncStatus.Syncing,
+                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+                            ) {
                                 Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.Logout,
-                                    contentDescription = "Sair da Conta",
-                                    tint = MaterialTheme.colorScheme.error
+                                    imageVector = Icons.Default.Sync,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(18.dp),
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = if (syncStatus is com.riftbound.recon.domain.model.SyncStatus.Syncing) {
+                                        "Sincronizando Coleções..."
+                                    } else {
+                                        "Forçar Sincronização Agora"
+                                    },
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary
                                 )
                             }
                         }
@@ -364,7 +466,7 @@ fun SettingsScreen(
                                 border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.secondary.copy(alpha = 0.4f))
                             ) {
                                 Text(
-                                    text = "v0.5.2",
+                                    text = "v0.6.0",
                                     style = MaterialTheme.typography.labelSmall,
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.secondary,
