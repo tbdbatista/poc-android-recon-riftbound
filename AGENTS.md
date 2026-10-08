@@ -7,13 +7,14 @@ This document establishes the official development rules, branch lifecycle, comm
 ## 1. Branch Strategy & Hierarchy
 
 ```
-[ working branch ] (feature/*, bugfix/*, config/*, refactor/*, bump/*)
+[ Development Branches ] (feature/*, config/*, refactor/*, dev-bugfix/*)
          │
          ▼ (PR)
-     [ epic/* ] ──(PR)──► [ develop ] ──(PR)──► [ main ]
-                                                      │
-                                                      ▼
-                                              [ Release / Tag ]
+     [ epic/* ] ──(PR)──► [ develop ] ──(PR)──► [ main ] (Release / Tag)
+                               ▲                   │
+                               │ (Merge Back PR)   ▼
+                    [ Production Bugfix ] ◄───────┘ (Branch from main)
+                    (bugfix/* for hotfix)
 ```
 
 ### 1.1 Protected Branches (No Direct Commits)
@@ -21,8 +22,10 @@ This document establishes the official development rules, branch lifecycle, comm
 * **`main`**:
   * Represents production-ready, stable releases.
   * **STRICT RULE:** Direct commits are NEVER allowed.
-  * **STRICT RULE:** Only `develop` may be merged into `main`. No feature, bugfix, or epic branch can ever be merged directly into `main`.
-  * Every merge of `develop` into `main` constitutes a new release and MUST bump the version number.
+  * Merges into `main` occur exclusively via Pull Requests from:
+    1. `develop` (Standard Releases after sealing a version via `bump/`).
+    2. `bugfix/<context>-<description>` (Critical Production Hotfixes for already released versions).
+  * Every merge into `main` triggers automated CI release tagging.
 
 * **`develop`**:
   * The central integration branch for day-to-day development.
@@ -37,21 +40,38 @@ This document establishes the official development rules, branch lifecycle, comm
 
 ---
 
-## 2. Working Branches
+## 2. Working Branches & Bugfix Scenarios
 
-All active development must occur in dedicated working branches created from and merged back into `develop` (or into an `epic/*` branch if contributing to an ongoing epic).
+All active development must occur in dedicated working branches.
 
 ### 2.1 Branch Types
 
 | Branch Type | Description / When to Use |
 | :--- | :--- |
-| `feature/` | Development of new features or capabilities. |
-| `bugfix/` | Resolution of bugs, regressions, or unexpected behaviors. |
-| `config/` | Exclusively for project configuration files (e.g., Gradle, build tools, CI/CD, linters). |
-| `refactor/` | Code modifications that do not add new functionality or alter public behavior (e.g., architectural cleanup, renaming, performance optimizations). |
-| `bump/` | Exclusively for updating version-control files (e.g., `version.properties`, `build.gradle.kts`) prior to merging into `main`. |
+| `feature/` | Development of new features or capabilities. Target: `develop`. |
+| `bugfix/` | Resolution of bugs in production releases (hotfix from `main`) or active development. |
+| `config/` | Exclusively for project configuration files (e.g., Gradle, build tools, CI/CD, linters, steering rules). Target: `develop`. |
+| `refactor/` | Code modifications that do not add new functionality or alter public behavior. Target: `develop`. |
+| `bump/` | Exclusively for updating version-control files (`version.properties`, `CHANGELOG.md`) prior to merging into `main`. Target: `develop`. |
 
-### 2.2 Branch Naming Standards
+### 2.2 Bugfix Workflows: Production vs. Development
+
+#### Scenario A: Production Bug (Bug reported in a released version on `main`)
+When a defect is discovered in a closed, production-ready version already merged into `main` (e.g. v0.5.0):
+1. **Branching Origin:** Create a dedicated branch `bugfix/<context>-<description>` **directly from `main`**.
+2. **Version Bump:** Increment the **PATCH** version in `version.properties` (e.g., `0.5.0` → `0.5.1`) and increment `versionCode`.
+3. **Changelog:** Add a dedicated release section in `CHANGELOG.md` (e.g. `## [0.5.1] - YYYY-MM-DD`) with `### Fixed`.
+4. **Pull Request to `main`:** Open a PR targeting `main` directly (`gh pr create --base main --head bugfix/...`).
+5. **Merge Back to `develop`:** After merging into `main`, immediately merge back (or open a sync PR) from `main` (or the bugfix branch) into `develop` to ensure day-to-day development incorporates the fix.
+
+#### Scenario B: Development Bug (Bug found during ongoing development, not yet released)
+When a bug is identified in unreleased code existing only on `develop`:
+1. **Branching Origin:** Create a branch from `develop`.
+2. **Naming:** May be named `refactor/<description>` or `bugfix/<description>`.
+3. **Pull Request Target:** Target `develop` directly.
+4. **Versioning:** Follows the normal release cycle; no immediate patch bump is required.
+
+### 2.3 Branch Naming Standards
 
 * **Language:** Branch names must **ALWAYS be written in English**.
 * **Pattern:** `<type>/<context>-<description>[-part<N>]`
@@ -59,11 +79,11 @@ All active development must occur in dedicated working branches created from and
   * If a large feature is divided into sequential parts, suffix with `-part1`, `-part2`, etc.
 
 **Examples:**
-* `feature/notification-push-service-setup-part1`
-* `config/tuist-config-tuist-at-project`
-* `bugfix/card-scanner-bounding-box-alignment`
-* `refactor/database-card-dao-queries`
-* `bump/release-v1-0-1`
+* `bugfix/card-mockups-webp-urls` (Production Hotfix from `main`)
+* `feature/notification-push-service-setup-part1` (Feature from `develop`)
+* `config/steering-production-hotfix-rules` (Config from `develop`)
+* `refactor/database-card-dao-queries` (Refactor from `develop`)
+* `bump/release-v0-5-0` (Bump from `develop`)
 
 ---
 
@@ -78,11 +98,11 @@ All active development must occur in dedicated working branches created from and
 ### 3.1 Components
 
 * **`[<Context>]`**: The module, feature area, or tool affected, in PascalCase or Title Case enclosed in brackets.
-  * Examples: `[Notification]`, `[Scanner]`, `[Compendium]`, `[Tuist]`, `[Database]`, `[Version]`, `[CI]`.
+  * Examples: `[Notification]`, `[Scanner]`, `[Compendium]`, `[Database]`, `[Version]`, `[CI]`, `[Steering]`.
 * **`<Type>`**: The action type matching the nature of the change:
   * `Feature:` New feature or behavior.
   * `Bugfix:` Bug or defect fix.
-  * `Config:` Configuration or tooling modification.
+  * `Config:` Configuration, tooling, or steering modification.
   * `Refactor:` Code refactoring or restructuring without functional addition.
   * `Bump:` Version bump.
   * `Test:` Adding or modifying unit/instrumented tests.
@@ -91,11 +111,11 @@ All active development must occur in dedicated working branches created from and
 
 ### 3.2 Commit Examples
 
-* `[Notification] Feature: implement FCM background receiver service`
-* `[Tuist] Config: create tuist directive files`
-* `[Scanner] Bugfix: correct text recognition box orientation on rotated frames`
+* `[Assets] Bugfix: point all_cards.json imageUrl to webp extension`
+* `[Steering] Config: document production bugfix and hotfix merge-back workflow`
+* `[Scanner] Feature: add undo last deletion button and descriptive button labels`
 * `[Database] Refactor: optimize Room query for card search filtering`
-* `[Version] Bump: increment version to 1.0.1`
+* `[Version] Bump: increment version to 0.5.1`
 
 ---
 
@@ -105,13 +125,8 @@ All active development must occur in dedicated working branches created from and
 * Version definition is centralized in `version.properties`.
 * **Changelog Policy (`CHANGELOG.md`):**
   * All merges into `develop` must have their changes documented under the `## [Unreleased] (develop)` section of `CHANGELOG.md`.
-  * When preparing a release from `develop` to `main`, the `[Unreleased]` section is tagged with the new release version and date.
-* Before merging `develop` into `main`:
-  1. A dedicated `bump/<version>` branch is created from `develop`.
-  2. `version.properties` is updated (incrementing `versionCode` and `versionName`).
-  3. `CHANGELOG.md` is updated to seal the new release version.
-  4. The `bump/` branch is merged into `develop` via PR.
-  5. `develop` is then merged into `main` via PR.
+  * Standard releases tag the `[Unreleased]` section with the new release version and date before merging into `main`.
+  * Production Hotfixes add their own `## [MAJOR.MINOR.PATCH] - YYYY-MM-DD` section directly to seal the patch.
 
 ---
 
@@ -121,73 +136,68 @@ All integrations into `develop` or `main` MUST occur through Pull Requests on Gi
 
 ### 5.1 PR Target Rules
 
-* **Working Branch PRs** (`feature/*`, `bugfix/*`, `config/*`, `refactor/*`, `bump/*`):
+* **Development PRs** (`feature/*`, `config/*`, `refactor/*`, `bump/*`, dev `bugfix/*`):
   * **Target Base Branch:** `develop` (or active `epic/*` branch).
-  * **STRICT RULE:** Never target `main` directly from a working branch.
-* **Epic PRs** (`epic/*`):
-  * **Target Base Branch:** `develop`.
-* **Release PRs** (`develop`):
+* **Production Bugfix PRs** (`bugfix/*` created from `main`):
   * **Target Base Branch:** `main`.
-  * Only opened after a `bump/<version>` branch has been merged into `develop` to seal the release.
+* **Release PRs** (`develop` -> `main`):
+  * **Target Base Branch:** `main` (opened after `bump/` merges into `develop`).
+* **Merge-Back PRs** (`main` -> `develop` or `bugfix/*` -> `develop`):
+  * **Target Base Branch:** `develop` (to synchronize hotfix changes).
 
 ### 5.2 PR Title Standards
 
 * **Language:** PR titles must **ALWAYS be written in English**.
-* **Pattern for Working / Bump Branches:**
+* **Pattern for Working / Bump / Bugfix Branches:**
   ```
   [<Context>] <Type>: <Description in imperative mood>
   ```
-  *(Matches the primary commit / context convention)*
   * Examples:
-    * `[Collections] Feature: improve list UI with table header, bold position, thumbnails and sorting options`
-    * `[Scanner] Feature: add undo last deletion button and descriptive button labels`
-    * `[CI] Config: add automated release tagging workflow for main merges`
-    * `[Version] Bump: release version 0.4.0`
+    * `[Assets] Bugfix: point all_cards.json imageUrl to webp extension`
+    * `[Steering] Config: document production hotfix and merge-back workflow`
+    * `[Version] Bump: release version 0.5.0`
 * **Pattern for Release PRs (`develop` -> `main`):**
   ```
   [Release] Version <MAJOR.MINOR.PATCH>
   ```
-  * Example: `[Release] Version 0.4.0`
+  * Example: `[Release] Version 0.5.0`
 
-### 5.3 PR Description Structure
+### 5.3 PR Description Templates
 
-PR descriptions must be clean, structured, and informative.
-
-#### 5.3.1 Template for Feature / Bugfix / Config / Refactor PRs:
+#### 5.3.1 Template for Feature / Config / Refactor PRs:
 ```markdown
 ## Summary
 <Concise high-level overview explaining the purpose, motivation, and user-facing impact of the PR.>
 
 ### Key Changes
 1. **<Component/Area>**: <Detailed explanation of what was added, modified, or removed.>
-2. **<Component/Area>**: <Detailed explanation of architectural or logic adjustments.>
 ...
 n. **Tests & Documentation**:
-   - Added / updated unit tests in `<TestFile>.kt`.
+   - Added / updated unit tests.
    - Updated `CHANGELOG.md` under `## [Unreleased] (develop)`.
 
 ### Verification / Testing
 - [x] Compilation: Verified `./gradlew assembleDebug` builds cleanly without errors.
 - [x] Unit Tests: Verified `./gradlew testDebugUnitTest` passes 100%.
-- [x] Manual Verification: Tested on device/emulator (describe specific flows tested).
 ```
 
-#### 5.3.2 Template for Bump PRs (`bump/<version>` -> `develop`):
+#### 5.3.2 Template for Production Bugfix PRs (`bugfix/*` -> `main`):
 ```markdown
 ## Summary
-Bumps version to <version> (versionCode <codeCount>) and seals release notes in `CHANGELOG.md`.
+Hotfix for production release addressing issue #<IssueNumber>: <Brief description>.
+Bumps version to <PATCH_VERSION> (versionCode <codeCount>).
 
-### Release Notes
-- <Bulleted release highlights extracted directly from the sealed version section in CHANGELOG.md>
-```
+### Root Cause
+<Clear explanation of why the defect occurred in production.>
 
-#### 5.3.3 Template for Release PRs (`develop` -> `main`):
-```markdown
-## Release <MAJOR.MINOR.PATCH>
-Promotes `develop` to `main` with version <version> (versionCode <codeCount>).
+### Key Changes
+1. **<Component/Area>**: <Detailed fix applied.>
+2. **Version & Changelog**: Bumped version to <PATCH_VERSION> and documented under `## [<PATCH_VERSION>] - YYYY-MM-DD` in `CHANGELOG.md`.
 
-### Highlights
-- <Key summary bullet points highlighting new capabilities, improvements, and fixes in this release>
+### Verification / Testing
+- [x] Compilation: Verified `./gradlew assembleDebug` builds cleanly without errors.
+- [x] Unit Tests: Verified `./gradlew testDebugUnitTest` passes 100%.
+- [x] Reproduction: Verified defect is resolved on clean install.
 ```
 
 ### 5.4 Pre-PR Checklist (Mandatory for Contributors & Agents)
@@ -195,7 +205,6 @@ Promotes `develop` to `main` with version <version> (versionCode <codeCount>).
 Before creating a Pull Request, verify:
 1. [ ] **Build:** `./gradlew assembleDebug` completes with `BUILD SUCCESSFUL`.
 2. [ ] **Tests:** `./gradlew testDebugUnitTest` runs with all tests passing.
-3. [ ] **Changelog:** All notable changes are documented in `CHANGELOG.md` under `## [Unreleased] (develop)`.
-4. [ ] **Clean Branch:** Working branch is rebased / up-to-date with `develop`.
-5. [ ] **GitHub CLI:** PR created with `gh pr create --base develop --head <branch-name> --title "<title>" --body "<body-content>"`.
-
+3. [ ] **Changelog:** Changes documented in `CHANGELOG.md`.
+4. [ ] **Clean Branch:** Working branch is rebased / up-to-date with target base.
+5. [ ] **GitHub CLI:** PR created with `gh pr create --base <base> --head <branch> --title "<title>" --body "<body>"`.
