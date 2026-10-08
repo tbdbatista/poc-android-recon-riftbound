@@ -25,13 +25,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import android.widget.Toast
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.riftbound.recon.domain.model.Collection
 import com.riftbound.recon.ui.MainViewModel
-import com.riftbound.recon.ui.util.AppIconHelper
-import com.riftbound.recon.ui.util.AppIconTheme
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,10 +40,6 @@ fun CollectionsScreen(
     val collections by viewModel.collections.collectAsState()
     val dateFormat = remember { SimpleDateFormat("dd/MM/yyyy • HH:mm", Locale.getDefault()) }
     val totalCardsCount = remember(collections) { collections.sumOf { it.cardsCount } }
-
-    val context = LocalContext.current
-    var showIconDialog by remember { mutableStateOf(false) }
-    var currentIconTheme by remember { mutableStateOf(AppIconHelper.getCurrentIconTheme(context)) }
 
     Scaffold(
         topBar = {
@@ -69,10 +61,10 @@ fun CollectionsScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { showIconDialog = true }) {
+                    IconButton(onClick = { navController.navigate("settings") }) {
                         Icon(
-                            imageVector = Icons.Default.Palette,
-                            contentDescription = "Personalizar Ícone do App",
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "Configurações",
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
@@ -146,24 +138,8 @@ fun CollectionsScreen(
             }
         }
     }
-
-    if (showIconDialog) {
-        AppIconCustomizationDialog(
-            currentTheme = currentIconTheme,
-            onSelectTheme = { selectedTheme ->
-                AppIconHelper.setAppIcon(context, selectedTheme)
-                currentIconTheme = selectedTheme
-                showIconDialog = false
-                Toast.makeText(
-                    context,
-                    "Ícone alterado para ${selectedTheme.title}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            },
-            onDismiss = { showIconDialog = false }
-        )
-    }
 }
+
 
 @Composable
 fun CollectionsSummaryBanner(
@@ -429,145 +405,3 @@ fun EmptyCollectionsState(
     }
 }
 
-@Composable
-fun AppIconCustomizationDialog(
-    currentTheme: AppIconTheme,
-    onSelectTheme: (AppIconTheme) -> Unit,
-    onDismiss: () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.Palette,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(24.dp)
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text("Ícone do Aplicativo", fontWeight = FontWeight.Bold)
-            }
-        },
-        text = {
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                Text(
-                    text = "Escolha o estilo visual do ícone para a tela inicial do seu dispositivo:",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                // Option 1: Dark Icon
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onSelectTheme(AppIconTheme.DARK) },
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = if (currentTheme == AppIconTheme.DARK)
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
-                        else
-                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-                    ),
-                    border = BorderStroke(
-                        width = if (currentTheme == AppIconTheme.DARK) 1.5.dp else 0.5.dp,
-                        color = if (currentTheme == AppIconTheme.DARK)
-                            MaterialTheme.colorScheme.primary
-                        else
-                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                    )
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(14.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text("🌙", fontSize = 20.sp)
-                            Spacer(modifier = Modifier.width(12.dp))
-                            Column {
-                                Text(
-                                    text = "Ícone Escuro (Padrão)",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = "Obsidian & Glow Arcane Neon",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                        RadioButton(
-                            selected = currentTheme == AppIconTheme.DARK,
-                            onClick = { onSelectTheme(AppIconTheme.DARK) },
-                            colors = RadioButtonDefaults.colors(selectedColor = MaterialTheme.colorScheme.primary)
-                        )
-                    }
-                }
-
-                // Option 2: Light Icon
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onSelectTheme(AppIconTheme.LIGHT) },
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = if (currentTheme == AppIconTheme.LIGHT)
-                            MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
-                        else
-                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-                    ),
-                    border = BorderStroke(
-                        width = if (currentTheme == AppIconTheme.LIGHT) 1.5.dp else 0.5.dp,
-                        color = if (currentTheme == AppIconTheme.LIGHT)
-                            MaterialTheme.colorScheme.primary
-                        else
-                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
-                    )
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(14.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text("☀️", fontSize = 20.sp)
-                            Spacer(modifier = Modifier.width(12.dp))
-                            Column {
-                                Text(
-                                    text = "Ícone Claro",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = "Ice-White & Royal Purple",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                        RadioButton(
-                            selected = currentTheme == AppIconTheme.LIGHT,
-                            onClick = { onSelectTheme(AppIconTheme.LIGHT) },
-                            colors = RadioButtonDefaults.colors(selectedColor = MaterialTheme.colorScheme.primary)
-                        )
-                    }
-                }
-            }
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Fechar")
-            }
-        }
-    )
-}

@@ -60,4 +60,12 @@ object AppIconHelper {
             }
         }
     }
+
+    fun syncIconWithTheme(context: Context, isDark: Boolean) {
+        val targetTheme = if (isDark) AppIconTheme.DARK else AppIconTheme.LIGHT
+        if (getCurrentIconTheme(context) != targetTheme) {
+            setAppIcon(context, targetTheme)
+        }
+    }
 }
+

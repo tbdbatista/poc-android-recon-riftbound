@@ -42,6 +42,20 @@ class AppPreferencesTest {
         assertFalse(appPreferences.skipDeleteCardConfirmation)
     }
 
+    @Test
+    fun default_themeMode_isDark() {
+        org.junit.Assert.assertEquals(ThemeMode.DARK.name, appPreferences.themeMode)
+    }
+
+    @Test
+    fun setThemeMode_persistsCorrectly() {
+        appPreferences.themeMode = ThemeMode.LIGHT.name
+        org.junit.Assert.assertEquals(ThemeMode.LIGHT.name, appPreferences.themeMode)
+
+        appPreferences.themeMode = ThemeMode.SYSTEM.name
+        org.junit.Assert.assertEquals(ThemeMode.SYSTEM.name, appPreferences.themeMode)
+    }
+
     private fun createFakeSharedPreferences(storage: MutableMap<String, Any?>): SharedPreferences {
         val editorHandler = object : InvocationHandler {
             override fun invoke(proxy: Any?, method: Method?, args: Array<out Any>?): Any? {
@@ -49,6 +63,12 @@ class AppPreferencesTest {
                     "putBoolean" -> {
                         val key = args?.get(0) as String
                         val value = args.get(1) as Boolean
+                        storage[key] = value
+                        return proxy
+                    }
+                    "putString" -> {
+                        val key = args?.get(0) as String
+                        val value = args.get(1) as? String
                         storage[key] = value
                         return proxy
                     }
@@ -72,6 +92,11 @@ class AppPreferencesTest {
                         val key = args?.get(0) as String
                         val defValue = args.get(1) as Boolean
                         return storage[key] as? Boolean ?: defValue
+                    }
+                    "getString" -> {
+                        val key = args?.get(0) as String
+                        val defValue = args.get(1) as? String
+                        return storage[key] as? String ?: defValue
                     }
                     "edit" -> return editorProxy
                     else -> return null

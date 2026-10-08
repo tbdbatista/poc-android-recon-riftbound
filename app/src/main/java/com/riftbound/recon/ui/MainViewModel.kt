@@ -13,6 +13,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import com.riftbound.recon.data.local.AppPreferences
+import com.riftbound.recon.data.local.ThemeMode
+import com.riftbound.recon.ui.util.AppIconHelper
 import javax.inject.Inject
 
 @HiltViewModel
@@ -155,6 +157,9 @@ class MainViewModel @Inject constructor(
     private val _lastDetectedCard = MutableStateFlow<Card?>(null)
     val lastDetectedCard = _lastDetectedCard.asStateFlow()
 
+    private val _scanFeedback = MutableStateFlow<ScanFeedback?>(null)
+    val scanFeedback = _scanFeedback.asStateFlow()
+
     private val _isScanningPaused = MutableStateFlow(true) // Start paused until explicit user action
     val isScanningPaused = _isScanningPaused.asStateFlow()
 
@@ -164,12 +169,14 @@ class MainViewModel @Inject constructor(
     private val _scanTrigger = MutableStateFlow(false)
     val scanTrigger = _scanTrigger.asStateFlow()
 
-    private var lastScannedTime = 0L
-    private var lastScannedCardId = -1
+    fun clearScanFeedback() {
+        _scanFeedback.value = null
+    }
 
     fun startScanning() {
         _isScanningPaused.value = false
         _lastDetectedCard.value = null
+        _scanFeedback.value = null
         clearLogs()
     }
 
@@ -202,6 +209,7 @@ class MainViewModel @Inject constructor(
                 logs.add("[$now] FALHA: Nenhum texto identificado no enquadramento.")
                 logs.add("[$now] --- FIM DA ANÁLISE ---")
                 _scannerLogs.value = _scannerLogs.value + logs
+                _scanFeedback.value = ScanFeedback.Error("Nenhum texto detectado. Centralize a carta na moldura.")
                 return@launch
             }
             
@@ -268,10 +276,10 @@ class MainViewModel @Inject constructor(
                 // Save match
                 _lastDetectedCard.value = matchedCard
                 _scannedCards.value = _scannedCards.value + matchedCard
-                lastScannedCardId = matchedCard.id
-                lastScannedTime = System.currentTimeMillis()
+                _scanFeedback.value = ScanFeedback.Success(matchedCard)
             } else {
                 logs.add("[$now] FALHA! Nenhuma carta encontrada com as regras do matcher.")
+                _scanFeedback.value = ScanFeedback.Error("Carta não identificada. Alinhe o código e nome da carta.")
             }
             
             logs.add("[$now] --- FIM DA ANÁLISE ---")
@@ -291,8 +299,7 @@ class MainViewModel @Inject constructor(
         
         _lastDetectedCard.value = card
         _scannedCards.value = _scannedCards.value + card
-        lastScannedCardId = card.id
-        lastScannedTime = System.currentTimeMillis()
+        _scanFeedback.value = ScanFeedback.Success(card)
     }
 
     fun undoLastScan() {
@@ -336,12 +343,37 @@ class MainViewModel @Inject constructor(
         appPreferences.skipDeleteCardConfirmation = skip
     }
 
+    // --- THEME & PREFERENCES STATE ---
+    private val _themeMode = MutableStateFlow(
+        try {
+            ThemeMode.valueOf(appPreferences.themeMode)
+        } catch (e: Exception) {
+            ThemeMode.DARK
+        }
+    )
+    val themeMode: StateFlow<ThemeMode> = _themeMode.asStateFlow()
+
+    fun setThemeMode(mode: ThemeMode, context: android.content.Context) {
+        _themeMode.value = mode
+        appPreferences.themeMode = mode.name
+
+        val isDark = when (mode) {
+            ThemeMode.DARK -> true
+            ThemeMode.LIGHT -> false
+            ThemeMode.SYSTEM -> {
+                val uiMode = context.resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+                uiMode == android.content.res.Configuration.UI_MODE_NIGHT_YES
+            }
+        }
+        AppIconHelper.syncIconWithTheme(context, isDark)
+    }
+
     fun clearScanningSession() {
         _scannedCards.value = emptyList()
         _deletedCardsHistory.value = emptyList()
         _lastDetectedCard.value = null
+        _scanFeedback.value = null
         _isScanningPaused.value = true
-        lastScannedCardId = -1
         clearLogs()
     }
 
@@ -387,4 +419,9 @@ class MainViewModel @Inject constructor(
     fun updateSetFilter(filter: String) {
         _selectedSetFilter.value = filter
     }
+}
+
+sealed class ScanFeedback {
+    data class Success(val card: Card, val timestamp: Long = System.currentTimeMillis()) : ScanFeedback()
+    data class Error(val message: String, val timestamp: Long = System.currentTimeMillis()) : ScanFeedback()
 }
