@@ -95,6 +95,20 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun linkGoogleAccount(idToken: String, onResult: (Result<UserProfile>) -> Unit = {}) {
+        viewModelScope.launch {
+            val result = authRepository.linkWithGoogle(idToken)
+            onResult(result)
+        }
+    }
+
+    fun unlinkGoogleAccount(onResult: (Result<UserProfile>) -> Unit = {}) {
+        viewModelScope.launch {
+            val result = authRepository.unlinkGoogle()
+            onResult(result)
+        }
+    }
+
     fun signOut() {
         viewModelScope.launch {
             authRepository.signOut()

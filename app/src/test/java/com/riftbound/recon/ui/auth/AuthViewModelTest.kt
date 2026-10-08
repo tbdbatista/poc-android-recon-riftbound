@@ -85,6 +85,31 @@ class AuthViewModelTest {
         assertTrue(auth is AuthState.Authenticated)
         assertEquals("user@test.com", (auth as AuthState.Authenticated).user.email)
     }
+    @Test
+    fun signInWithGoogle_successful_updatesAuthState() = runTest {
+        viewModel.signInWithGoogle("fake_id_token_123")
+        testScheduler.advanceUntilIdle()
+
+        assertNull(viewModel.uiState.value.errorMessage)
+        val auth = viewModel.authState.value
+        assertTrue(auth is AuthState.Authenticated)
+        if (auth is AuthState.Authenticated) {
+            assertEquals("google@test.com", auth.user.email)
+            assertTrue(auth.user.isGoogleLinked)
+        }
+    }
+
+    @Test
+    fun linkWithGoogle_updatesUserProfileProviders() = runTest {
+        viewModel.signInWithEmail("user@test.com", "password123")
+        testScheduler.advanceUntilIdle()
+
+        val linkResult = fakeAuthRepository.linkWithGoogle("fake_google_token")
+        assertTrue(linkResult.isSuccess)
+        val updatedUser = linkResult.getOrThrow()
+        assertTrue(updatedUser.isGoogleLinked)
+        assertTrue(updatedUser.isPasswordLinked)
+    }
 }
 
 private class FakeAuthRepository : AuthRepository {
@@ -95,7 +120,12 @@ private class FakeAuthRepository : AuthRepository {
     override var isGuestMode: Boolean = false
 
     override suspend fun signInWithEmail(email: String, password: String): Result<UserProfile> {
-        val profile = UserProfile(uid = "fake_123", email = email, displayName = "Test User")
+        val profile = UserProfile(
+            uid = "fake_123",
+            email = email,
+            displayName = "Test User",
+            providers = listOf("password")
+        )
         currentUser = profile
         isGuestMode = false
         _authState.value = AuthState.Authenticated(profile)
@@ -107,7 +137,12 @@ private class FakeAuthRepository : AuthRepository {
         password: String,
         displayName: String
     ): Result<UserProfile> {
-        val profile = UserProfile(uid = "fake_123", email = email, displayName = displayName)
+        val profile = UserProfile(
+            uid = "fake_123",
+            email = email,
+            displayName = displayName,
+            providers = listOf("password")
+        )
         currentUser = profile
         isGuestMode = false
         _authState.value = AuthState.Authenticated(profile)
@@ -115,11 +150,32 @@ private class FakeAuthRepository : AuthRepository {
     }
 
     override suspend fun signInWithGoogle(idToken: String): Result<UserProfile> {
-        val profile = UserProfile(uid = "fake_google_123", email = "google@test.com", displayName = "Google User")
+        val profile = UserProfile(
+            uid = "fake_google_123",
+            email = "google@test.com",
+            displayName = "Google User",
+            providers = listOf("google.com")
+        )
         currentUser = profile
         isGuestMode = false
         _authState.value = AuthState.Authenticated(profile)
         return Result.success(profile)
+    }
+
+    override suspend fun linkWithGoogle(idToken: String): Result<UserProfile> {
+        val current = currentUser ?: return Result.failure(IllegalStateException("No user"))
+        val updated = current.copy(providers = current.providers + "google.com")
+        currentUser = updated
+        _authState.value = AuthState.Authenticated(updated)
+        return Result.success(updated)
+    }
+
+    override suspend fun unlinkGoogle(): Result<UserProfile> {
+        val current = currentUser ?: return Result.failure(IllegalStateException("No user"))
+        val updated = current.copy(providers = current.providers.filter { it != "google.com" })
+        currentUser = updated
+        _authState.value = AuthState.Authenticated(updated)
+        return Result.success(updated)
     }
 
     override suspend fun setGuestMode(enabled: Boolean) {

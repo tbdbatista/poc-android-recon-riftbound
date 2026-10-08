@@ -108,6 +108,36 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun linkWithGoogle(idToken: String): Result<UserProfile> = withContext(Dispatchers.IO) {
+        val user = firebaseAuth.currentUser
+            ?: return@withContext Result.failure(IllegalStateException("Nenhum usuário conectado para vincular conta."))
+
+        try {
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            val authResult = user.linkWithCredential(credential).await()
+            val updatedUser = authResult.user ?: user
+            val profile = updatedUser.toDomainModel(isGuest = false)
+            _authState.value = AuthState.Authenticated(profile)
+            Result.success(profile)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun unlinkGoogle(): Result<UserProfile> = withContext(Dispatchers.IO) {
+        val user = firebaseAuth.currentUser
+            ?: return@withContext Result.failure(IllegalStateException("Nenhum usuário conectado."))
+
+        try {
+            val updatedUser = user.unlink(GoogleAuthProvider.PROVIDER_ID).await().user ?: user
+            val profile = updatedUser.toDomainModel(isGuest = false)
+            _authState.value = AuthState.Authenticated(profile)
+            Result.success(profile)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     override suspend fun setGuestMode(enabled: Boolean) = withContext(Dispatchers.IO) {
         appPreferences.isGuestMode = enabled
         if (enabled) {
@@ -140,13 +170,15 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     }
 
     private fun FirebaseUser.toDomainModel(isGuest: Boolean): UserProfile {
+        val providerIds = providerData.mapNotNull { it.providerId }
         return UserProfile(
             uid = uid,
             email = email,
             displayName = displayName ?: email?.substringBefore("@") ?: "Colecionador",
             photoUrl = photoUrl?.toString(),
             isAnonymous = isAnonymous,
-            isGuest = isGuest
+            isGuest = isGuest,
+            providers = providerIds
         )
     }
 }

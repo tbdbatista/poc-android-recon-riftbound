@@ -20,6 +20,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -38,9 +41,21 @@ fun AuthScreen(
     onAuthSuccess: () -> Unit,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val authState by viewModel.authState.collectAsState()
     val uiState by viewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
+
+    val googleSignInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val tokenResult = GoogleAuthClientHelper.getIdTokenFromIntent(result.data)
+        tokenResult.onSuccess { idToken ->
+            viewModel.signInWithGoogle(idToken)
+        }.onFailure { error ->
+            viewModel.setError("Falha ao autenticar com o Google: ${error.localizedMessage ?: "Tente novamente."}")
+        }
+    }
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -172,6 +187,75 @@ fun AuthScreen(
                         modifier = Modifier.padding(20.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        // Google Sign-In Button
+                        OutlinedButton(
+                            onClick = {
+                                val client = GoogleAuthClientHelper.getGoogleSignInClient(context)
+                                googleSignInLauncher.launch(client.signInIntent)
+                            },
+                            enabled = !uiState.isLoading,
+                            shape = RoundedCornerShape(12.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
+                            border = androidx.compose.foundation.BorderStroke(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.outline
+                            ),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = MaterialTheme.colorScheme.surface
+                            )
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                // Google "G" Icon representation
+                                Surface(
+                                    modifier = Modifier.size(20.dp),
+                                    shape = CircleShape,
+                                    color = Color.Transparent
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.AccountCircle,
+                                        contentDescription = "Google Logo",
+                                        tint = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                }
+                                Spacer(modifier = Modifier.width(10.dp))
+                                Text(
+                                    text = if (uiState.isSignUpMode) "Criar conta com o Google" else "Continuar com o Google",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 14.sp,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        }
+
+                        // Divider (OU)
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            HorizontalDivider(
+                                modifier = Modifier.weight(1f),
+                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f)
+                            )
+                            Text(
+                                text = "ou com e-mail",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(horizontal = 12.dp)
+                            )
+                            HorizontalDivider(
+                                modifier = Modifier.weight(1f),
+                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f)
+                            )
+                        }
+
                         // Tab Selector (Entrar / Criar Conta)
                         TabRow(
                             selectedTabIndex = if (uiState.isSignUpMode) 1 else 0,

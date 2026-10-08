@@ -27,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sync conflict resolution strategies dialog (`MERGE_ALL`, `KEEP_CLOUD`, `KEEP_LOCAL`) for cross-device or guest-to-account transitions.
 - Domain `BackupRepository` contract, `FirestoreBackupRepositoryImpl`, and `BackupModels.kt`.
 - Unit tests in `BackupRepositoryTest.kt` covering snapshot lifecycles, destructive restores, and conflict resolution strategies.
+- Native Google Sign-In button on `AuthScreen.kt` for seamless one-tap account creation and authentication.
+- Account Linking support (`linkWithGoogle`) in `AuthRepository` and `SettingsScreen.kt`, allowing users with existing Email/Password accounts to link their Google Account without losing collections or creating duplicate users.
+- Provider tracking on `UserProfile` displaying linked authentication providers (Google / Email & Password) with visual badges.
 
 ---
 

@@ -126,6 +126,10 @@ class AuthViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(errorMessage = null)
     }
 
+    fun setError(message: String) {
+        _uiState.value = _uiState.value.copy(errorMessage = message, isLoading = false)
+    }
+
     private fun mapFirebaseError(e: Throwable): String {
         val msg = e.message ?: ""
         return when {

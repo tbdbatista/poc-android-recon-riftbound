@@ -25,7 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.NavController
+import com.riftbound.recon.ui.auth.GoogleAuthClientHelper
 import com.riftbound.recon.data.local.ThemeMode
 import com.riftbound.recon.ui.MainViewModel
 
@@ -38,6 +41,23 @@ fun SettingsScreen(
     val context = LocalContext.current
     val currentThemeMode by viewModel.themeMode.collectAsState()
     var skipDeleteConfirm by remember { mutableStateOf(viewModel.shouldSkipDeleteConfirmation()) }
+
+    val googleLinkLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val tokenResult = GoogleAuthClientHelper.getIdTokenFromIntent(result.data)
+        tokenResult.onSuccess { idToken ->
+            viewModel.linkGoogleAccount(idToken) { linkResult ->
+                linkResult.onSuccess {
+                    Toast.makeText(context, "Conta do Google vinculada com sucesso!", Toast.LENGTH_SHORT).show()
+                }.onFailure { err ->
+                    Toast.makeText(context, "Erro ao vincular: ${err.localizedMessage ?: "Tente novamente"}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }.onFailure { err ->
+            Toast.makeText(context, "Falha na autenticação do Google: ${err.localizedMessage}", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -170,12 +190,87 @@ fun SettingsScreen(
                                             color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                     }
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                    ) {
+                                        if (currentUser.isGoogleLinked) {
+                                            Surface(
+                                                shape = RoundedCornerShape(6.dp),
+                                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                                                border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.4f))
+                                            ) {
+                                                Row(
+                                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    Icon(
+                                                        imageVector = Icons.Default.CheckCircle,
+                                                        contentDescription = null,
+                                                        tint = Color(0xFF4CAF50),
+                                                        modifier = Modifier.size(12.dp)
+                                                    )
+                                                    Spacer(modifier = Modifier.width(4.dp))
+                                                    Text(
+                                                        text = "Google Vinculado",
+                                                        style = MaterialTheme.typography.labelSmall,
+                                                        fontSize = 10.sp,
+                                                        color = MaterialTheme.colorScheme.primary
+                                                    )
+                                                }
+                                            }
+                                        }
+                                        if (currentUser.isPasswordLinked || (!currentUser.isGoogleLinked && currentUser.email != null)) {
+                                            Surface(
+                                                shape = RoundedCornerShape(6.dp),
+                                                color = MaterialTheme.colorScheme.surfaceVariant,
+                                                border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant)
+                                            ) {
+                                                Text(
+                                                    text = "Email/Senha",
+                                                    style = MaterialTheme.typography.labelSmall,
+                                                    fontSize = 10.sp,
+                                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                                )
+                                            }
+                                        }
+                                    }
                                 }
                                 IconButton(onClick = { showSignOutDialog = true }) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.Logout,
                                         contentDescription = "Sair da Conta",
                                         tint = MaterialTheme.colorScheme.error
+                                    )
+                                }
+                            }
+
+                            // Link Google Account Button if not already linked
+                            if (!currentUser.isGoogleLinked) {
+                                Spacer(modifier = Modifier.height(10.dp))
+                                OutlinedButton(
+                                    onClick = {
+                                        val client = GoogleAuthClientHelper.getGoogleSignInClient(context)
+                                        googleLinkLauncher.launch(client.signInIntent)
+                                    },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    shape = RoundedCornerShape(10.dp),
+                                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.7f))
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.AccountCircle,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = "Vincular Login com Conta Google",
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.primary
                                     )
                                 }
                             }
