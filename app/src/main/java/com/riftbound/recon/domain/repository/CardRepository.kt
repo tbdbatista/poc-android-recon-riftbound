@@ -15,6 +15,7 @@ interface CardRepository {
     suspend fun createCollection(name: String, description: String, cards: List<Card>): Long
     suspend fun updateCollection(collectionId: Long, name: String, description: String)
     suspend fun deleteCollection(collectionId: Long)
+    suspend fun clearAllCollections()
     
     fun getCardsInCollection(collectionId: Long): Flow<List<CollectionCard>>
     suspend fun addCardToCollection(collectionId: Long, cardId: Int): Long
