@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] (develop)
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
+---
+
+## [0.6.0] - 2026-10-07
 ### Added
 - Dedicated Settings Screen (`SettingsScreen.kt`) featuring:
   - Theme mode selection (Dark Mode, Light Mode, and System Default) with real-time application theme updates.
