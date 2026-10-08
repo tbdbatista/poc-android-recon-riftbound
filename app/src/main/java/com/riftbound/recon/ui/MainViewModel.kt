@@ -15,13 +15,30 @@ import kotlinx.coroutines.launch
 import com.riftbound.recon.data.local.AppPreferences
 import com.riftbound.recon.data.local.ThemeMode
 import com.riftbound.recon.ui.util.AppIconHelper
+import com.riftbound.recon.domain.model.AuthState
+import com.riftbound.recon.domain.model.UserProfile
+import com.riftbound.recon.domain.repository.AuthRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: CardRepository,
-    private val appPreferences: AppPreferences
+    private val appPreferences: AppPreferences,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
+
+    // --- AUTHENTICATION STATE ---
+    val authState: StateFlow<AuthState> = authRepository.authState
+    val currentUser: UserProfile?
+        get() = authRepository.currentUser
+    val isGuestMode: Boolean
+        get() = authRepository.isGuestMode
+
+    fun signOut() {
+        viewModelScope.launch {
+            authRepository.signOut()
+        }
+    }
 
     // --- COMPENDIUM STATE ---
     private val _compendiumSearchQuery = MutableStateFlow("")
