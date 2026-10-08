@@ -26,14 +26,21 @@ class CardRepositoryImpl @Inject constructor(
             try {
                 val currentCards = cardDao.getAllCards().first()
                 val seed = getSeedCardsFromAssets(context)
-                if (currentCards.size < seed.size) {
-                    if (seed.isNotEmpty()) {
-                        cardDao.insertCards(seed)
-                    }
+                val needsUpdate = currentCards.size != seed.size || currentCards.any { it.imageUrl.endsWith(".png") }
+                if (needsUpdate && seed.isNotEmpty()) {
+                    cardDao.insertCards(seed)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }
+    }
+
+    private fun sanitizeImageUrl(url: String): String {
+        return if (url.endsWith(".png")) {
+            url.removeSuffix(".png") + ".webp"
+        } else {
+            url
         }
     }
 
@@ -58,7 +65,7 @@ class CardRepositoryImpl @Inject constructor(
                         power = obj.getInt("power"),
                         tags = obj.getString("tags"),
                         text = obj.getString("text"),
-                        imageUrl = obj.getString("imageUrl")
+                        imageUrl = sanitizeImageUrl(obj.getString("imageUrl"))
                     )
                 )
             }
@@ -79,7 +86,7 @@ class CardRepositoryImpl @Inject constructor(
             power = power,
             tags = tags.split(",").map { it.trim() }.filter { it.isNotEmpty() },
             text = text,
-            imageUrl = imageUrl
+            imageUrl = sanitizeImageUrl(imageUrl)
         )
     }
 
@@ -171,7 +178,7 @@ class CardRepositoryImpl @Inject constructor(
                         power = item.power,
                         tags = item.tags.split(",").map { it.trim() }.filter { it.isNotEmpty() },
                         text = item.text,
-                        imageUrl = item.imageUrl
+                        imageUrl = sanitizeImageUrl(item.imageUrl)
                     ),
                     scanOrder = item.scanOrder
                 )

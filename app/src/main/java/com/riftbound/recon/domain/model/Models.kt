@@ -13,6 +13,13 @@ data class Card(
     val imageUrl: String
 )
 
+val Card.assetImageUrl: String
+    get() {
+        val clean = if (imageUrl.endsWith(".png")) imageUrl.removeSuffix(".png") + ".webp" else imageUrl
+        return "file:///android_asset/$clean"
+    }
+
+
 data class Collection(
     val id: Long,
     val name: String,

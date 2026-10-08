@@ -34,6 +34,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.riftbound.recon.domain.model.Card
+import com.riftbound.recon.domain.model.assetImageUrl
 import com.riftbound.recon.ui.MainViewModel
 import com.riftbound.recon.ui.theme.EnergyCostBadge
 import com.riftbound.recon.ui.theme.SetGradientColors
@@ -251,7 +252,7 @@ fun CardThumbnail(
                 .background(gradient)
         ) {
             AsyncImage(
-                model = "file:///android_asset/${card.imageUrl}",
+                model = card.assetImageUrl,
                 contentDescription = card.name,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
@@ -420,7 +421,7 @@ fun CardDetailsDialog(
                     contentAlignment = Alignment.Center
                 ) {
                     AsyncImage(
-                        model = "file:///android_asset/${card.imageUrl}",
+                        model = card.assetImageUrl,
                         contentDescription = card.name,
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Fit
