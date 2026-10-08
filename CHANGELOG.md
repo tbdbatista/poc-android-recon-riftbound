@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Account & Cloud Sync management card in `SettingsScreen.kt` with user profile display, logout flow, and guest-to-account upgrade prompt.
 - Domain `AuthRepository` interface and `FirebaseAuthRepositoryImpl` data source with session persistence in `AppPreferences`.
 - Unit tests in `AuthViewModelTest.kt` covering auth state transitions, validation, and guest mode.
+- Cloud Firestore collections sync engine (`FirestoreSyncRepositoryImpl.kt` and `SyncRepository.kt`) mapping Room collections to remote `/users/{userId}/collections/{collectionId}`.
+- Automated collection synchronization on write events (save scanning session, edit details, delete collection, add/remove cards) and upon user sign-in.
+- Manual sync action ("Forçar Sincronização Agora") in `SettingsScreen.kt` with dynamic status feedback and formatted last backup timestamp.
+- TopAppBar cloud sync status indicator in `CollectionsScreen.kt` reflecting real-time sync states (`Syncing`, `Success`, `Error`, and `Guest` offline mode).
+- Unit tests in `SyncRepositoryTest.kt` validating sync state transitions, remote uploads, and DTO integrity.
 
 ---
 

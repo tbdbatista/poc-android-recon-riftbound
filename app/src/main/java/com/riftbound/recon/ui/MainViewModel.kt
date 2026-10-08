@@ -16,15 +16,18 @@ import com.riftbound.recon.data.local.AppPreferences
 import com.riftbound.recon.data.local.ThemeMode
 import com.riftbound.recon.ui.util.AppIconHelper
 import com.riftbound.recon.domain.model.AuthState
+import com.riftbound.recon.domain.model.SyncStatus
 import com.riftbound.recon.domain.model.UserProfile
 import com.riftbound.recon.domain.repository.AuthRepository
+import com.riftbound.recon.domain.repository.SyncRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: CardRepository,
     private val appPreferences: AppPreferences,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val syncRepository: SyncRepository
 ) : ViewModel() {
 
     // --- AUTHENTICATION STATE ---
@@ -33,6 +36,18 @@ class MainViewModel @Inject constructor(
         get() = authRepository.currentUser
     val isGuestMode: Boolean
         get() = authRepository.isGuestMode
+
+    // --- CLOUD SYNC STATE ---
+    val syncStatus: StateFlow<SyncStatus> = syncRepository.syncStatus
+    val lastSyncTime: StateFlow<Long?> = syncRepository.lastSyncTime
+
+    fun forceSync() {
+        val user = currentUser ?: return
+        if (user.isGuest) return
+        viewModelScope.launch {
+            syncRepository.syncAll(user.uid)
+        }
+    }
 
     fun signOut() {
         viewModelScope.launch {
@@ -94,6 +109,15 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
+
+        // Automatic sync when user is authenticated
+        viewModelScope.launch {
+            authState.collect { state ->
+                if (state is AuthState.Authenticated) {
+                    syncRepository.syncAll(state.user.uid)
+                }
+            }
+        }
     }
 
     fun selectCard(card: Card?) {
@@ -139,6 +163,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             repository.updateCollection(collectionId, name, description)
             loadCollection(collectionId)
+            currentUser?.takeIf { !it.isGuest }?.let { user ->
+                syncRepository.syncCollection(user.uid, collectionId)
+            }
         }
     }
 
@@ -147,12 +174,21 @@ class MainViewModel @Inject constructor(
             repository.deleteCollection(collectionId)
             _selectedCollection.value = null
             _selectedCollectionCards.value = emptyList()
+            currentUser?.takeIf { !it.isGuest }?.let { user ->
+                syncRepository.deleteRemoteCollection(user.uid, collectionId)
+            }
         }
     }
 
     fun removeCardFromCollection(collectionCardId: Long) {
+        val collId = _selectedCollection.value?.id
         viewModelScope.launch {
             repository.removeCardFromCollection(collectionCardId)
+            if (collId != null) {
+                currentUser?.takeIf { !it.isGuest }?.let { user ->
+                    syncRepository.syncCollection(user.uid, collId)
+                }
+            }
         }
     }
 
@@ -160,6 +196,9 @@ class MainViewModel @Inject constructor(
         val coll = _selectedCollection.value ?: return
         viewModelScope.launch {
             repository.addCardToCollection(coll.id, cardId)
+            currentUser?.takeIf { !it.isGuest }?.let { user ->
+                syncRepository.syncCollection(user.uid, coll.id)
+            }
         }
     }
 
@@ -397,8 +436,11 @@ class MainViewModel @Inject constructor(
     fun saveScanningSession(name: String, description: String) {
         viewModelScope.launch {
             if (_scannedCards.value.isNotEmpty()) {
-                repository.createCollection(name, description, _scannedCards.value)
+                val newCollectionId = repository.createCollection(name, description, _scannedCards.value)
                 clearScanningSession()
+                currentUser?.takeIf { !it.isGuest }?.let { user ->
+                    syncRepository.syncCollection(user.uid, newCollectionId)
+                }
             }
         }
     }

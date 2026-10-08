@@ -33,6 +33,12 @@ abstract class DiModule {
         impl: FirebaseAuthRepositoryImpl
     ): AuthRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindSyncRepository(
+        impl: com.riftbound.recon.data.sync.FirestoreSyncRepositoryImpl
+    ): com.riftbound.recon.domain.repository.SyncRepository
+
     companion object {
         @Provides
         @Singleton

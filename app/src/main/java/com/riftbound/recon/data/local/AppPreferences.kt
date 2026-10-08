@@ -37,12 +37,17 @@ class AppPreferences(
         get() = prefsProvider().getBoolean(KEY_IS_GUEST_MODE, false)
         set(value) = prefsProvider().edit().putBoolean(KEY_IS_GUEST_MODE, value).apply()
 
+    var lastSyncTimestamp: Long
+        get() = prefsProvider().getLong(KEY_LAST_SYNC_TIMESTAMP, 0L)
+        set(value) = prefsProvider().edit().putLong(KEY_LAST_SYNC_TIMESTAMP, value).apply()
+
     companion object {
         private const val PREFS_NAME = "recon_preferences"
         const val KEY_SKIP_DELETE_CARD_CONFIRMATION = "skip_delete_card_confirmation"
         const val KEY_THEME_MODE = "theme_mode"
         const val KEY_APP_ICON_STYLE = "app_icon_style"
         const val KEY_IS_GUEST_MODE = "is_guest_mode"
+        const val KEY_LAST_SYNC_TIMESTAMP = "last_sync_timestamp"
     }
 }
 
