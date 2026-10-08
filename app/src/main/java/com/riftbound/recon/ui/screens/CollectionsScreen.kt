@@ -60,6 +60,15 @@ fun CollectionsScreen(
                         )
                     }
                 },
+                actions = {
+                    IconButton(onClick = { navController.navigate("settings") }) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "Configurações",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background
                 )
@@ -130,6 +139,7 @@ fun CollectionsScreen(
         }
     }
 }
+
 
 @Composable
 fun CollectionsSummaryBanner(
@@ -394,3 +404,4 @@ fun EmptyCollectionsState(
         }
     }
 }
+
