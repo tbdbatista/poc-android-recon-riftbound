@@ -22,6 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Manual sync action ("Forçar Sincronização Agora") in `SettingsScreen.kt` with dynamic status feedback and formatted last backup timestamp.
 - TopAppBar cloud sync status indicator in `CollectionsScreen.kt` reflecting real-time sync states (`Syncing`, `Success`, `Error`, and `Guest` offline mode).
 - Unit tests in `SyncRepositoryTest.kt` validating sync state transitions, remote uploads, and DTO integrity.
+- Cloud Backup Manager section in `SettingsScreen.kt` with on-demand snapshot creation, snapshot listing, and snapshot deletion.
+- Anti-subaccount destructive restore protection with explicit confirmation dialog to avoid using cloud snapshots as concurrent subaccounts.
+- Sync conflict resolution strategies dialog (`MERGE_ALL`, `KEEP_CLOUD`, `KEEP_LOCAL`) for cross-device or guest-to-account transitions.
+- Domain `BackupRepository` contract, `FirestoreBackupRepositoryImpl`, and `BackupModels.kt`.
+- Unit tests in `BackupRepositoryTest.kt` covering snapshot lifecycles, destructive restores, and conflict resolution strategies.
 
 ---
 

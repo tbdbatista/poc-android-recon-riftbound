@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -318,6 +319,385 @@ fun SettingsScreen(
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text("Fazer Login / Criar Conta", fontWeight = FontWeight.Bold)
                             }
+                        }
+                    }
+                }
+            }
+
+            // Section 0.5: Cloud Backup Snapshots & Anti-Subaccount Restore Flow
+            item {
+                val currentUser = viewModel.currentUser
+                val backupSnapshots by viewModel.backupSnapshots.collectAsState()
+                val isBackupInProgress by viewModel.isBackupOperationInProgress.collectAsState()
+                val dateFormat = remember { java.text.SimpleDateFormat("dd/MM/yyyy • HH:mm", java.util.Locale.getDefault()) }
+
+                var showCreateSnapshotDialog by remember { mutableStateOf(false) }
+                var snapshotTitleInput by remember { mutableStateOf("") }
+                var snapshotToRestore by remember { mutableStateOf<com.riftbound.recon.domain.model.CloudBackupSnapshot?>(null) }
+                var snapshotToDelete by remember { mutableStateOf<com.riftbound.recon.domain.model.CloudBackupSnapshot?>(null) }
+                var showConflictDialog by remember { mutableStateOf(false) }
+
+                // Dialog: Create Snapshot
+                if (showCreateSnapshotDialog) {
+                    AlertDialog(
+                        onDismissRequest = { showCreateSnapshotDialog = false },
+                        title = { Text("Criar Snapshot de Backup", fontWeight = FontWeight.Bold) },
+                        text = {
+                            Column {
+                                Text(
+                                    "Gera um ponto de restauração fixo de todas as suas coleções ativas na nuvem.",
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                                Spacer(modifier = Modifier.height(12.dp))
+                                OutlinedTextField(
+                                    value = snapshotTitleInput,
+                                    onValueChange = { snapshotTitleInput = it },
+                                    label = { Text("Nome do Backup") },
+                                    placeholder = { Text("Ex: Coleção Set 2, Deck Pré-Torneio") },
+                                    singleLine = true,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+                        },
+                        confirmButton = {
+                            Button(
+                                onClick = {
+                                    val title = snapshotTitleInput.trim()
+                                    viewModel.createBackupSnapshot(if (title.isBlank()) "Backup Manual" else title)
+                                    showCreateSnapshotDialog = false
+                                    snapshotTitleInput = ""
+                                    Toast.makeText(context, "Snapshot de backup criado com sucesso!", Toast.LENGTH_SHORT).show()
+                                }
+                            ) {
+                                Text("Criar Snapshot")
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { showCreateSnapshotDialog = false }) {
+                                Text("Cancelar")
+                            }
+                        },
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                }
+
+                // Dialog: Anti-Subaccount Destructive Restore Protection
+                if (snapshotToRestore != null) {
+                    val snapshot = snapshotToRestore!!
+                    AlertDialog(
+                        onDismissRequest = { snapshotToRestore = null },
+                        title = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.error)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text("Substituição Destrutiva!", fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.error)
+                            }
+                        },
+                        text = {
+                            Column {
+                                Text(
+                                    "Atenção: A restauração do backup \"${snapshot.title}\" apagará todas as suas coleções ativas atuais neste aparelho e na nuvem, substituindo-as integralmente pelos dados do snapshot.",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    lineHeight = 20.sp
+                                )
+                                Spacer(modifier = Modifier.height(10.dp))
+                                Text(
+                                    "Esta operação é permanente e sem retorno, visando impedir o uso indevido como múltiplas subcontas.",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
+                        },
+                        confirmButton = {
+                            Button(
+                                onClick = {
+                                    val id = snapshot.id
+                                    snapshotToRestore = null
+                                    viewModel.restoreBackupSnapshot(id)
+                                    Toast.makeText(context, "Backup restaurado com sucesso!", Toast.LENGTH_LONG).show()
+                                },
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                            ) {
+                                Text("Restaurar e Substituir Tudo", fontWeight = FontWeight.Bold)
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { snapshotToRestore = null }) {
+                                Text("Cancelar")
+                            }
+                        },
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                }
+
+                // Dialog: Delete Snapshot
+                if (snapshotToDelete != null) {
+                    val snapshot = snapshotToDelete!!
+                    AlertDialog(
+                        onDismissRequest = { snapshotToDelete = null },
+                        title = { Text("Excluir Snapshot?") },
+                        text = { Text("Tem certeza que deseja apagar o snapshot \"${snapshot.title}\"?") },
+                        confirmButton = {
+                            Button(
+                                onClick = {
+                                    val id = snapshot.id
+                                    snapshotToDelete = null
+                                    viewModel.deleteBackupSnapshot(id)
+                                    Toast.makeText(context, "Snapshot excluído", Toast.LENGTH_SHORT).show()
+                                },
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                            ) {
+                                Text("Excluir")
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { snapshotToDelete = null }) {
+                                Text("Cancelar")
+                            }
+                        },
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                }
+
+                // Dialog: Conflict Resolution
+                if (showConflictDialog) {
+                    AlertDialog(
+                        onDismissRequest = { showConflictDialog = false },
+                        title = { Text("Resolução de Conflitos", fontWeight = FontWeight.Bold) },
+                        text = {
+                            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                Text(
+                                    "Escolha como alinhar suas coleções entre este aparelho e a nuvem:",
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                                OutlinedButton(
+                                    onClick = {
+                                        viewModel.resolveLoginConflict(com.riftbound.recon.domain.model.ConflictResolutionStrategy.MERGE_ALL)
+                                        showConflictDialog = false
+                                        Toast.makeText(context, "Coleções mescladas!", Toast.LENGTH_SHORT).show()
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Mesclar Todas (Manter Locais e Nuvem)")
+                                }
+                                OutlinedButton(
+                                    onClick = {
+                                        viewModel.resolveLoginConflict(com.riftbound.recon.domain.model.ConflictResolutionStrategy.KEEP_CLOUD)
+                                        showConflictDialog = false
+                                        Toast.makeText(context, "Substituído pelos dados da Nuvem", Toast.LENGTH_SHORT).show()
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Substituir pelos dados da Nuvem")
+                                }
+                                OutlinedButton(
+                                    onClick = {
+                                        viewModel.resolveLoginConflict(com.riftbound.recon.domain.model.ConflictResolutionStrategy.KEEP_LOCAL)
+                                        showConflictDialog = false
+                                        Toast.makeText(context, "Nuvem atualizada com dados Locais", Toast.LENGTH_SHORT).show()
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text("Substituir Nuvem com dados Locais")
+                                }
+                            }
+                        },
+                        confirmButton = {},
+                        dismissButton = {
+                            TextButton(onClick = { showConflictDialog = false }) {
+                                Text("Fechar")
+                            }
+                        },
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                }
+
+                SettingsSectionHeader(
+                    icon = Icons.Default.CloudUpload,
+                    title = "Gerenciador de Backups na Nuvem"
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                if (currentUser != null && !currentUser.isGuest) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        ) {
+                            Text(
+                                text = "Snapshots e Restauração",
+                                style = MaterialTheme.typography.bodyLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = "Crie pontos de restauração manuais ou recupere um backup anterior. A restauração substitui todas as coleções ativas atuais.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                lineHeight = 18.sp
+                            )
+
+                            Spacer(modifier = Modifier.height(14.dp))
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Button(
+                                    onClick = { showCreateSnapshotDialog = true },
+                                    modifier = Modifier.weight(1f),
+                                    shape = RoundedCornerShape(10.dp),
+                                    enabled = !isBackupInProgress,
+                                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                                ) {
+                                    Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(16.dp))
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text("Novo Snapshot", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                }
+
+                                OutlinedButton(
+                                    onClick = { showConflictDialog = true },
+                                    modifier = Modifier.weight(1f),
+                                    shape = RoundedCornerShape(10.dp),
+                                    enabled = !isBackupInProgress
+                                ) {
+                                    Icon(Icons.Default.Tune, contentDescription = null, modifier = Modifier.size(16.dp))
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text("Opções Sync", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            if (isBackupInProgress) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 12.dp),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
+                                    Spacer(modifier = Modifier.width(10.dp))
+                                    Text("Processando backup...", style = MaterialTheme.typography.bodySmall)
+                                }
+                            } else if (backupSnapshots.isEmpty()) {
+                                Surface(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    shape = RoundedCornerShape(10.dp),
+                                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+                                ) {
+                                    Text(
+                                        text = "Nenhum snapshot de backup criado manualmente ainda. Use o botão acima para salvar um ponto de restauração.",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        modifier = Modifier.padding(12.dp),
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            } else {
+                                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    Text(
+                                        text = "Snapshots Salvos (${backupSnapshots.size})",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+
+                                    for (snapshot in backupSnapshots) {
+                                        Card(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            shape = RoundedCornerShape(10.dp),
+                                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)),
+                                            border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f))
+                                        ) {
+                                            Row(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.SpaceBetween
+                                            ) {
+                                                Column(modifier = Modifier.weight(1f)) {
+                                                    Text(
+                                                        text = snapshot.title,
+                                                        style = MaterialTheme.typography.bodyMedium,
+                                                        fontWeight = FontWeight.Bold,
+                                                        color = MaterialTheme.colorScheme.onSurface
+                                                    )
+                                                    Spacer(modifier = Modifier.height(2.dp))
+                                                    Text(
+                                                        text = "${dateFormat.format(java.util.Date(snapshot.timestamp))} • ${snapshot.collectionsCount} coleções (${snapshot.totalCardsCount} cartas)",
+                                                        style = MaterialTheme.typography.labelSmall,
+                                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                    )
+                                                }
+
+                                                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                                                    IconButton(
+                                                        onClick = { snapshotToRestore = snapshot },
+                                                        modifier = Modifier.size(32.dp)
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Default.Restore,
+                                                            contentDescription = "Restaurar Backup",
+                                                            tint = MaterialTheme.colorScheme.primary,
+                                                            modifier = Modifier.size(18.dp)
+                                                        )
+                                                    }
+
+                                                    IconButton(
+                                                        onClick = { snapshotToDelete = snapshot },
+                                                        modifier = Modifier.size(32.dp)
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Default.Delete,
+                                                            contentDescription = "Excluir Snapshot",
+                                                            tint = MaterialTheme.colorScheme.error.copy(alpha = 0.7f),
+                                                            modifier = Modifier.size(18.dp)
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(14.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)),
+                        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f))
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Lock,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = "A criação e restauração de snapshots de backup na nuvem estão desativadas no Modo Convidado.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                            )
                         }
                     }
                 }

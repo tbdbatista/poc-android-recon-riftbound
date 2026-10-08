@@ -39,6 +39,12 @@ abstract class DiModule {
         impl: com.riftbound.recon.data.sync.FirestoreSyncRepositoryImpl
     ): com.riftbound.recon.domain.repository.SyncRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindBackupRepository(
+        impl: com.riftbound.recon.data.backup.FirestoreBackupRepositoryImpl
+    ): com.riftbound.recon.domain.repository.BackupRepository
+
     companion object {
         @Provides
         @Singleton

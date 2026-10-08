@@ -16,9 +16,12 @@ import com.riftbound.recon.data.local.AppPreferences
 import com.riftbound.recon.data.local.ThemeMode
 import com.riftbound.recon.ui.util.AppIconHelper
 import com.riftbound.recon.domain.model.AuthState
+import com.riftbound.recon.domain.model.CloudBackupSnapshot
+import com.riftbound.recon.domain.model.ConflictResolutionStrategy
 import com.riftbound.recon.domain.model.SyncStatus
 import com.riftbound.recon.domain.model.UserProfile
 import com.riftbound.recon.domain.repository.AuthRepository
+import com.riftbound.recon.domain.repository.BackupRepository
 import com.riftbound.recon.domain.repository.SyncRepository
 import javax.inject.Inject
 
@@ -27,7 +30,8 @@ class MainViewModel @Inject constructor(
     private val repository: CardRepository,
     private val appPreferences: AppPreferences,
     private val authRepository: AuthRepository,
-    private val syncRepository: SyncRepository
+    private val syncRepository: SyncRepository,
+    private val backupRepository: BackupRepository
 ) : ViewModel() {
 
     // --- AUTHENTICATION STATE ---
@@ -37,15 +41,57 @@ class MainViewModel @Inject constructor(
     val isGuestMode: Boolean
         get() = authRepository.isGuestMode
 
-    // --- CLOUD SYNC STATE ---
+    // --- CLOUD SYNC & BACKUP STATE ---
     val syncStatus: StateFlow<SyncStatus> = syncRepository.syncStatus
     val lastSyncTime: StateFlow<Long?> = syncRepository.lastSyncTime
+    val backupSnapshots: StateFlow<List<CloudBackupSnapshot>> = backupRepository.backupSnapshots
+    val isBackupOperationInProgress: StateFlow<Boolean> = backupRepository.isOperationInProgress
 
     fun forceSync() {
         val user = currentUser ?: return
         if (user.isGuest) return
         viewModelScope.launch {
             syncRepository.syncAll(user.uid)
+        }
+    }
+
+    fun loadBackupSnapshots() {
+        val user = currentUser ?: return
+        if (user.isGuest) return
+        viewModelScope.launch {
+            backupRepository.loadBackupSnapshots(user.uid)
+        }
+    }
+
+    fun createBackupSnapshot(title: String) {
+        val user = currentUser ?: return
+        if (user.isGuest) return
+        viewModelScope.launch {
+            backupRepository.createBackupSnapshot(user.uid, title)
+        }
+    }
+
+    fun restoreBackupSnapshot(backupId: String) {
+        val user = currentUser ?: return
+        if (user.isGuest) return
+        viewModelScope.launch {
+            backupRepository.restoreBackupSnapshot(user.uid, backupId)
+        }
+    }
+
+    fun deleteBackupSnapshot(backupId: String) {
+        val user = currentUser ?: return
+        if (user.isGuest) return
+        viewModelScope.launch {
+            backupRepository.deleteBackupSnapshot(user.uid, backupId)
+        }
+    }
+
+    fun resolveLoginConflict(strategy: ConflictResolutionStrategy) {
+        val user = currentUser ?: return
+        if (user.isGuest) return
+        viewModelScope.launch {
+            backupRepository.resolveLoginConflict(user.uid, strategy)
         }
     }
 
@@ -115,6 +161,7 @@ class MainViewModel @Inject constructor(
             authState.collect { state ->
                 if (state is AuthState.Authenticated) {
                     syncRepository.syncAll(state.user.uid)
+                    backupRepository.loadBackupSnapshots(state.user.uid)
                 }
             }
         }
