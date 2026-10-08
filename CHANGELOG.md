@@ -10,6 +10,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] (develop)
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
+### Added
+- Integrated Firebase BoM (`v32.8.0`), Firebase Authentication, and Cloud Firestore with Google Services Gradle plugin (`com.google.gms.google-services`).
+- Dedicated Authentication Screen (`AuthScreen.kt`) with Email/Password login, new user registration, and "Usar sem logar" (Guest Mode).
+- Guest Mode disclaimer dialog warning users that collections remain local-only until an account is created.
+- Account & Cloud Sync management card in `SettingsScreen.kt` with user profile display, logout flow, and guest-to-account upgrade prompt.
+- Domain `AuthRepository` interface and `FirebaseAuthRepositoryImpl` data source with session persistence in `AppPreferences`.
+- Unit tests in `AuthViewModelTest.kt` covering auth state transitions, validation, and guest mode.
+- Cloud Firestore collections sync engine (`FirestoreSyncRepositoryImpl.kt` and `SyncRepository.kt`) mapping Room collections to remote `/users/{userId}/collections/{collectionId}`.
+- Automated collection synchronization on write events (save scanning session, edit details, delete collection, add/remove cards) and upon user sign-in.
+- Manual sync action ("Forçar Sincronização Agora") in `SettingsScreen.kt` with dynamic status feedback and formatted last backup timestamp.
+- TopAppBar cloud sync status indicator in `CollectionsScreen.kt` reflecting real-time sync states (`Syncing`, `Success`, `Error`, and `Guest` offline mode).
+- Unit tests in `SyncRepositoryTest.kt` validating sync state transitions, remote uploads, and DTO integrity.
+- Cloud Backup Manager section in `SettingsScreen.kt` with on-demand snapshot creation, snapshot listing, and snapshot deletion.
+- Anti-subaccount destructive restore protection with explicit confirmation dialog to avoid using cloud snapshots as concurrent subaccounts.
+- Sync conflict resolution strategies dialog (`MERGE_ALL`, `KEEP_CLOUD`, `KEEP_LOCAL`) for cross-device or guest-to-account transitions.
+- Domain `BackupRepository` contract, `FirestoreBackupRepositoryImpl`, and `BackupModels.kt`.
+- Unit tests in `BackupRepositoryTest.kt` covering snapshot lifecycles, destructive restores, and conflict resolution strategies.
+
 ---
 
 ## [0.6.0] - 2026-10-07

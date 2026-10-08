@@ -119,4 +119,22 @@ interface CardDao {
         ORDER BY col.name ASC, cc.scanOrder ASC
     """)
     fun searchCardInCollections(query: String): Flow<List<SearchCardResult>>
+
+    @Query("SELECT * FROM collections")
+    suspend fun getCollectionsList(): List<CollectionEntity>
+
+    @Query("SELECT * FROM collections WHERE id = :id")
+    suspend fun getCollectionById(id: Long): CollectionEntity?
+
+    @Query("SELECT * FROM collection_cards WHERE collectionId = :collectionId ORDER BY scanOrder ASC")
+    suspend fun getCollectionCardEntities(collectionId: Long): List<CollectionCardEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCollectionCards(cards: List<CollectionCardEntity>)
+
+    @Query("DELETE FROM collections")
+    suspend fun deleteAllCollections()
+
+    @Query("DELETE FROM collection_cards")
+    suspend fun deleteAllCollectionCards()
 }
