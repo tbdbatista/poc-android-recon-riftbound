@@ -34,6 +34,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.riftbound.recon.data.local.ThemeMode
+import com.riftbound.recon.domain.model.AuthState
+import com.riftbound.recon.ui.auth.AuthScreen
 import com.riftbound.recon.ui.screens.*
 import com.riftbound.recon.ui.theme.DarkOutlineVariant
 import com.riftbound.recon.ui.theme.RiftboundTheme
@@ -148,10 +150,25 @@ fun RiftboundAppScreen(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("splash") {
+                val authState by viewModel.authState.collectAsState()
                 SplashScreen(
                     onAnimationComplete = {
-                        navController.navigate("collections") {
+                        val destination = if (authState is AuthState.Authenticated || authState is AuthState.Guest) {
+                            "collections"
+                        } else {
+                            "auth"
+                        }
+                        navController.navigate(destination) {
                             popUpTo("splash") { inclusive = true }
+                        }
+                    }
+                )
+            }
+            composable("auth") {
+                AuthScreen(
+                    onAuthSuccess = {
+                        navController.navigate("collections") {
+                            popUpTo("auth") { inclusive = true }
                         }
                     }
                 )

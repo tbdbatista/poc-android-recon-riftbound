@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] (develop)
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
+### Added
+- Integrated Firebase BoM (`v32.8.0`), Firebase Authentication, and Cloud Firestore with Google Services Gradle plugin (`com.google.gms.google-services`).
+- Dedicated Authentication Screen (`AuthScreen.kt`) with Email/Password login, new user registration, and "Usar sem logar" (Guest Mode).
+- Guest Mode disclaimer dialog warning users that collections remain local-only until an account is created.
+- Account & Cloud Sync management card in `SettingsScreen.kt` with user profile display, logout flow, and guest-to-account upgrade prompt.
+- Domain `AuthRepository` interface and `FirebaseAuthRepositoryImpl` data source with session persistence in `AppPreferences`.
+- Unit tests in `AuthViewModelTest.kt` covering auth state transitions, validation, and guest mode.
+
 ---
 
 ## [0.6.0] - 2026-10-07
