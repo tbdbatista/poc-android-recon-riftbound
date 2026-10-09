@@ -31,6 +31,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.riftbound.recon.domain.model.Card
 import com.riftbound.recon.domain.model.CollectionCard
+import com.riftbound.recon.domain.model.assetImageUrl
 import com.riftbound.recon.ui.MainViewModel
 import com.riftbound.recon.ui.util.CollectionShareHelper
 
@@ -578,7 +579,7 @@ fun CollectionCardRow(
                 contentAlignment = Alignment.Center
             ) {
                 AsyncImage(
-                    model = "file:///android_asset/${item.card.imageUrl}",
+                    model = item.card.assetImageUrl,
                     contentDescription = item.card.name,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
@@ -663,7 +664,7 @@ fun CollectionCardPreviewDialog(
                     contentAlignment = Alignment.Center
                 ) {
                     AsyncImage(
-                        model = "file:///android_asset/${card.imageUrl}",
+                        model = card.assetImageUrl,
                         contentDescription = card.name,
                         contentScale = ContentScale.Fit,
                         modifier = Modifier.fillMaxSize()

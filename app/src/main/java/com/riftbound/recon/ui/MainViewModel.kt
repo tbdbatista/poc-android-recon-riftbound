@@ -15,13 +15,108 @@ import kotlinx.coroutines.launch
 import com.riftbound.recon.data.local.AppPreferences
 import com.riftbound.recon.data.local.ThemeMode
 import com.riftbound.recon.ui.util.AppIconHelper
+import com.riftbound.recon.domain.model.AuthState
+import com.riftbound.recon.domain.model.CloudBackupSnapshot
+import com.riftbound.recon.domain.model.ConflictResolutionStrategy
+import com.riftbound.recon.domain.model.SyncStatus
+import com.riftbound.recon.domain.model.UserProfile
+import com.riftbound.recon.domain.repository.AuthRepository
+import com.riftbound.recon.domain.repository.BackupRepository
+import com.riftbound.recon.domain.repository.SyncRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: CardRepository,
-    private val appPreferences: AppPreferences
+    private val appPreferences: AppPreferences,
+    private val authRepository: AuthRepository,
+    private val syncRepository: SyncRepository,
+    private val backupRepository: BackupRepository
 ) : ViewModel() {
+
+    // --- AUTHENTICATION STATE ---
+    val authState: StateFlow<AuthState> = authRepository.authState
+    val currentUser: UserProfile?
+        get() = authRepository.currentUser
+    val isGuestMode: Boolean
+        get() = authRepository.isGuestMode
+
+    // --- CLOUD SYNC & BACKUP STATE ---
+    val syncStatus: StateFlow<SyncStatus> = syncRepository.syncStatus
+    val lastSyncTime: StateFlow<Long?> = syncRepository.lastSyncTime
+    val backupSnapshots: StateFlow<List<CloudBackupSnapshot>> = backupRepository.backupSnapshots
+    val isBackupOperationInProgress: StateFlow<Boolean> = backupRepository.isOperationInProgress
+
+    fun forceSync() {
+        val user = currentUser ?: return
+        if (user.isGuest) return
+        viewModelScope.launch {
+            syncRepository.syncAll(user.uid)
+        }
+    }
+
+    fun loadBackupSnapshots() {
+        val user = currentUser ?: return
+        if (user.isGuest) return
+        viewModelScope.launch {
+            backupRepository.loadBackupSnapshots(user.uid)
+        }
+    }
+
+    fun createBackupSnapshot(title: String) {
+        val user = currentUser ?: return
+        if (user.isGuest) return
+        viewModelScope.launch {
+            backupRepository.createBackupSnapshot(user.uid, title)
+        }
+    }
+
+    fun restoreBackupSnapshot(backupId: String) {
+        val user = currentUser ?: return
+        if (user.isGuest) return
+        viewModelScope.launch {
+            backupRepository.restoreBackupSnapshot(user.uid, backupId)
+        }
+    }
+
+    fun deleteBackupSnapshot(backupId: String) {
+        val user = currentUser ?: return
+        if (user.isGuest) return
+        viewModelScope.launch {
+            backupRepository.deleteBackupSnapshot(user.uid, backupId)
+        }
+    }
+
+    fun resolveLoginConflict(strategy: ConflictResolutionStrategy) {
+        val user = currentUser ?: return
+        if (user.isGuest) return
+        viewModelScope.launch {
+            backupRepository.resolveLoginConflict(user.uid, strategy)
+        }
+    }
+
+    fun linkGoogleAccount(idToken: String, onResult: (Result<UserProfile>) -> Unit = {}) {
+        viewModelScope.launch {
+            val result = authRepository.linkWithGoogle(idToken)
+            onResult(result)
+        }
+    }
+
+    fun unlinkGoogleAccount(onResult: (Result<UserProfile>) -> Unit = {}) {
+        viewModelScope.launch {
+            val result = authRepository.unlinkGoogle()
+            onResult(result)
+        }
+    }
+
+    fun signOut() {
+        viewModelScope.launch {
+            authRepository.signOut()
+            repository.clearAllCollections()
+            _selectedCollection.value = null
+            _selectedCollectionCards.value = emptyList()
+        }
+    }
 
     // --- COMPENDIUM STATE ---
     private val _compendiumSearchQuery = MutableStateFlow("")
@@ -77,6 +172,16 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
+
+        // Automatic sync when user is authenticated
+        viewModelScope.launch {
+            authState.collect { state ->
+                if (state is AuthState.Authenticated) {
+                    syncRepository.syncAll(state.user.uid)
+                    backupRepository.loadBackupSnapshots(state.user.uid)
+                }
+            }
+        }
     }
 
     fun selectCard(card: Card?) {
@@ -122,6 +227,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             repository.updateCollection(collectionId, name, description)
             loadCollection(collectionId)
+            currentUser?.takeIf { !it.isGuest }?.let { user ->
+                syncRepository.syncCollection(user.uid, collectionId)
+            }
         }
     }
 
@@ -130,12 +238,25 @@ class MainViewModel @Inject constructor(
             repository.deleteCollection(collectionId)
             _selectedCollection.value = null
             _selectedCollectionCards.value = emptyList()
+            val user = currentUser
+            if (user != null && !user.isGuest) {
+                val result = syncRepository.deleteRemoteCollection(user.uid, collectionId)
+                if (result.isFailure) {
+                    android.util.Log.e("MainViewModel", "Erro ao excluir coleção remota $collectionId: ${result.exceptionOrNull()?.message}")
+                }
+            }
         }
     }
 
     fun removeCardFromCollection(collectionCardId: Long) {
+        val collId = _selectedCollection.value?.id
         viewModelScope.launch {
             repository.removeCardFromCollection(collectionCardId)
+            if (collId != null) {
+                currentUser?.takeIf { !it.isGuest }?.let { user ->
+                    syncRepository.syncCollection(user.uid, collId)
+                }
+            }
         }
     }
 
@@ -143,6 +264,9 @@ class MainViewModel @Inject constructor(
         val coll = _selectedCollection.value ?: return
         viewModelScope.launch {
             repository.addCardToCollection(coll.id, cardId)
+            currentUser?.takeIf { !it.isGuest }?.let { user ->
+                syncRepository.syncCollection(user.uid, coll.id)
+            }
         }
     }
 
@@ -380,8 +504,11 @@ class MainViewModel @Inject constructor(
     fun saveScanningSession(name: String, description: String) {
         viewModelScope.launch {
             if (_scannedCards.value.isNotEmpty()) {
-                repository.createCollection(name, description, _scannedCards.value)
+                val newCollectionId = repository.createCollection(name, description, _scannedCards.value)
                 clearScanningSession()
+                currentUser?.takeIf { !it.isGuest }?.let { user ->
+                    syncRepository.syncCollection(user.uid, newCollectionId)
+                }
             }
         }
     }

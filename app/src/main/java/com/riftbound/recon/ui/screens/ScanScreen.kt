@@ -48,6 +48,7 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.riftbound.recon.data.scanner.OcrLine
 import com.riftbound.recon.domain.model.Card
+import com.riftbound.recon.domain.model.assetImageUrl
 import com.riftbound.recon.ui.MainViewModel
 import com.riftbound.recon.ui.ScanFeedback
 import kotlinx.coroutines.delay
@@ -684,7 +685,7 @@ fun ScanFeedbackBanner(
                                 contentAlignment = Alignment.Center
                             ) {
                                 AsyncImage(
-                                    model = "file:///android_asset/${currentFeedback.card.imageUrl}",
+                                    model = currentFeedback.card.assetImageUrl,
                                     contentDescription = currentFeedback.card.name,
                                     contentScale = ContentScale.Crop,
                                     modifier = Modifier.fillMaxSize()
@@ -870,7 +871,7 @@ fun ScannedCardsShelf(
                         .clickable { onCardClick(originalIndex, card) }
                 ) {
                     AsyncImage(
-                        model = "file:///android_asset/${card.imageUrl}",
+                        model = card.assetImageUrl,
                         contentDescription = card.name,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
@@ -949,7 +950,7 @@ fun ScannedCardPreviewDialog(
                     contentAlignment = Alignment.Center
                 ) {
                     AsyncImage(
-                        model = "file:///android_asset/${card.imageUrl}",
+                        model = card.assetImageUrl,
                         contentDescription = card.name,
                         contentScale = ContentScale.Fit,
                         modifier = Modifier.fillMaxSize()

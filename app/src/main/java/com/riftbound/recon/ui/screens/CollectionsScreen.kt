@@ -61,6 +61,56 @@ fun CollectionsScreen(
                     }
                 },
                 actions = {
+                    val authState by viewModel.authState.collectAsState()
+                    val syncStatus by viewModel.syncStatus.collectAsState()
+
+                    when (authState) {
+                        is com.riftbound.recon.domain.model.AuthState.Authenticated -> {
+                            IconButton(
+                                onClick = { viewModel.forceSync() }
+                            ) {
+                                when (syncStatus) {
+                                    is com.riftbound.recon.domain.model.SyncStatus.Syncing -> {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier.size(20.dp),
+                                            strokeWidth = 2.dp,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                    }
+                                    is com.riftbound.recon.domain.model.SyncStatus.Error -> {
+                                        Icon(
+                                            imageVector = Icons.Default.SyncProblem,
+                                            contentDescription = "Erro na sincronização - Toque para tentar novamente",
+                                            tint = MaterialTheme.colorScheme.error,
+                                            modifier = Modifier.size(22.dp)
+                                        )
+                                    }
+                                    else -> {
+                                        Icon(
+                                            imageVector = Icons.Default.CloudDone,
+                                            contentDescription = "Sincronizado na Nuvem - Toque para sincronizar",
+                                            tint = Color(0xFF4CAF50),
+                                            modifier = Modifier.size(22.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        is com.riftbound.recon.domain.model.AuthState.Guest -> {
+                            IconButton(
+                                onClick = { navController.navigate("settings") }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.CloudOff,
+                                    contentDescription = "Modo Convidado - Sem sincronização em nuvem",
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                                    modifier = Modifier.size(22.dp)
+                                )
+                            }
+                        }
+                        else -> {}
+                    }
+
                     IconButton(onClick = { navController.navigate("settings") }) {
                         Icon(
                             imageVector = Icons.Default.Settings,

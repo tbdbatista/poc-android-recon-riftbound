@@ -12,6 +12,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.7.0] - 2026-10-08
+### Added
+- Integrated Firebase BoM (`v32.8.0`), Firebase Authentication, and Cloud Firestore with Google Services Gradle plugin (`com.google.gms.google-services`).
+- Dedicated Authentication Screen (`AuthScreen.kt`) with Email/Password login, new user registration, and "Usar sem logar" (Guest Mode).
+- Guest Mode disclaimer dialog warning users that collections remain local-only until an account is created.
+- Account & Cloud Sync management card in `SettingsScreen.kt` with user profile display, logout flow, and guest-to-account upgrade prompt.
+- Domain `AuthRepository` interface and `FirebaseAuthRepositoryImpl` data source with session persistence in `AppPreferences`.
+- Unit tests in `AuthViewModelTest.kt` covering auth state transitions, validation, and guest mode.
+- Cloud Firestore collections sync engine (`FirestoreSyncRepositoryImpl.kt` and `SyncRepository.kt`) mapping Room collections to remote `/users/{userId}/collections/{collectionId}`.
+- Automated collection synchronization on write events (save scanning session, edit details, delete collection, add/remove cards) and upon user sign-in.
+- Manual sync action ("Forçar Sincronização Agora") in `SettingsScreen.kt` with dynamic status feedback and formatted last backup timestamp.
+- TopAppBar cloud sync status indicator in `CollectionsScreen.kt` reflecting real-time sync states (`Syncing`, `Success`, `Error`, and `Guest` offline mode).
+- Unit tests in `SyncRepositoryTest.kt` validating sync state transitions, remote uploads, and DTO integrity.
+- Cloud Backup Manager section in `SettingsScreen.kt` with on-demand snapshot creation, snapshot listing, and snapshot deletion.
+- Anti-subaccount destructive restore protection with explicit confirmation dialog to avoid using cloud snapshots as concurrent subaccounts.
+- Sync conflict resolution strategies dialog (`MERGE_ALL`, `KEEP_CLOUD`, `KEEP_LOCAL`) for cross-device or guest-to-account transitions.
+- Domain `BackupRepository` contract, `FirestoreBackupRepositoryImpl`, and `BackupModels.kt`.
+- Unit tests in `BackupRepositoryTest.kt` covering snapshot lifecycles, destructive restores, and conflict resolution strategies.
+- Native Google Sign-In button on `AuthScreen.kt` for seamless one-tap account creation and authentication.
+- Account Linking support (`linkWithGoogle`) in `AuthRepository` and `SettingsScreen.kt`, allowing users with existing Email/Password accounts to link their Google Account without losing collections or creating duplicate users.
+- Provider tracking on `UserProfile` displaying linked authentication providers (Google / Email & Password) with visual badges.
+- Official Google brand multi-color vector logo (`ic_google_logo.xml`) integrated into Google Sign-In button (`AuthScreen.kt`) and account linking controls (`SettingsScreen.kt`).
+
+### Fixed
+- Resolved missing card mockup thumbnails across Compendium, Collection Details, and Scanner feedback by enforcing asset URL normalization (`.webp`) and ensuring Room database re-seeds if any legacy `.png` paths exist.
+- Fixed collection deletion synchronization with Firebase Cloud Firestore, preventing deleted collections from resurrecting upon logout/login by clearing local database on sign-out, enforcing remote document deletion with cascade, and properly handling tombstones during `syncAll`.
+
+
+---
+
 ## [0.6.0] - 2026-10-07
 ### Added
 - Dedicated Settings Screen (`SettingsScreen.kt`) featuring:
