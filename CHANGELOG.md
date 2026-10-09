@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] (develop)
 *Tracks changes and PR merges integrated into `develop` awaiting release to `main`.*
 
+---
+
+## [0.7.0] - 2026-10-08
 ### Added
 - Integrated Firebase BoM (`v32.8.0`), Firebase Authentication, and Cloud Firestore with Google Services Gradle plugin (`com.google.gms.google-services`).
 - Dedicated Authentication Screen (`AuthScreen.kt`) with Email/Password login, new user registration, and "Usar sem logar" (Guest Mode).
